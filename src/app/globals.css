@@ -1,26 +1,255 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Palette adapted from family.co: a white page, one warm off-white for
+   panels, near-black buttons and type, and saturated accents used sparingly
+   to colour-code each section. */
+@theme {
+  --color-cream: #fbfaf9;
+  --color-sand: #f6f4ef;
+  --color-line: #ecebe7;
+  --color-ink: #343433;
+  --color-jet: #121212;
+  --color-body: #474645;
+  --color-btn: #222222;
+  --color-brand-blue: #018dff;
+  --color-brand-link: #3784f4;
+  --color-brand-green: #34c759;
+  --color-brand-orange: #ff5310;
+  --color-brand-amber: #ffbe4c;
+  --color-brand-gold: #ca9230;
+  --color-brand-purple: #9553f9;
+  --color-brand-red: #ef4444;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+body {
+  background: #ffffff;
+  color: var(--color-body);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  /* family.co runs a slight negative tracking on all its UI text (roughly
+     -0.006em to -0.013em). Setting it once here is what gives the page its
+     tighter, more product-like texture; headings override with their own. */
+  letter-spacing: -0.011em;
+}
+
+::selection {
+  background: rgba(1, 141, 255, 0.18);
+}
+
+/* Staggered hero entrance. Runs once on load, so keyframes (not
+   transitions) are the right tool here. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    translate: 0 16px;
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+    filter: blur(0px);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.animate-rise {
+  animation: rise 0.7s cubic-bezier(0.2, 0, 0, 1) both;
+}
+
+.rise-1 {
+  animation-delay: 0ms;
+}
+.rise-2 {
+  animation-delay: 100ms;
+}
+.rise-3 {
+  animation-delay: 200ms;
+}
+.rise-4 {
+  animation-delay: 300ms;
+}
+.rise-5 {
+  animation-delay: 400ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-rise {
+    animation: none;
+  }
+}
+
+/* Scroll-linked reveals, driven entirely by the scroll position.
+
+   Only the `from` state is declared, so the resting state is the element's
+   own natural style. Everything therefore stays visible unless the browser
+   actually supports scroll timelines, and a section can never be left blank
+   by a script that failed to run. */
+@keyframes reveal-rise {
+  from {
+    opacity: 0;
+    translate: 0 16px;
+  }
+}
+
+@keyframes reveal-pop {
+  from {
+    opacity: 0;
+    scale: 0.4;
+    translate: 0 6px;
+    filter: blur(4px);
+  }
+}
+
+/* Text you have not reached yet sits dim and out of focus, then each word
+   sharpens as you scroll onto it. */
+@keyframes word-focus {
+  from {
+    opacity: 0.25;
+    filter: blur(4px);
+  }
+}
+
+/* Phones drop the blur and fade only. A blur is a per-frame GPU pass on
+   every one of the ~100 word spans, which is the kind of thing that shows
+   up as scroll jank on the budget Android hardware much of this audience
+   is on. The fade alone reads almost the same. */
+@media (max-width: 640px) {
+  @keyframes word-focus {
+    from {
+      opacity: 0.25;
+    }
+  }
+}
+
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal-rise {
+      animation: reveal-rise both cubic-bezier(0.32, 0.72, 0, 1);
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+    }
+
+    /* Siblings sharing one scroll position stagger by offsetting their range. */
+    .reveal-d1 {
+      animation-range: entry 8% entry 63%;
+    }
+    .reveal-d2 {
+      animation-range: entry 16% entry 71%;
+    }
+
+    /* Each line of the story owns a timeline, and its words and icons run on
+       that line's timeline rather than their own. A 32px icon would otherwise
+       finish its whole entry range within 32px of scrolling, popping in the
+       instant it clipped the bottom edge. */
+    .reveal-line {
+      view-timeline-name: --line;
+    }
+
+    /* Each word starts 1.6% of the line's travel after the one before it, so
+       the sentence comes into focus left to right at reading pace. */
+    .reveal-word {
+      animation: word-focus both cubic-bezier(0.32, 0.72, 0, 1);
+      animation-timeline: --line;
+      animation-range: cover calc(16% + var(--i, 0) * 1.6%) cover
+        calc(38% + var(--i, 0) * 1.6%);
+    }
+
+    /* Icons trail the last words of their own sentence. */
+    .reveal-icons > * {
+      animation: reveal-pop both cubic-bezier(0.32, 0.72, 0, 1);
+      animation-timeline: --line;
+    }
+    .reveal-icons > *:nth-child(1) {
+      animation-range: cover 36% cover 50%;
+    }
+    .reveal-icons > *:nth-child(2) {
+      animation-range: cover 40% cover 54%;
+    }
+    .reveal-icons > *:nth-child(3) {
+      animation-range: cover 44% cover 58%;
+    }
+    .reveal-icons > *:nth-child(4) {
+      animation-range: cover 48% cover 62%;
+    }
+  }
+}
+
+/* Hero decoration: each piece pops in on load, then drifts forever.
+
+   The two run at the same time on the same element, which works because
+   they touch different properties. The entrance owns `scale` + `opacity`
+   and the drift owns `translate` + `rotate`, so neither overwrites the
+   other the way a combined `transform` would. */
+@keyframes decor-in {
+  from {
+    opacity: 0;
+    scale: 0.45;
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    translate: 0 0;
+    rotate: var(--tilt, 0deg);
+  }
+  50% {
+    translate: var(--dx, 0px) var(--dy, -12px);
+    rotate: calc(var(--tilt, 0deg) + var(--spin, 1.5deg));
+  }
+}
+
+/* Entrance only, for the big soft shapes that should not wobble. */
+.animate-decor-in {
+  animation: decor-in 0.8s cubic-bezier(0.32, 0.72, 0, 1) both;
+  animation-delay: var(--in, 0s);
+}
+
+.animate-decor {
+  animation:
+    decor-in 0.8s cubic-bezier(0.32, 0.72, 0, 1) both,
+    float var(--dur, 7s) ease-in-out infinite;
+  animation-delay: var(--in, 0s), var(--delay, 0s);
+  rotate: var(--tilt, 0deg);
+}
+
+/* The header sits borderless over the hero and gains its rule once you
+   scroll, the way family.co does. Scroll-driven so it needs no listener. */
+@supports (animation-timeline: scroll()) {
+  .header-rule {
+    animation: header-rule linear both;
+    animation-timeline: scroll();
+    animation-range: 0 72px;
+  }
+}
+
+@keyframes header-rule {
+  from {
+    border-bottom-color: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-decor,
+  .animate-decor-in {
+    animation: none;
+  }
+}
+
+/* Slow pulse for the "coming soon" status dot */
+@keyframes status-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(52, 199, 89, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 0 6px rgba(52, 199, 89, 0);
+  }
+}
+
+.animate-status-pulse {
+  animation: status-pulse 2.4s ease-in-out infinite;
 }
