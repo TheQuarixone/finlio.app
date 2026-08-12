@@ -80,9 +80,9 @@ function FaqRow({
           aria-expanded={isOpen}
           aria-controls={`${id}-panel`}
           id={`${id}-button`}
-          className="flex min-h-[44px] w-full items-center justify-between gap-6 py-6 text-left"
+          className="flex min-h-[44px] w-full items-center justify-between gap-4 py-5 text-left sm:gap-6 sm:py-6"
         >
-          <span className="text-[19px] font-medium tracking-[-0.016em] text-ink">
+          <span className="text-[17px] font-medium tracking-[-0.016em] text-ink sm:text-[19px]">
             {item.question}
           </span>
           <span

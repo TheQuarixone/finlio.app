@@ -34,7 +34,7 @@ export function RotatingWord() {
   const accent = WORDS[active].color;
 
   return (
-    <span className="relative mx-1 inline-grid -rotate-2 px-3 italic">
+    <span className="relative mx-0.5 inline-grid max-w-full -rotate-2 px-2 italic sm:mx-1 sm:px-3">
       {/* The frame is an overlay rather than a border on the box itself, so it
           cannot change the box's content width. */}
       <span
@@ -43,14 +43,14 @@ export function RotatingWord() {
           borderColor: accent,
           backgroundColor: `color-mix(in srgb, ${accent} 8%, transparent)`,
         }}
-        className="absolute inset-0 rounded-[6px] border-2 transition-[border-color,background-color] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]"
+        className="absolute inset-0 rounded-[6px] border-[1.5px] transition-[border-color,background-color] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] sm:border-2"
       />
       {CORNERS.map((corner) => (
         <span
           key={corner}
           aria-hidden="true"
           style={{ borderColor: accent }}
-          className={`absolute ${corner} size-2 rounded-[2px] border-2 bg-white transition-[border-color] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]`}
+          className={`absolute ${corner} size-1.5 rounded-[2px] border-[1.5px] bg-white transition-[border-color] duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] sm:size-2 sm:border-2`}
         />
       ))}
       {WORDS.map((word, index) => (
