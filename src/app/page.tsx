@@ -93,7 +93,7 @@ export default function Home() {
       {/* Hero */}
       <section className="relative overflow-hidden">
         <HeroDecor />
-        <div className="relative mx-auto w-full max-w-3xl px-4 pb-16 pt-12 text-center sm:px-6 sm:pb-28 sm:pt-20 lg:pb-32 lg:pt-24">
+        <div className="relative z-10 mx-auto w-full max-w-3xl px-4 pb-16 pt-12 text-center sm:px-6 sm:pb-28 sm:pt-20 lg:pb-32 lg:pt-24">
           <div className="animate-rise rise-1 mb-8 flex justify-center sm:mb-12">
             <Logo
               markClassName="size-8 sm:size-10"
