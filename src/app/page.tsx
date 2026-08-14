@@ -5,6 +5,8 @@ import { RotatingWord } from "@/components/rotating-word";
 import { BriefCard } from "@/components/brief-card";
 import { HeroDecor } from "@/components/hero-decor";
 import { WaitlistForm } from "@/components/waitlist-form";
+import { CopyEmail } from "@/components/copy-email";
+import { PronounceButton } from "@/components/pronounce-button";
 import { appIcon } from "@/lib/ui";
 
 function AppIcon({
@@ -41,22 +43,33 @@ function IconRow({ children }: { children: React.ReactNode }) {
 }
 
 /* Splits a sentence so each word can sharpen on its own as the page scrolls.
-   The index drives the stagger; see `.reveal-word` in globals.css. */
-function Words({ children }: { children: string }) {
+   The index drives the stagger; see `.reveal-word` in globals.css.
+   `startIndex` lets a sentence be split around an inline element (e.g. the
+   pronounce button after "Finlio") without resetting the stagger count. */
+function Words({
+  children,
+  startIndex = 0,
+}: {
+  children: string;
+  startIndex?: number;
+}) {
   return (
     <>
       {children
         .trim()
         .split(/\s+/)
-        .map((word, index) => (
-          <span
-            key={`${index}-${word}`}
-            className="reveal-word"
-            style={{ "--i": index } as React.CSSProperties}
-          >
-            {word}{" "}
-          </span>
-        ))}
+        .map((word, i) => {
+          const index = startIndex + i;
+          return (
+            <span
+              key={`${index}-${word}`}
+              className="reveal-word"
+              style={{ "--i": index } as React.CSSProperties}
+            >
+              {word}{" "}
+            </span>
+          );
+        })}
     </>
   );
 }
@@ -140,7 +153,13 @@ export default function Home() {
 
           <div className="mt-8 space-y-6 text-[1.375rem] font-medium leading-[1.35] tracking-[-0.022em] text-ink sm:mt-10 sm:space-y-8 sm:text-2xl sm:leading-[1.3] lg:text-3xl">
             <p className="reveal-line">
-              <Words>Finlio started with one simple problem.</Words>
+              <Words>Finlio</Words>
+              <PronounceButton
+                size="size-7 sm:size-8"
+                iconSize="size-[17px] sm:size-[19px]"
+                className="mr-1.5 -translate-y-[3px] align-middle sm:-translate-y-[4px]"
+              />
+              <Words startIndex={1}> started with one simple problem.</Words>
             </p>
 
             <div className="space-y-3">
@@ -312,13 +331,8 @@ export default function Home() {
               <p className="max-w-md text-[13px] leading-relaxed text-body/50 sm:text-[14px]">
                 Finlio is your Personal AI Finance assistant.
               </p>
-              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] text-body/50 sm:text-[14px]">
-                <a
-                  href="mailto:hello@finlio.app"
-                  className="inline-flex min-h-[44px] items-center transition-[color] hover:text-ink sm:min-h-0"
-                >
-                  hello@finlio.app
-                </a>
+              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[13px] text-body/50 sm:text-[14px]">
+                <CopyEmail email="hello@finlio.app" />
                 <span>© 2026 Finlio</span>
               </div>
             </div>
