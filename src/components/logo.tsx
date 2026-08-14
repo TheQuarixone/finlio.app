@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { appIcon } from "@/lib/ui";
 
 export function LogoMark({ className }: { className?: string }) {
   return (
@@ -8,7 +9,7 @@ export function LogoMark({ className }: { className?: string }) {
       width={32}
       height={32}
       aria-hidden="true"
-      className={className}
+      className={`${appIcon} ${className ?? ""}`}
     />
   );
 }
@@ -21,9 +22,11 @@ export function Logo({
   markClassName?: string;
 }) {
   return (
-    <span className={`inline-flex items-center gap-2 ${className ?? ""}`}>
+    <span
+      className={`inline-flex flex-col items-center gap-2 ${className ?? ""}`}
+    >
       <LogoMark className={markClassName ?? "size-7"} />
-      <span className="text-lg font-semibold tracking-tight">finlio</span>
+      <span className="text-lg font-semibold tracking-tight">Finlio</span>
     </span>
   );
 }

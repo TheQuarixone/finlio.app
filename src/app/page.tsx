@@ -5,7 +5,7 @@ import { RotatingWord } from "@/components/rotating-word";
 import { BriefCard } from "@/components/brief-card";
 import { HeroDecor } from "@/components/hero-decor";
 import { WaitlistForm } from "@/components/waitlist-form";
-import { appIcon, buttonPrimary, buttonSecondary } from "@/lib/ui";
+import { appIcon } from "@/lib/ui";
 
 function AppIcon({ file, label }: { file: string; label: string }) {
   return (
@@ -90,45 +90,17 @@ const SOCIALS = [
 export default function Home() {
   return (
     <div className="flex flex-1 flex-col">
-      {/* Header */}
-      <header className="header-rule sticky top-0 z-50 border-b border-line/70 bg-white">
-        <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-6 px-6">
-          <div className="flex items-center gap-8">
-            <Logo markClassName="size-7" />
-            <nav className="hidden items-center gap-7 text-[15px] font-medium text-body sm:flex">
-              <a
-                href="#about"
-                className="transition-[color] hover:text-ink"
-              >
-                About
-              </a>
-              <a
-                href="#faqs"
-                className="transition-[color] hover:text-ink"
-              >
-                FAQs
-              </a>
-            </nav>
-          </div>
-          <div className="flex items-center gap-2">
-            <a
-              href="#about"
-              className={`${buttonSecondary} hidden h-10 px-4 text-[15px] sm:inline-flex`}
-            >
-              How it works
-            </a>
-            <a href="#waitlist" className={`${buttonPrimary} h-10 px-5 text-[15px]`}>
-              Join Waitlist
-            </a>
-          </div>
-        </div>
-      </header>
-
       {/* Hero */}
       <section className="relative overflow-hidden">
         <HeroDecor />
-        <div className="relative mx-auto w-full max-w-3xl px-6 pb-24 pt-20 text-center sm:pb-32 sm:pt-28">
-          <h1 className="animate-rise rise-2 text-[clamp(2.75rem,6vw,4.25rem)] font-medium leading-[1.09] tracking-[-1.35px] text-ink [text-wrap:balance]">
+        <div className="relative mx-auto w-full max-w-3xl px-4 pb-16 pt-12 text-center sm:px-6 sm:pb-28 sm:pt-20 lg:pb-32 lg:pt-24">
+          <div className="animate-rise rise-1 mb-8 flex justify-center sm:mb-12">
+            <Logo
+              markClassName="size-8 sm:size-10"
+              className="gap-2 text-[1.2rem] sm:gap-2.5 sm:text-[1.5rem]"
+            />
+          </div>
+          <h1 className="animate-rise rise-2 text-[clamp(2.125rem,7.2vw,4.25rem)] font-medium leading-[1.12] tracking-[-0.04em] text-ink [text-wrap:balance] sm:leading-[1.09] sm:tracking-[-1.35px]">
             Know why your money
             <RotatingWord />
           </h1>
@@ -140,7 +112,7 @@ export default function Home() {
 
         <div
           id="waitlist"
-          className="animate-rise rise-4 mt-10 flex w-full scroll-mt-28 justify-center"
+          className="animate-rise rise-4 mt-10 flex w-full scroll-mt-8 justify-center"
         >
           <WaitlistForm />
           </div>
@@ -148,7 +120,7 @@ export default function Home() {
       </section>
 
       {/* About: this section does the explaining */}
-      <section id="about" className="scroll-mt-16 bg-cream">
+      <section id="about" className="scroll-mt-8 bg-cream">
         <div className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
           <div className="reveal-rise inline-flex max-w-full items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 ring-1 ring-line">
             <LogoMark className="size-7 shrink-0" />
@@ -224,7 +196,7 @@ export default function Home() {
       </section>
 
       {/* FAQs */}
-      <section id="faqs" className="scroll-mt-16">
+      <section id="faqs" className="scroll-mt-8">
         <div className="mx-auto w-full max-w-6xl px-6 py-24 sm:py-32">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:gap-16">
             <div className="reveal-rise">

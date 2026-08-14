@@ -19,10 +19,6 @@ const description =
 export const metadata: Metadata = {
   title,
   description,
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
-  },
   keywords: [
     "stock news in simple words",
     "mutual fund news India",
