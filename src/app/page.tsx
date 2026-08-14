@@ -96,7 +96,7 @@ export default function Home() {
         <div className="relative mx-auto w-full max-w-3xl px-4 pb-16 pt-12 text-center sm:px-6 sm:pb-28 sm:pt-20 lg:pb-32 lg:pt-24">
           <div className="animate-rise rise-1 mb-8 flex justify-center sm:mb-12">
             <Logo
-              markClassName="size-8 text-btn sm:size-10"
+              markClassName="size-8 sm:size-10"
               className="gap-2 text-[1.2rem] sm:gap-2.5 sm:text-[1.5rem]"
             />
           </div>
@@ -123,7 +123,7 @@ export default function Home() {
       <section id="about" className="scroll-mt-8 bg-cream">
         <div className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
           <div className="reveal-rise inline-flex max-w-full items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 ring-1 ring-line">
-            <LogoMark className="size-7 shrink-0 text-btn" />
+            <LogoMark className="size-7 shrink-0" />
             <span className="text-[14px] font-medium text-body">
               from the Finlio team
             </span>
@@ -265,7 +265,7 @@ export default function Home() {
       <footer className="border-t border-line">
         <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <div className="grid gap-10 sm:grid-cols-[auto_1fr_auto] sm:gap-16">
-            <LogoMark className="size-7 shrink-0 text-btn" />
+            <LogoMark className="size-7 shrink-0" />
 
             {/* Only real, working destinations live here. Product / Company /
                 Legal columns can join once those pages exist. */}
