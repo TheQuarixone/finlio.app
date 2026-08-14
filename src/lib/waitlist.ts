@@ -1,43 +1,46 @@
-import { promises as fs } from "fs";
-import path from "path";
+import { Resend } from "resend";
 
-const DATA_FILE = path.join(process.cwd(), ".data", "waitlist.json");
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 // Display seed so the counter doesn't start at zero pre-launch.
 const SEED_COUNT = 1_284;
 
-type WaitlistEntry = {
-  email: string;
-  joinedAt: string;
-};
-
-async function readEntries(): Promise<WaitlistEntry[]> {
-  try {
-    const raw = await fs.readFile(DATA_FILE, "utf8");
-    return JSON.parse(raw) as WaitlistEntry[];
-  } catch {
-    return [];
-  }
-}
-
+// Contacts are stored in Resend (workspace-level, no audience needed) instead
+// of a local JSON file. A local file can't be relied on in production: the
+// serverless filesystem is read-only outside /tmp, and /tmp itself doesn't
+// persist across invocations or instances, so every write there either
+// throws or silently disappears.
 export async function getWaitlistCount(): Promise<number> {
-  const entries = await readEntries();
-  return SEED_COUNT + entries.length;
+  const { data } = await resend.contacts.list();
+  return SEED_COUNT + (data?.data.length ?? 0);
 }
 
 export async function addToWaitlist(
   email: string
 ): Promise<{ added: boolean; count: number }> {
-  const entries = await readEntries();
-  const normalized = email.trim().toLowerCase();
-
-  if (entries.some((entry) => entry.email === normalized)) {
-    return { added: false, count: SEED_COUNT + entries.length };
+  if (!process.env.RESEND_API_KEY) {
+    throw new Error("RESEND_API_KEY is not configured");
   }
 
-  entries.push({ email: normalized, joinedAt: new Date().toISOString() });
-  await fs.mkdir(path.dirname(DATA_FILE), { recursive: true });
-  await fs.writeFile(DATA_FILE, JSON.stringify(entries, null, 2), "utf8");
+  const normalized = email.trim().toLowerCase();
 
-  return { added: true, count: SEED_COUNT + entries.length };
+  const { data: existing, error: lookupError } = await resend.contacts.get({
+    email: normalized,
+  });
+
+  if (lookupError && lookupError.name !== "not_found") {
+    throw new Error(lookupError.message);
+  }
+
+  if (existing) {
+    return { added: false, count: await getWaitlistCount() };
+  }
+
+  const { error } = await resend.contacts.create({ email: normalized });
+
+  if (error) {
+    throw new Error(error.message);
+  }
+
+  return { added: true, count: await getWaitlistCount() };
 }
