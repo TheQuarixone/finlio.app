@@ -94,7 +94,7 @@ export default function Home() {
       <header className="header-rule sticky top-0 z-50 border-b border-line/70 bg-white">
         <div className="mx-auto flex h-16 w-full max-w-6xl items-center justify-between gap-6 px-6">
           <div className="flex items-center gap-8">
-            <Logo markClassName="size-7 text-btn" />
+            <Logo markClassName="size-7" />
             <nav className="hidden items-center gap-7 text-[15px] font-medium text-body sm:flex">
               <a
                 href="#about"
@@ -128,10 +128,10 @@ export default function Home() {
       <section className="relative overflow-hidden">
         <HeroDecor />
         <div className="relative mx-auto w-full max-w-3xl px-6 pb-24 pt-20 text-center sm:pb-32 sm:pt-28">
-        <h1 className="animate-rise rise-2 text-[clamp(2.75rem,6vw,4.25rem)] font-medium leading-[1.09] tracking-[-1.35px] text-ink [text-wrap:balance]">
-          Know why your money
-          <RotatingWord />
-        </h1>
+          <h1 className="animate-rise rise-2 text-[clamp(2.75rem,6vw,4.25rem)] font-medium leading-[1.09] tracking-[-1.35px] text-ink [text-wrap:balance]">
+            Know why your money
+            <RotatingWord />
+          </h1>
 
         <p className="animate-rise rise-3 mx-auto mt-7 max-w-lg text-[17px] font-medium leading-[1.53] tracking-[-0.013em] text-body [text-wrap:pretty]">
           Every morning, Finlio tells you in simple words why the stocks and
@@ -149,9 +149,9 @@ export default function Home() {
 
       {/* About: this section does the explaining */}
       <section id="about" className="scroll-mt-16 bg-cream">
-        <div className="mx-auto w-full max-w-3xl px-6 py-24 sm:py-32">
-          <div className="reveal-rise inline-flex items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 ring-1 ring-line">
-            <LogoMark className="size-7 text-btn" />
+        <div className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
+          <div className="reveal-rise inline-flex max-w-full items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 ring-1 ring-line">
+            <LogoMark className="size-7 shrink-0" />
             <span className="text-[14px] font-medium text-body">
               from the Finlio team
             </span>
@@ -291,9 +291,9 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="border-t border-line">
-        <div className="mx-auto w-full max-w-6xl px-6 py-16">
-          <div className="grid gap-12 sm:grid-cols-[auto_1fr_auto] sm:gap-16">
-            <LogoMark className="size-7 shrink-0 text-btn" />
+        <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+          <div className="grid gap-10 sm:grid-cols-[auto_1fr_auto] sm:gap-16">
+            <LogoMark className="size-7 shrink-0" />
 
             {/* Only real, working destinations live here. Product / Company /
                 Legal columns can join once those pages exist. */}

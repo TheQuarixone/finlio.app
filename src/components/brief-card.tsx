@@ -44,7 +44,7 @@ export function BriefCard() {
     <div className="relative mx-auto w-full max-w-md">
       <div className="rounded-3xl bg-white p-6 shadow-[0_1px_2px_rgba(18,18,18,0.05),0_20px_44px_rgba(18,18,18,0.10)] ring-1 ring-line">
         <div className="flex items-center gap-3">
-          <LogoMark className="size-9 shrink-0 text-btn" />
+          <LogoMark className="size-8 shrink-0 sm:size-9" />
           <div className="min-w-0 flex-1">
             <div className="flex items-baseline justify-between gap-3">
               <p className="text-[15px] font-semibold text-ink">Finlio</p>

@@ -1,5 +1,6 @@
 "use server";
 
+import { sendWaitlistConfirmation } from "@/lib/email";
 import { addToWaitlist } from "@/lib/waitlist";
 
 export type WaitlistState = {
@@ -26,6 +27,15 @@ export async function joinWaitlist(
 
   try {
     const { added, count } = await addToWaitlist(email);
+
+    if (added) {
+      try {
+        await sendWaitlistConfirmation(email.trim().toLowerCase());
+      } catch (err) {
+        console.error("Waitlist confirmation email failed:", err);
+      }
+    }
+
     return {
       status: "success",
       message: added
