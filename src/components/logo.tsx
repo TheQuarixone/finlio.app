@@ -29,9 +29,11 @@ export function Logo({
   markClassName?: string;
 }) {
   return (
-    <span className={`inline-flex items-center gap-2 ${className ?? ""}`}>
+    <span
+      className={`inline-flex items-center gap-2 text-lg ${className ?? ""}`}
+    >
       <LogoMark className={markClassName ?? "size-7"} />
-      <span className="text-lg font-semibold tracking-tight">finlio</span>
+      <span className="font-semibold tracking-tight">finlio</span>
     </span>
   );
 }
