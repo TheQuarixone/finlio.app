@@ -7,7 +7,19 @@ import { HeroDecor } from "@/components/hero-decor";
 import { WaitlistForm } from "@/components/waitlist-form";
 import { appIcon } from "@/lib/ui";
 
-function AppIcon({ file, label }: { file: string; label: string }) {
+function AppIcon({
+  file,
+  label,
+  size = "size-6 sm:size-8",
+}: {
+  file: string;
+  label: string;
+  /* A couple of logos (Kuvera, ET Markets) are dense wordmarks/badges that
+     turn to mush at the row's default size, unlike the simple glyphs
+     everything else here uses — bump just those up a notch so they stay
+     legible. */
+  size?: string;
+}) {
   return (
     <Image
       src={`/logos/${file}.png`}
@@ -15,7 +27,7 @@ function AppIcon({ file, label }: { file: string; label: string }) {
       title={label}
       width={64}
       height={64}
-      className={`size-6 sm:size-8 ${appIcon}`}
+      className={`${size} ${appIcon}`}
     />
   );
 }
@@ -147,14 +159,22 @@ export default function Home() {
                   <AppIcon file="etmoney" label="ET Money" />
                   <AppIcon file="coin" label="Coin by Zerodha" />
                   <AppIcon file="paytmmoney" label="Paytm Money" />
-                  <AppIcon file="kuvera" label="Kuvera" />
+                  <AppIcon
+                    file="kuvera"
+                    label="Kuvera"
+                    size="size-8 sm:size-10"
+                  />
                 </IconRow>
               </p>
               <p className="reveal-line">
                 <Words>And the news is somewhere else.</Words>
                 <IconRow>
                   <AppIcon file="moneycontrol" label="Moneycontrol" />
-                  <AppIcon file="etmarkets" label="ET Markets" />
+                  <AppIcon
+                    file="etmarkets"
+                    label="ET Markets"
+                    size="size-8 sm:size-10"
+                  />
                   <AppIcon file="mint" label="Mint" />
                   <AppIcon file="et" label="The Economic Times" />
                 </IconRow>
@@ -256,40 +276,52 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-line">
+      <footer className="border-t border-line bg-cream">
         <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-          <div className="grid gap-10 sm:grid-cols-[auto_1fr_auto] sm:gap-16">
-            <LogoMark className="size-7 shrink-0" />
+          <div className="reveal-rise flex flex-col gap-8 rounded-2xl bg-white p-6 shadow-[0_1px_2px_rgba(18,18,18,0.05),0_20px_44px_rgba(18,18,18,0.10)] ring-1 ring-line sm:rounded-3xl sm:p-8">
+            <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-3">
+                <LogoMark className="size-8 shrink-0" />
+                <span className="text-[15px] font-semibold text-ink">
+                  Finlio
+                </span>
+              </div>
 
-            <nav>
-              <h3 className="text-[15px] font-semibold text-ink">Finlio</h3>
-              <ul className="mt-4 space-y-3 text-[15px]">
-                {FOOTER_LINKS.map((link) => (
-                  <li key={link.href}>
-                    <a
-                      href={link.href}
-                      className="inline-flex min-h-[44px] items-center text-body/60 transition-[color] hover:text-ink sm:min-h-0"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </nav>
+              <nav>
+                <ul className="flex flex-wrap items-center gap-x-6 gap-y-3 text-[15px]">
+                  {FOOTER_LINKS.map((link) => (
+                    <li key={link.href}>
+                      <a
+                        href={link.href}
+                        className="inline-flex min-h-[44px] items-center text-body/60 transition-[color] hover:text-ink sm:min-h-0"
+                      >
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
 
-            <div className="flex flex-col gap-5 sm:items-end">
-              <p className="text-[15px] text-body/50">© 2026</p>
+              <p className="inline-flex items-center gap-2.5 text-[14px] font-medium text-body">
+                <span className="animate-status-pulse size-2.5 shrink-0 rounded-full bg-brand-green" />
+                Coming soon
+              </p>
             </div>
-          </div>
 
-          <div className="mt-10 flex flex-col gap-3 border-t border-line pt-6 sm:mt-16 sm:flex-row sm:items-center sm:justify-between sm:pt-8">
-            <p className="flex items-center gap-2.5 text-[14px] font-medium text-body">
-              <span className="animate-status-pulse size-2.5 shrink-0 rounded-full bg-brand-green" />
-              Coming soon
-            </p>
-            <p className="max-w-md text-[13px] leading-relaxed text-body/50 sm:max-w-none sm:text-[14px] sm:text-right">
-              Finlio is your Personal AI Finance assistant.
-            </p>
+            <div className="flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <p className="max-w-md text-[13px] leading-relaxed text-body/50 sm:text-[14px]">
+                Finlio is your Personal AI Finance assistant.
+              </p>
+              <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] text-body/50 sm:text-[14px]">
+                <a
+                  href="mailto:hello@finlio.app"
+                  className="inline-flex min-h-[44px] items-center transition-[color] hover:text-ink sm:min-h-0"
+                >
+                  hello@finlio.app
+                </a>
+                <span>© 2026 Finlio</span>
+              </div>
+            </div>
           </div>
         </div>
       </footer>

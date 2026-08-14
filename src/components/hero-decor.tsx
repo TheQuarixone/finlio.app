@@ -361,7 +361,7 @@ function RightCluster() {
           dx: "-4px",
         }}
       >
-        <Icon file="etmarkets" size={iconXs} />
+        <Icon file="etmarkets" size={iconMd} />
       </Float>
       <Float
         m={{
@@ -372,7 +372,7 @@ function RightCluster() {
           delay: 1.7,
         }}
       >
-        <Icon file="kuvera" size={iconXs} />
+        <Icon file="kuvera" size={iconMd} />
       </Float>
       <Float
         m={{
