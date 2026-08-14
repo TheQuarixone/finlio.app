@@ -42,12 +42,14 @@ function Holding({
 export function BriefCard() {
   return (
     <div className="relative mx-auto w-full max-w-md">
-      <div className="rounded-3xl bg-white p-6 shadow-[0_1px_2px_rgba(18,18,18,0.05),0_20px_44px_rgba(18,18,18,0.10)] ring-1 ring-line">
+      <div className="rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(18,18,18,0.05),0_20px_44px_rgba(18,18,18,0.10)] ring-1 ring-line sm:rounded-3xl sm:p-6">
         <div className="flex items-center gap-3">
           <LogoMark className="size-8 shrink-0 sm:size-9" />
           <div className="min-w-0 flex-1">
             <div className="flex items-baseline justify-between gap-3">
-              <p className="text-[15px] font-semibold text-ink">Finlio</p>
+              <p className="truncate text-[15px] font-semibold text-ink">
+                Finlio
+              </p>
               <p className="shrink-0 text-[13px] tabular-nums text-body/50">
                 8:31 AM
               </p>
@@ -56,7 +58,7 @@ export function BriefCard() {
           </div>
         </div>
 
-        <p className="mt-5 text-[15px] leading-[1.5] text-body">
+        <p className="mt-5 text-[14px] leading-[1.5] text-body sm:text-[15px]">
           3 things you own may move today. Here is why.
         </p>
 

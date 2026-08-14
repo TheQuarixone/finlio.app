@@ -15,14 +15,14 @@ function AppIcon({ file, label }: { file: string; label: string }) {
       title={label}
       width={64}
       height={64}
-      className={`size-7 sm:size-8 ${appIcon}`}
+      className={`size-6 sm:size-8 ${appIcon}`}
     />
   );
 }
 
 function IconRow({ children }: { children: React.ReactNode }) {
   return (
-    <span className="reveal-icons ml-2.5 inline-flex translate-y-[-3px] gap-1.5 align-middle">
+    <span className="reveal-icons ml-1.5 inline-flex translate-y-[-2px] flex-wrap gap-1 align-middle sm:ml-2.5 sm:translate-y-[-3px] sm:gap-1.5">
       {children}
     </span>
   );
@@ -105,16 +105,16 @@ export default function Home() {
             <RotatingWord />
           </h1>
 
-        <p className="animate-rise rise-3 mx-auto mt-7 max-w-lg text-[17px] font-medium leading-[1.53] tracking-[-0.013em] text-body [text-wrap:pretty]">
-          Every morning, Finlio tells you in simple words why the stocks and
-          mutual funds you own will go up or down today.
-        </p>
+          <p className="animate-rise rise-3 mx-auto mt-5 max-w-lg text-[16px] font-medium leading-[1.55] tracking-[-0.013em] text-body [text-wrap:pretty] sm:mt-7 sm:text-[17px] sm:leading-[1.53]">
+            Every morning, Finlio tells you in simple words why the stocks and
+            mutual funds you own will go up or down today.
+          </p>
 
-        <div
-          id="waitlist"
-          className="animate-rise rise-4 mt-10 flex w-full scroll-mt-8 justify-center"
-        >
-          <WaitlistForm />
+          <div
+            id="waitlist"
+            className="animate-rise rise-4 mt-8 flex w-full scroll-mt-8 justify-center sm:mt-10"
+          >
+            <WaitlistForm />
           </div>
         </div>
       </section>
@@ -129,7 +129,7 @@ export default function Home() {
             </span>
           </div>
 
-          <div className="mt-10 space-y-8 text-2xl font-medium leading-[1.3] tracking-[-0.022em] text-ink sm:text-3xl">
+          <div className="mt-8 space-y-6 text-[1.375rem] font-medium leading-[1.35] tracking-[-0.022em] text-ink sm:mt-10 sm:space-y-8 sm:text-2xl sm:leading-[1.3] lg:text-3xl">
             <p className="reveal-line">
               <Words>Finlio started with one simple problem.</Words>
             </p>
@@ -197,15 +197,15 @@ export default function Home() {
 
       {/* FAQs */}
       <section id="faqs" className="scroll-mt-8">
-        <div className="mx-auto w-full max-w-6xl px-6 py-24 sm:py-32">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:gap-16">
+        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
+          <div className="grid gap-8 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:gap-16">
             <div className="reveal-rise">
               <SectionLabel className="text-brand-orange">FAQs</SectionLabel>
-              <h2 className="mt-3 text-[clamp(2rem,3.6vw,2.75rem)] font-medium leading-[1.09] tracking-[-1.35px] text-ink [text-wrap:balance]">
+              <h2 className="mt-3 text-[clamp(1.75rem,5.5vw,2.75rem)] font-medium leading-[1.12] tracking-[-0.04em] text-ink [text-wrap:balance] sm:leading-[1.09] sm:tracking-[-1.35px]">
                 Frequently asked questions
               </h2>
             </div>
-            <div className="reveal-rise reveal-d1">
+            <div className="reveal-rise reveal-d1 min-w-0">
               <Faq />
             </div>
           </div>
@@ -214,18 +214,18 @@ export default function Home() {
 
       {/* Closing CTA */}
       <section className="bg-cream">
-        <div className="mx-auto w-full max-w-6xl px-6 py-24 sm:py-28">
-          <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-16">
+        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:py-28">
+          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
             <div className="reveal-rise">
               <SectionLabel className="text-brand-green">
                 Early access
               </SectionLabel>
-              <h2 className="mt-3 text-[clamp(2rem,3.6vw,2.75rem)] font-medium leading-[1.09] tracking-[-1.35px] text-ink [text-wrap:balance]">
+              <h2 className="mt-3 text-[clamp(1.75rem,5.5vw,2.75rem)] font-medium leading-[1.12] tracking-[-0.04em] text-ink [text-wrap:balance] sm:leading-[1.09] sm:tracking-[-1.35px]">
                 Stop guessing.
                 <br />
                 Start knowing.
               </h2>
-              <p className="mt-5 max-w-md text-[17px] font-medium leading-[1.53] tracking-[-0.013em] text-body [text-wrap:pretty]">
+              <p className="mt-5 max-w-md text-[16px] font-medium leading-[1.55] tracking-[-0.013em] text-body [text-wrap:pretty] sm:text-[17px] sm:leading-[1.53]">
                 Join the waitlist and get your first morning message on the day
                 we launch. Free, and in simple words.
               </p>
@@ -276,7 +276,7 @@ export default function Home() {
                   <li key={link.href}>
                     <a
                       href={link.href}
-                      className="text-body/60 transition-[color] hover:text-ink"
+                      className="inline-flex min-h-[44px] items-center text-body/60 transition-[color] hover:text-ink sm:min-h-0"
                     >
                       {link.label}
                     </a>
@@ -292,14 +292,13 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="mt-16 flex flex-col gap-3 border-t border-line pt-8 sm:flex-row sm:items-center sm:justify-between">
+          <div className="mt-10 flex flex-col gap-3 border-t border-line pt-6 sm:mt-16 sm:flex-row sm:items-center sm:justify-between sm:pt-8">
             <p className="flex items-center gap-2.5 text-[14px] font-medium text-body">
-              <span className="animate-status-pulse size-2.5 rounded-full bg-brand-green" />
+              <span className="animate-status-pulse size-2.5 shrink-0 rounded-full bg-brand-green" />
               Coming soon
             </p>
-            <p className="text-[14px] text-body/50">
-              Finlio shares news and information only. It is not investment
-              advice.
+            <p className="max-w-md text-[13px] leading-relaxed text-body/50 sm:max-w-none sm:text-[14px] sm:text-right">
+              Finlio is your Personal AI Finance assistant.
             </p>
           </div>
         </div>
