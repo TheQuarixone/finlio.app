@@ -95,10 +95,7 @@ export default function Home() {
         <HeroDecor />
         <div className="relative z-10 mx-auto w-full max-w-3xl px-4 pb-16 pt-12 text-center sm:px-6 sm:pb-28 sm:pt-20 lg:pb-32 lg:pt-24">
           <div className="animate-rise rise-1 mb-8 flex justify-center sm:mb-12">
-            <Logo
-              markClassName="size-8 sm:size-10"
-              className="gap-2 text-[1.2rem] sm:gap-2.5 sm:text-[1.5rem]"
-            />
+            <Logo />
           </div>
           <h1 className="animate-rise rise-2 text-[clamp(2.125rem,7.2vw,4.25rem)] font-medium leading-[1.12] tracking-[-0.04em] text-ink [text-wrap:balance] sm:leading-[1.09] sm:tracking-[-1.35px]">
             Know why your money
@@ -229,9 +226,6 @@ export default function Home() {
                 Join the waitlist and get your first morning message on the day
                 we launch. Free, and in simple words.
               </p>
-              {/* family.co closes with an accent text link rather than a
-                  button. min-h keeps a 44px touch target despite the small
-                  type, and the arrow slides on hover. */}
               <a
                 href="#waitlist"
                 className="group mt-6 inline-flex min-h-[44px] items-center gap-2 text-[17px] font-medium tracking-[-0.013em] text-brand-link transition-[color] hover:text-brand-blue"
@@ -267,8 +261,6 @@ export default function Home() {
           <div className="grid gap-10 sm:grid-cols-[auto_1fr_auto] sm:gap-16">
             <LogoMark className="size-7 shrink-0" />
 
-            {/* Only real, working destinations live here. Product / Company /
-                Legal columns can join once those pages exist. */}
             <nav>
               <h3 className="text-[15px] font-semibold text-ink">Finlio</h3>
               <ul className="mt-4 space-y-3 text-[15px]">
@@ -285,8 +277,6 @@ export default function Home() {
               </ul>
             </nav>
 
-            {/* Social links hidden until the accounts exist. To restore,
-                uncomment SOCIALS above and map it here under the year. */}
             <div className="flex flex-col gap-5 sm:items-end">
               <p className="text-[15px] text-body/50">© 2026</p>
             </div>

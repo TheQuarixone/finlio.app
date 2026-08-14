@@ -11,10 +11,10 @@ const initialState: WaitlistState = {
 };
 
 const inputShell =
-  "w-full rounded-[1.25rem] bg-white shadow-[0_1px_2px_rgba(18,18,18,0.06),0_12px_28px_rgba(18,18,18,0.08)] ring-1 ring-line transition-shadow focus-within:ring-2 focus-within:ring-brand-blue/40 sm:flex-1 sm:rounded-full sm:bg-cream sm:shadow-none";
+  "flex h-12 w-full items-center rounded-[1.25rem] bg-white px-4 shadow-[0_1px_2px_rgba(18,18,18,0.06),0_12px_28px_rgba(18,18,18,0.08)] ring-1 ring-line transition-shadow focus-within:ring-2 focus-within:ring-brand-blue/40 sm:h-14 sm:flex-1 sm:rounded-full sm:bg-cream sm:px-5 sm:shadow-none";
 
 const successShell =
-  "w-full max-w-xl rounded-[1.25rem] bg-white px-4 py-3 shadow-[0_1px_2px_rgba(18,18,18,0.06),0_12px_28px_rgba(18,18,18,0.08)] ring-1 ring-line sm:min-h-14 sm:rounded-full sm:px-6 sm:py-0";
+  "flex min-h-14 w-full max-w-xl items-center justify-center gap-2.5 rounded-[1.25rem] bg-white px-4 py-3 shadow-[0_1px_2px_rgba(18,18,18,0.06),0_12px_28px_rgba(18,18,18,0.08)] ring-1 ring-line sm:rounded-full sm:px-6 sm:py-0";
 
 export function WaitlistForm() {
   const [state, formAction, isPending] = useActionState(
@@ -25,9 +25,7 @@ export function WaitlistForm() {
   return (
     <div className="flex w-full max-w-xl flex-col items-center gap-3 px-1 sm:gap-2.5">
       {state.status === "success" ? (
-        <div
-          className={`${successShell} flex min-h-14 items-center justify-center gap-2.5`}
-        >
+        <div className={successShell}>
           <svg
             viewBox="0 0 20 20"
             fill="none"
@@ -52,7 +50,7 @@ export function WaitlistForm() {
           action={formAction}
           className="flex w-full flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-2.5"
         >
-          <div className={`${inputShell} flex h-12 items-center sm:h-14`}>
+          <div className={inputShell}>
             <label htmlFor="waitlist-email" className="sr-only">
               Email address
             </label>
@@ -64,7 +62,7 @@ export function WaitlistForm() {
               autoComplete="email"
               inputMode="email"
               placeholder="Enter your email"
-              className="h-full w-full min-w-0 bg-transparent px-4 text-base text-ink placeholder:text-body/50 focus:outline-none sm:px-5"
+              className="h-full w-full min-w-0 bg-transparent text-base text-ink placeholder:text-body/50 focus:outline-none"
             />
           </div>
           <button
