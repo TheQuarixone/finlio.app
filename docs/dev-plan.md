@@ -6,6 +6,7 @@ lands. This file stays high-level; the phase docs hold the actual tasks.
 
 - **What we build:** [`PRD.md`](./PRD.md)
 - **How we build it:** [`TECHSTACK.md`](./TECHSTACK.md)
+- **System design:** [`architecture.md`](./architecture.md) + [`adr/`](./adr)
 - **Phase 1 detail:** [`phase-1.md`](./phase-1.md)
 
 **Positioning:** **India-first, global later**, and **web/desktop first, mobile

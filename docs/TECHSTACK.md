@@ -1,7 +1,17 @@
 # Finlio — Tech Stack & Architecture
 
 Companion to [`PRD.md`](./PRD.md) (what) and [`dev-plan.md`](./dev-plan.md) (when).
-This document is the source of truth for **how** Finlio is built and operated.
+This document is the source of truth for **how** Finlio is built and operated. For
+the system design — the **monorepo layout** and the **web↔mobile reuse boundary** —
+see [`architecture.md`](./architecture.md) and the decision records in
+[`adr/`](./adr).
+
+> **Repo shape:** Finlio is a **monorepo** (Turborepo + pnpm) — `apps/web`,
+> `apps/mobile` (later), and shared `packages/*`. See
+> [ADR-0001](./adr/0001-monorepo-turborepo-pnpm.md). Business logic lives in
+> `packages/core` and is exposed via **tRPC** (app data) + **REST** route handlers
+> (webhooks/integrations) — see [ADR-0002](./adr/0002-api-boundary.md) — so the
+> mobile app reuses it wholesale.
 
 ---
 
