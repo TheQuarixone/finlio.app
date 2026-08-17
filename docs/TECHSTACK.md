@@ -194,7 +194,7 @@ than iterating in a single request to stay within serverless time limits.
 
 | Env | Branch | Hosting | Data |
 |---|---|---|---|
-| **Production** | `production` (default) | Vercel prod + `finlio.app` | prod Supabase / Upstash / Dodo live |
+| **Production** | `main` (default) | Vercel prod + `finlio.app` | prod Supabase / Upstash / Dodo live |
 | **Preview** | every PR | Vercel preview URL | preview/staging Supabase, Dodo test |
 | **Local** | feature branches | `npm run dev` (:3000) | local env + test keys |
 
@@ -207,8 +207,9 @@ the repo. Known keys today: `RESEND_API_KEY`, `RESEND_FROM_EMAIL`,
 `POSTHOG_KEY` / `POSTHOG_HOST`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`,
 `SENTRY_DSN`. Maintain a committed `.env.example` (no values).
 
-Branch note: `origin/main` was retired; **`production` is the default branch**.
-Other remote branches: `docs`, `email-templates`.
+Branch note: the repo runs a **single trunk, `main`** (the default branch). The
+earlier `production`, `docs`, and `email-templates` branches were consolidated into
+`main` and deleted. Dependabot's `dependabot/*` PR branches are automated/expected.
 
 ---
 
@@ -248,7 +249,7 @@ finance logic, not a blunt global %). Root scripts to add in Phase 1:
 Modeled on lean, high-signal indie CI (fast, everything-on-PR, auto dependency
 updates, preview deploys). GitHub Actions + Dependabot.
 
-**On every PR and push to `production`:**
+**On every PR and push to `main`:**
 1. **Lint** — `eslint`
 2. **Typecheck** — `tsc --noEmit`
 3. **Test** — `vitest run` (with coverage)
@@ -263,7 +264,7 @@ so it stays green before every script exists, then tightens as Phase 1 lands the
 opens weekly PRs for npm and GitHub Actions (grouped minor/patch). CI gates every
 Dependabot PR; low-risk groups can auto-merge once green.
 
-**Branch protection (to enable on `production`):** require PR review, require CI
+**Branch protection (to enable on `main`):** require PR review, require CI
 green, no direct pushes, linear history. See
 [`phase-1.md`](./phase-1.md) task INFRA-CI.
 

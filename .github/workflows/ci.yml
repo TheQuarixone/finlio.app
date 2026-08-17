@@ -3,7 +3,7 @@ name: CI
 on:
   pull_request:
   push:
-    branches: [production]
+    branches: [main]
 
 # Cancel superseded runs on the same ref (e.g. rapid pushes to a PR).
 concurrency:

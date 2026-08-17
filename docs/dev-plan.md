@@ -23,9 +23,9 @@ Two developers. Suggested ownership split by workstream (swap per preference):
 > column and per-task checkboxes so **both devs tick off their own tasks in the same
 > doc**. Keep one phase doc as the shared board; use PRs (not doc edits) to land code.
 
-**Cadence:** trunk-ish flow off `production`. Short-lived feature branches → PR →
-CI green → review → merge. Preview deploy per PR. Weekly dependency PRs via
-Dependabot. No direct pushes to `production`.
+**Cadence:** single trunk `main`. Short-lived feature branches → PR → CI green →
+review → merge. Preview deploy per PR. Weekly dependency PRs via Dependabot. No
+direct pushes to `main`.
 
 **Definition of Done (every task):** code + tests (where logic exists) + typecheck
 + lint pass in CI; docs/`.env.example` updated if config changed; the phase-doc
@@ -81,7 +81,7 @@ white-label portal.
 
 | Milestone | Phase | Signal |
 |---|---|---|
-| M1 — Foundation live | 1 | Auth + net-worth dashboard on `production`, CI gating PRs |
+| M1 — Foundation live | 1 | Auth + net-worth dashboard on `main`, CI gating PRs |
 | M2 — Daily value | 2 | Morning brief + monthly report shipping to real users |
 | M3 — Revenue + mobile | 3 | First paid subscriptions; RN app in TestFlight/Play |
 | M4 — Depth | 4 | Family profiles, tax module, WhatsApp, widgets |

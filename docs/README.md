@@ -12,6 +12,8 @@ Planning and reference docs for Finlio. Start here.
 Later phases get their own `phase-N.md`, created from the abstract in
 [`dev-plan.md`](./dev-plan.md) as each phase begins.
 
-**Repo facts:** default branch is `production` (not `main` — that was retired).
-Other remote branches: `docs`, `email-templates`. CI + Dependabot live under
-[`.github/`](../.github/).
+**Repo facts:** the single default branch is `main`. (The earlier `production`,
+`docs`, and `email-templates` branches were consolidated into `main` and deleted;
+the `email-templates` work — `finlio_waitlist_emailtemplate.html` — was preserved.)
+Dependabot's `dependabot/*` PR branches are automated and expected. CI + Dependabot
+live under [`.github/`](../.github/).

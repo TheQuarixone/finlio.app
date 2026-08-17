@@ -26,7 +26,7 @@ PR merges (link it). See [`dev-plan.md`](./dev-plan.md) for the phase overview a
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | REPO-1 | Confirm default branch = `production`; document that `main` is retired | _ | A | P0 |
+| [ ] | REPO-1 | Confirm default branch = `main` (single trunk; old `production`/`docs`/`email-templates` deleted) | _ | A | P0 |
 | [ ] | REPO-2 | Rename local working folder `finchai` → `finlio` (repo is `Finlio.app`); update any local scripts/paths | _ | A | P0 |
 | [ ] | REPO-3 | Add `.env.example` listing every key from TECHSTACK §9 (no values) | _ | A | P0 |
 | [ ] | REPO-4 | Add `CONTRIBUTING.md` (branch flow, DoD, how to tick phase docs) | _ | A | P1 |
@@ -60,7 +60,7 @@ PR merges (link it). See [`dev-plan.md`](./dev-plan.md) for the phase overview a
 | [ ] | CI-2 | Tighten CI: drop `--if-present` once `typecheck`/`test` scripts exist | _ | A | P0 |
 | [ ] | CI-3 | Add coverage upload/summary to the CI run | _ | A | P1 |
 | [ ] | CI-4 | Confirm **Dependabot** opens grouped weekly PRs (npm + actions) | _ | A | P0 |
-| [ ] | CI-5 | **Branch protection** on `production`: require review + CI green, no direct push, linear history | _ | A | P0 |
+| [ ] | CI-5 | **Branch protection** on `main`: require review + CI green, no direct push, linear history | _ | A | P0 |
 | [ ] | CI-6 | Add PR template + (optional) `CODEOWNERS` | _ | A | P1 |
 | [ ] | CI-7 | Confirm Vercel preview deploy posts a URL on each PR | _ | A | P0 |
 
@@ -76,7 +76,7 @@ PR merges (link it). See [`dev-plan.md`](./dev-plan.md) for the phase overview a
 | [ ] | INFRA-4 | **Sentry** projects (web now, RN later) | _ | A | P1 |
 | [ ] | INFRA-5 | **Cloudflare**: DNS for `finlio.app`, Turnstile keys for public forms | _ | A | P1 |
 | [ ] | INFRA-6 | **DodoPayments** account created; test keys stored (no charging yet) | _ | A | P1 |
-| [ ] | INFRA-7 | Confirm Vercel prod project bound to `production` + `finlio.app` | _ | A | P0 |
+| [ ] | INFRA-7 | Confirm Vercel prod project deploys from `main` + serves `finlio.app` | _ | A | P0 |
 
 ---
 
