@@ -15,10 +15,7 @@ function AppIcon({
 }: {
   file: string;
   label: string;
-  /* A couple of logos (Kuvera, ET Markets) are dense wordmarks/badges that
-     turn to mush at the row's default size, unlike the simple glyphs
-     everything else here uses — bump just those up a notch so they stay
-     legible. */
+  /* Every icon shares one size so the rows read as an even, uniform set. */
   size?: string;
 }) {
   return (
@@ -199,22 +196,14 @@ export default function Home() {
                   <AppIcon file="etmoney" label="ET Money" />
                   <AppIcon file="coin" label="Coin by Zerodha" />
                   <AppIcon file="paytmmoney" label="Paytm Money" />
-                  <AppIcon
-                    file="kuvera"
-                    label="Kuvera"
-                    size="size-8 sm:size-10"
-                  />
+                  <AppIcon file="kuvera" label="Kuvera" />
                 </IconRow>
               </p>
               <p className="reveal-line">
                 <Words>And the news is somewhere else.</Words>
                 <IconRow>
                   <AppIcon file="moneycontrol" label="Moneycontrol" />
-                  <AppIcon
-                    file="etmarkets"
-                    label="ET Markets"
-                    size="size-8 sm:size-10"
-                  />
+                  <AppIcon file="etmarkets" label="ET Markets" />
                   <AppIcon file="mint" label="Mint" />
                   <AppIcon file="et" label="The Economic Times" />
                 </IconRow>
