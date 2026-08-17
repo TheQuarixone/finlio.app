@@ -1,12 +1,11 @@
 import Image from "next/image";
 import { Faq } from "@/components/faq";
-import { Logo, LogoMark } from "@/components/logo";
+import { LogoMark } from "@/components/logo";
 import { RotatingWord } from "@/components/rotating-word";
 import { BriefCard } from "@/components/brief-card";
-import { HeroDecor } from "@/components/hero-decor";
+import { HeroDecor, HeroDecorMobile } from "@/components/hero-decor";
 import { WaitlistForm } from "@/components/waitlist-form";
 import { CopyEmail } from "@/components/copy-email";
-import { PronounceButton } from "@/components/pronounce-button";
 import { appIcon } from "@/lib/ui";
 
 function AppIcon({
@@ -116,15 +115,27 @@ export default function Home() {
   return (
     <div className="flex flex-1 flex-col">
       {/* Hero */}
-      <section className="relative overflow-hidden">
+      <section id="top" className="relative overflow-hidden">
         <HeroDecor />
-        <div className="relative z-10 mx-auto w-full max-w-3xl px-4 pb-16 pt-12 text-center sm:px-6 sm:pb-28 sm:pt-20 lg:pb-32 lg:pt-24">
-          <div className="animate-rise rise-1 mb-8 flex justify-center sm:mb-12">
-            <Logo />
-          </div>
-          <h1 className="animate-rise rise-2 text-[clamp(2.125rem,7.2vw,4.25rem)] font-medium leading-[1.12] tracking-[-0.04em] text-ink [text-wrap:balance] sm:leading-[1.09] sm:tracking-[-1.35px]">
-            Know why your money
-            <RotatingWord />
+        <div className="relative z-10 mx-auto w-full max-w-3xl px-4 pb-20 pt-28 text-center sm:px-6 sm:pb-28 sm:pt-36 lg:pb-32 lg:pt-40">
+          <a
+            href="#waitlist"
+            className="group animate-rise rise-1 mb-6 inline-flex items-center gap-2 rounded-full bg-white py-1.5 pl-2.5 pr-3 text-[13px] font-medium text-body ring-1 ring-line transition-colors duration-200 hover:text-ink sm:mb-8"
+          >
+            <span className="animate-status-pulse size-2 shrink-0 rounded-full bg-brand-green" />
+            Join the waitlist for early access
+            <svg
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+              className="size-3.5 shrink-0 text-body/45 transition-transform duration-200 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-0.5"
+            >
+              <path d="M6 3.5 10.5 8 6 12.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </a>
+          <h1 className="animate-rise rise-2 text-[clamp(2.75rem,9vw,4.25rem)] font-medium leading-[1.12] tracking-[-0.04em] text-ink [text-wrap:balance] sm:leading-[1.09] sm:tracking-[-1.35px]">
+            Know why your money{" "}
+            <RotatingWord />.
           </h1>
 
           <p className="animate-rise rise-3 mx-auto mt-5 max-w-lg text-[16px] font-medium leading-[1.55] tracking-[-0.013em] text-body [text-wrap:pretty] sm:mt-7 sm:text-[17px] sm:leading-[1.53]">
@@ -134,32 +145,42 @@ export default function Home() {
 
           <div
             id="waitlist"
-            className="animate-rise rise-4 mt-8 flex w-full scroll-mt-8 justify-center sm:mt-10"
+            className="animate-rise rise-4 mt-8 flex w-full scroll-mt-24 justify-center sm:mt-10"
           >
             <WaitlistForm />
           </div>
+
+          {/* Phones don't get the side clusters (they'd sit under the text), so
+              they get their own contained floating strip beneath the form. */}
+          <HeroDecorMobile />
         </div>
       </section>
 
       {/* About: this section does the explaining */}
-      <section id="about" className="scroll-mt-8 bg-cream">
-        <div className="mx-auto w-full max-w-3xl px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
-          <div className="reveal-rise inline-flex max-w-full items-center gap-2.5 rounded-full bg-white py-1.5 pl-1.5 pr-4 ring-1 ring-line">
-            <LogoMark className="size-7 shrink-0" />
-            <span className="text-[14px] font-medium text-body">
-              from the Finlio team
-            </span>
-          </div>
+      <section id="about" className="scroll-mt-24 bg-cream">
+        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,300px)_minmax(0,1fr)] lg:gap-16">
+            {/* Left rail — the eyebrow pins here while the story scrolls past it
+                (ScrollTrigger pin on desktop; see components/smooth-scroll.tsx).
+                On mobile it just stacks above the story. */}
+            <div>
+              <div data-about-aside className="max-w-[16rem]">
+                <p className="text-[12px] font-semibold uppercase tracking-[0.16em] text-brand-blue">
+                  Our story
+                </p>
+                <h2 className="mt-2 text-[1.625rem] font-medium leading-[1.08] tracking-[-0.03em] text-ink [text-wrap:balance] sm:text-[1.75rem]">
+                  Why we built Finlio
+                </h2>
+                <p className="mt-3 hidden text-[14px] font-normal leading-[1.5] tracking-[-0.011em] text-body/70 sm:block">
+                  Straight from the team that got tired of guessing.
+                </p>
+              </div>
+            </div>
 
-          <div className="mt-8 space-y-6 text-[1.375rem] font-medium leading-[1.35] tracking-[-0.022em] text-ink sm:mt-10 sm:space-y-8 sm:text-2xl sm:leading-[1.3] lg:text-3xl">
+            {/* Right — the story that scrolls past the pinned rail. */}
+            <div className="space-y-6 text-[1.375rem] font-medium leading-[1.35] tracking-[-0.022em] text-ink sm:space-y-8 sm:text-2xl sm:leading-[1.3] lg:text-3xl">
             <p className="reveal-line">
-              <Words>Finlio</Words>
-              <PronounceButton
-                size="size-7 sm:size-8"
-                iconSize="size-[17px] sm:size-[19px]"
-                className="mr-1.5 -translate-y-[3px] align-middle sm:-translate-y-[4px]"
-              />
-              <Words startIndex={1}> started with one simple problem.</Words>
+              <Words>Finlio started with one simple problem.</Words>
             </p>
 
             <div className="space-y-3">
@@ -227,12 +248,13 @@ export default function Home() {
                 to you in plain English.
               </Words>
             </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* FAQs */}
-      <section id="faqs" className="scroll-mt-8">
+      <section id="faqs" className="scroll-mt-24">
         <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:py-32">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,340px)_minmax(0,1fr)] lg:gap-16">
             <div className="reveal-rise">
@@ -250,8 +272,8 @@ export default function Home() {
 
       {/* Closing CTA */}
       <section className="bg-cream">
-        <div className="mx-auto w-full max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:py-28">
-          <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <div className="mx-auto w-full max-w-6xl px-4 pb-8 pt-16 sm:px-6 sm:py-24 lg:py-28">
+          <div className="grid items-center gap-10 md:grid-cols-2 md:gap-10 lg:gap-16">
             <div className="reveal-rise">
               <SectionLabel className="text-brand-green">
                 Early access
@@ -296,10 +318,10 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="bg-cream">
-        <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
+        <div className="mx-auto w-full max-w-6xl px-4 pb-12 pt-4 sm:px-6 sm:py-16">
           <div className="reveal-rise flex flex-col gap-8 rounded-2xl bg-white p-6 ring-1 ring-line sm:rounded-3xl sm:p-8">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-1">
                 <LogoMark className="size-8 shrink-0" />
                 <span className="text-[15px] font-semibold text-ink">
                   Finlio
@@ -327,14 +349,11 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p className="max-w-md text-[13px] leading-relaxed text-body/50 sm:text-[14px]">
-                Finlio is your Personal AI Finance assistant.
-              </p>
-              <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[13px] text-body/50 sm:text-[14px]">
-                <CopyEmail email="hello@finlio.app" />
-                <span>© 2026 Finlio</span>
-              </div>
+            <div className="flex flex-col items-start gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+              <span className="text-[13px] text-body/50 sm:text-[14px]">
+                © 2026 Finlio
+              </span>
+              <CopyEmail email="hello@finlio.app" />
             </div>
           </div>
         </div>
