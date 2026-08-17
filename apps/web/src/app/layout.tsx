@@ -15,8 +15,14 @@ const geistMono = Geist_Mono({
 });
 
 const title = "Finlio: Know why your stocks and mutual funds go up or down";
+
+/* Two lengths on purpose. Search results truncate around 150 to 160
+   characters; social cards show roughly 125 and cut earlier again on mobile,
+   so the share copy has to make its point in one line. */
 const description =
-  "Finlio sends you one short message every morning. It explains in simple words why the stocks and mutual funds you own may go up or down today. No share market language. Join the waitlist.";
+  "One short message every market morning, explaining in simple words why the stocks and mutual funds you own may go up or down today. Join the waitlist.";
+const socialDescription =
+  "Know why your money moved. One plain-English message every market morning on the stocks and mutual funds you own.";
 
 const siteUrl = "https://finlio.app";
 
@@ -56,7 +62,7 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title,
-    description,
+    description: socialDescription,
     url: siteUrl,
     type: "website",
     locale: "en_IN",
@@ -65,7 +71,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title,
-    description,
+    description: socialDescription,
   },
 };
 
