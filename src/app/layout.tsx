@@ -18,19 +18,46 @@ const title = "Finlio: Know why your stocks and mutual funds go up or down";
 const description =
   "Finlio sends you one short message every morning. It explains in simple words why the stocks and mutual funds you own may go up or down today. No share market language. Join the waitlist.";
 
+const siteUrl = "https://finlio.app";
+
 export const metadata: Metadata = {
-  title,
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: title,
+    template: "%s · Finlio",
+  },
   description,
+  applicationName: "Finlio",
+  authors: [{ name: "Quarix" }],
+  creator: "Quarix",
+  publisher: "Quarix",
+  category: "finance",
   keywords: [
     "stock news in simple words",
     "mutual fund news India",
     "why did my stock fall",
     "share market for beginners",
     "daily portfolio update",
+    "personal finance app India",
+    "morning market brief",
   ],
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
     title,
     description,
+    url: siteUrl,
     type: "website",
     locale: "en_IN",
     siteName: "Finlio",
