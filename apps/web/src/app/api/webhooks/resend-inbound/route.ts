@@ -1,4 +1,4 @@
-import { resend } from "@/lib/resend";
+import { getResend } from "@/lib/resend";
 
 // Mail sent to hello@finlio.app is relayed here. Resend's own inbound MX
 // (finlio.app -> Resend, verified in the Resend dashboard) delivers this
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
 
   let event;
   try {
-    event = resend.webhooks.verify({
+    event = getResend().webhooks.verify({
       payload,
       headers: { id: svixId, timestamp: svixTimestamp, signature: svixSignature },
       webhookSecret,
@@ -51,7 +51,7 @@ export async function POST(request: Request) {
   }
 
   try {
-    await resend.emails.receiving.forward({
+    await getResend().emails.receiving.forward({
       emailId: event.data.email_id,
       to: FORWARD_TO,
       from: FORWARD_FROM,

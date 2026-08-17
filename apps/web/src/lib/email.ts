@@ -1,5 +1,5 @@
 import { WaitlistConfirmationEmail } from "@emails/waitlist-confirmation";
-import { assertResendConfigured, FROM_EMAIL, resend } from "@/lib/resend";
+import { FROM_EMAIL, getResend } from "@/lib/resend";
 
 /**
  * Transactional email senders. Templates live in `emails/` (react-email) and
@@ -8,9 +8,8 @@ import { assertResendConfigured, FROM_EMAIL, resend } from "@/lib/resend";
  */
 
 export async function sendWaitlistConfirmation(email: string): Promise<void> {
-  assertResendConfigured();
-
-  const { error } = await resend.emails.send({
+  // Throws when unconfigured; callers treat a failed confirmation as non-fatal.
+  const { error } = await getResend().emails.send({
     from: FROM_EMAIL,
     to: email,
     subject: "You're on the Finlio waitlist",
