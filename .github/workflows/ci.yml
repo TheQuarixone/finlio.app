@@ -44,6 +44,11 @@ jobs:
       - name: Build
         run: npm run build
         env:
-          # Builds must not require real secrets. Provide dummy values so any
-          # module that reads env at build time doesn't throw in CI.
           NEXT_TELEMETRY_DISABLED: "1"
+          # Builds must not require real secrets, but some modules construct SDK
+          # clients at import time (e.g. `new Resend(process.env.RESEND_API_KEY)`
+          # in src/lib and the resend-inbound route), and `next build` evaluates
+          # them while collecting route data. A dummy, non-empty key lets the
+          # build succeed; the real key lives in Vercel and is only used at
+          # request time. See docs/phase-1.md (could be made lazy later).
+          RESEND_API_KEY: "re_ci_dummy_build_key"
