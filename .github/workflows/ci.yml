@@ -21,36 +21,26 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
+      - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
-      # `--if-present` keeps CI green before every script exists (Phase 1 adds
-      # typecheck/test). Drop the flags once the scripts are in package.json — see
-      # docs/phase-1.md task CI-2.
-      - name: Lint
-        run: npm run lint --if-present
-
-      - name: Typecheck
-        run: npm run typecheck --if-present
-
-      - name: Test
-        run: npm run test --if-present
-
-      - name: Build
-        run: npm run build
+      # Turbo runs lint + build across the workspace (packages without those
+      # tasks are skipped). Typecheck happens inside `next build`. `test` will
+      # join here once Vitest lands (Phase 1).
+      - name: Lint · Build
+        run: pnpm turbo run lint build
         env:
           NEXT_TELEMETRY_DISABLED: "1"
-          # Builds must not require real secrets, but some modules construct SDK
-          # clients at import time (e.g. `new Resend(process.env.RESEND_API_KEY)`
-          # in src/lib and the resend-inbound route), and `next build` evaluates
-          # them while collecting route data. A dummy, non-empty key lets the
-          # build succeed; the real key lives in Vercel and is only used at
-          # request time. See docs/phase-1.md (could be made lazy later).
+          # next build evaluates modules that construct the Resend client at
+          # import time; a dummy key lets the build succeed. Real key is a
+          # Vercel deploy secret, used only at request time.
           RESEND_API_KEY: "re_ci_dummy_build_key"
 
   commitlint:
@@ -63,19 +53,21 @@ jobs:
         with:
           fetch-depth: 0
 
+      - uses: pnpm/action-setup@v4
+
       - uses: actions/setup-node@v7
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
 
       - name: Install dependencies
-        run: npm ci
+        run: pnpm install --frozen-lockfile
 
-      # Enforce Conventional Commits on every commit in the PR. Same ruleset as
-      # the local commit-msg hook (commitlint.config.mjs).
+      # Enforce Conventional Commits on every commit in the PR (same ruleset as
+      # the local commit-msg hook, commitlint.config.mjs).
       - name: Lint PR commit messages
         run: >-
-          npx commitlint
+          pnpm exec commitlint
           --from ${{ github.event.pull_request.base.sha }}
           --to ${{ github.event.pull_request.head.sha }}
           --verbose

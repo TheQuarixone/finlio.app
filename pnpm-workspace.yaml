@@ -1,0 +1,9 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+# Native postinstall builds we trust (pnpm blocks build scripts by default).
+allowBuilds:
+  esbuild: true
+  lefthook: true
+  unrs-resolver: true
