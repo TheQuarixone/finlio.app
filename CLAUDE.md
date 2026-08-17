@@ -112,7 +112,7 @@ for npm + GitHub Actions, labelled and Conventional-Commit prefixed
 
 ## Framework notes
 
-- **Next.js 16** (App Router, RSC, Turbopack) + React 19 (React Compiler on).
+- **Next.js 16.3** (App Router, RSC, Turbopack) + React 19 (React Compiler on).
   Its APIs differ from older Next — read the relevant guide under
   `node_modules/next/dist/docs/` before writing app code (see `AGENTS.md`).
 - Don't run `next build` while `next dev` is running — both write `.next` and
