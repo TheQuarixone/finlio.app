@@ -29,6 +29,11 @@ const FAQ_ITEMS: FaqItem[] = [
       "Stocks and mutual funds. ETFs are coming soon. You add them one time, and Finlio remembers them for you.",
   },
   {
+    question: "Will Finlio do more than the morning message?",
+    answer:
+      "Yes. The morning message is where we start. Finlio is being built to hold your whole money picture — your bank, SIPs, EPF, fixed deposits and gold in one place, with one honest net worth number. After that it will track where your money goes each month and tell you what to save for the things you want. Everything in the same easy words.",
+  },
+  {
     question: "Do I have to link my Demat account?",
     answer:
       "No. You just type the names of what you own. No login, no password, no OTP. If you want to link an account later to save time, that will be your choice.",

@@ -7,7 +7,7 @@ import { ImageResponse } from "next/og";
 // resolves the URL against `metadataBase` (see app/layout.tsx).
 
 export const alt =
-  "Finlio — Know why your money moved. One plain-English message every market morning.";
+  "Finlio: know why your money moved. One plain-English message every market morning.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 

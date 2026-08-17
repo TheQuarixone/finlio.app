@@ -41,9 +41,9 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | REPO-1 | Confirm default branch = `main` (single trunk; old `production`/`docs`/`email-templates` deleted) | _ | A | P0 |
+| [x] | REPO-1 | Confirm default branch = `main` (single trunk; old `production`/`docs`/`email-templates` deleted) | Beny | A | P0 |
 | [ ] | REPO-2 | Rename local working folder `finchai` → `finlio` (repo is `Finlio.app`); update any local scripts/paths | _ | A | P1 |
-| [ ] | REPO-3 | Add `.env.example` listing every key from TECHSTACK §9 (no values) | _ | A | P0 |
+| [ ] | REPO-3 | Add `.env.example` listing every key from TECHSTACK §9 (no values). *Partial: current keys listed; PostHog / Sentry / QStash / Dodo / LLM keys still to add.* | _ | A | P0 |
 | [ ] | REPO-4 | Add `CONTRIBUTING.md` (branch flow, DoD, how to tick phase docs) | _ | A | P1 |
 | [ ] | REPO-5 | Update root `README.md`: point to `docs/`, describe current waitlist app | _ | B | P1 |
 
@@ -58,10 +58,10 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | TEST-1 | Install & configure **Vitest** (`vitest.config.ts`, jsdom env for components) | _ | A | P0 |
-| [ ] | TEST-2 | Add scripts: `test`, `test:watch`, `test:coverage`, `typecheck` (see TECHSTACK §10) | _ | A | P0 |
-| [ ] | TEST-3 | Add **Testing Library** (React) + example component test (existing landing components) | _ | B | P0 |
-| [ ] | TEST-4 | Unit/integration test for the **waitlist action** (`joinWaitlist`) with Supabase + Resend mocked | _ | A | P0 |
+| [x] | TEST-1 | Install & configure **Vitest** (`vitest.config.ts`, jsdom env for components) | Beny | A | P0 |
+| [x] | TEST-2 | Add scripts: `test`, `test:watch`, `test:coverage`, `typecheck` (see TECHSTACK §10) | Beny | A | P0 |
+| [ ] | TEST-3 | Add **Testing Library** (React) + example component test (existing landing components). *Partial: library installed; component test still to add.* | _ | B | P0 |
+| [x] | TEST-4 | Unit/integration test for the **waitlist action** (`joinWaitlist`) with Supabase + Resend mocked | Beny | A | P0 |
 | [ ] | TEST-5 | Coverage reporting (v8) wired into CI | _ | A | P1 |
 | [ ] | TEST-6 | Test conventions section: colocated `*.test.ts`, no live network, mock Resend/Supabase | _ | A | P1 |
 
@@ -77,7 +77,7 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
 | [ ] | CI-1 | Verify CI runs lint · typecheck · test · build on PR (green) | _ | A | P0 |
-| [ ] | CI-2 | Tighten CI: drop `--if-present` once `typecheck`/`test` scripts exist | _ | A | P0 |
+| [x] | CI-2 | Tighten CI: drop `--if-present` once `typecheck`/`test` scripts exist | Beny | A | P0 |
 | [ ] | CI-3 | Add coverage upload/summary to the CI run | _ | A | P1 |
 | [ ] | CI-4 | Confirm **Dependabot** opens grouped weekly PRs (npm + actions) | _ | A | P0 |
 | [ ] | CI-5 | **Branch protection** on `main`: require review + CI green, no direct push, linear history | _ | A | P0 |
@@ -91,10 +91,10 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
 | [ ] | DB-1 | Create **Supabase** projects (prod + preview); store keys in Vercel/GitHub secrets | _ | A | P0 |
-| [ ] | DB-2 | **Local Supabase**: CLI-based one-command dev DB; write [`local-supabase.md`](./local-supabase.md) | _ | A | P0 |
-| [ ] | DB-3 | Wire **Drizzle ORM** (`drizzle.config.ts`, `drizzle-kit` migrations, typed client) | _ | A | P0 |
-| [ ] | DB-4 | Define **`subscribers`** schema — forward-named for scale: `id`, `email` (unique), `status` (`waitlist`/`subscribed`/`unsubscribed`), `source`, `referrer`, `created_at`, `updated_at` | _ | A | P0 |
-| [ ] | DB-5 | Generate + apply first migration; migrations applied in CI against preview DB | _ | A | P0 |
+| [x] | DB-2 | **Local Supabase**: CLI-based one-command dev DB; write [`local-supabase.md`](./local-supabase.md) | Beny | A | P0 |
+| [x] | DB-3 | Wire **Drizzle ORM** (`drizzle.config.ts`, `drizzle-kit` migrations, typed client) | Beny | A | P0 |
+| [ ] | DB-4 | Define **`subscribers`** schema — forward-named for scale: `id`, `email` (unique), `status` (`waitlist`/`subscribed`/`unsubscribed`), `source`, `referrer`, `created_at`, `updated_at`. *Partial: table + enum live; `source` / `referrer` still to add.* | _ | A | P0 |
+| [ ] | DB-5 | Generate + apply first migration; migrations applied in CI against preview DB. *Partial: first migration generated and applied locally; CI step missing.* | _ | A | P0 |
 | [ ] | DB-6 | **RLS**: enable on `subscribers`; policy allows the public form to insert only (no read of others' rows); writes from the server use the service-role key | _ | A | P0 |
 
 ---
@@ -103,8 +103,8 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | WL-1 | Persist waitlist signups to `subscribers` via Drizzle in `joinWaitlist` (dedupe on email) | _ | A | P0 |
-| [ ] | WL-2 | Keep the Resend confirmation email; verify send path + error handling | _ | A | P0 |
+| [x] | WL-1 | Persist waitlist signups to `subscribers` via Drizzle in `joinWaitlist` (dedupe on email) | Beny | A | P0 |
+| [x] | WL-2 | Keep the Resend confirmation email; verify send path + error handling | Beny | A | P0 |
 | [ ] | WL-3 | Verify the Resend **inbound relay** webhook (signature-verified) still works | _ | A | P1 |
 | [ ] | WL-4 | **Turnstile** on the waitlist form to curb bot signups | _ | A | P1 |
 | [ ] | WL-5 | Graceful UX for duplicate/invalid email + success state | _ | B | P1 |
@@ -137,7 +137,7 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 
 - [ ] Waitlist signup persists to Supabase `subscribers` (Drizzle) **and** sends the confirmation email
 - [ ] `subscribers` shaped for scale (status field), migrations tracked, RLS/insert policy set
-- [ ] Local Supabase runs from `docs/local-supabase.md` (one command)
+- [x] Local Supabase runs from `docs/local-supabase.md` (one command)
 - [ ] Vitest configured; example component test + waitlist-action test pass
 - [ ] Design tokens finalised; shadcn/Base UI primitives + app shell in place
 - [ ] PostHog waitlist funnel live

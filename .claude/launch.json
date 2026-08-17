@@ -7,6 +7,12 @@
       "runtimeArgs": ["--filter", "web", "dev"],
       "port": 3000,
       "autoPort": true
+    },
+    {
+      "name": "finlio-email",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "web", "exec", "email", "dev", "--dir", "emails", "--port", "3001"],
+      "port": 3001
     }
   ]
 }

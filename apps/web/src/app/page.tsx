@@ -237,6 +237,40 @@ export default function Home() {
                 to you in plain English.
               </Words>
             </p>
+
+            {/* The morning brief is the wedge, not the whole product. This
+                closes the story on where Finlio is going (net worth, spending,
+                goals — see docs/PRD.md) in future tense, so it reads as a
+                roadmap and never over-promises what ships today. */}
+            <p className="reveal-line">
+              <Words>
+                That message is where we start. Your money is not only your
+                stocks.
+              </Words>
+            </p>
+
+            <p className="reveal-line">
+              <Words>
+                So Finlio will hold the whole picture. Your bank, your SIPs,
+                your EPF, your fixed deposits, your gold. One honest number for
+                what you are really worth.
+              </Words>
+            </p>
+
+            <p className="reveal-line">
+              <Words>
+                It will see where your money goes each month, tell you when your
+                spending jumps, and work out what you must put aside for the
+                things you want. A home. A car. Your child&rsquo;s college.
+              </Words>
+            </p>
+
+            <p className="reveal-line">
+              <Words>
+                All of it in the same easy words. All of it working quietly in
+                the background, so you do not have to.
+              </Words>
+            </p>
             </div>
           </div>
         </div>
