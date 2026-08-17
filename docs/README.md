@@ -6,6 +6,8 @@ Planning and reference docs for Finlio. Start here.
 |---|---|
 | [`PRD.md`](./PRD.md) | **What** we build — product spec, features, tiers, agents, KPIs. |
 | [`TECHSTACK.md`](./TECHSTACK.md) | **How** we build it — architecture, stack, testing, CI/CD, ops. |
+| [`architecture.md`](./architecture.md) | **System design** — monorepo, the web↔mobile reuse boundary, API layering. Read before designing a feature. |
+| [`adr/`](./adr) | **Decision records** — why we chose the monorepo, the API boundary, etc. |
 | [`dev-plan.md`](./dev-plan.md) | **When** — abstract roadmap across all phases. |
 | [`phase-1.md`](./phase-1.md) | Detailed, checkbox-tracked task board for Phase 1. |
 

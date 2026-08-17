@@ -4,7 +4,27 @@
 
 Guidance for anyone (human or AI) working in this repo. Read this before making
 changes. Product/architecture detail lives in [`docs/`](./docs) — PRD, TECHSTACK,
-dev-plan.
+dev-plan, and especially **[`architecture.md`](./docs/architecture.md)** + the
+decision records in **[`docs/adr/`](./docs/adr)**.
+
+## System design — read before building a feature
+
+Finlio is **one system with two clients** (web now, React Native mobile later), so
+**how** you build matters as much as what. Read
+[`docs/architecture.md`](./docs/architecture.md) first. The load-bearing rules:
+
+- **Monorepo** (Turborepo + pnpm): `apps/web`, `apps/mobile` (later), shared
+  `packages/*` ([ADR-0001](./docs/adr/0001-monorepo-turborepo-pnpm.md)). *Migration
+  to this layout is a planned PR — until it lands, the app is at the repo root.*
+- **Share logic and values, never views.** Domain logic, Zod schemas, API client,
+  and design tokens go in `packages/*`; UI components are per-platform.
+- **API boundary** ([ADR-0002](./docs/adr/0002-api-boundary.md)): business logic in
+  `packages/core`; **tRPC** for app data; **REST** route handlers for
+  webhooks/integrations; **Server Actions are thin wrappers only** — never put
+  logic there that mobile will also need (RN can't call Server Actions).
+- Auth = Supabase JWT + injectable storage adapter. On-device data = a
+  `MarkdownStore` interface with web/native adapters. Entitlements are server-side
+  (DodoPayments → Supabase); mind app-store IAP rules.
 
 ## Product positioning (keep copy & docs consistent)
 

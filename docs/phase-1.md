@@ -31,6 +31,7 @@ PR merges (link it). See [`dev-plan.md`](./dev-plan.md) for the phase overview a
 | [ ] | REPO-3 | Add `.env.example` listing every key from TECHSTACK §9 (no values) | _ | A | P0 |
 | [ ] | REPO-4 | Add `CONTRIBUTING.md` (branch flow, DoD, how to tick phase docs) | _ | A | P1 |
 | [ ] | REPO-5 | Update root `README.md`: point to `docs/`, remove stale waitlist-only notes | _ | B | P1 |
+| [ ] | REPO-6 | **Monorepo migration** — move app to `apps/web`, add Turborepo + pnpm workspaces, `packages/config` + seed `core`/`schemas`/`tokens`; set Vercel root dir; keep CI job name. See [ADR-0001](./adr/0001-monorepo-turborepo-pnpm.md). Do **after** current frontend WIP is committed. | _ | A | P0 |
 
 ---
 
