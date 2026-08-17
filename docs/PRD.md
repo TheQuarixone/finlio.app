@@ -5,7 +5,7 @@
 | | |
 |---|---|
 | **Product** | Finlio |
-| **Owner** | Gokulakrishnan (Quarix / TheQuarixone) |
+| **Owner** | Gokulakrishnan &amp; Beny Dishon K |
 | **Status** | Pre-Seed / MVP |
 | **Version** | 1.0.0 |
 | **Platforms** | Web (launch) → iOS · Android (React Native) |
@@ -254,7 +254,7 @@ system prompt. See prompt architecture in Appendix B.
 
 ## 9. Platform strategy
 
-- **Web / desktop (launch — first)** — Next.js 16 (App Router, RSC, Turbopack),
+- **Web / desktop (launch — first)** — Next.js 16.3 (App Router, RSC, Turbopack),
   Tailwind v4, desktop-first, PWA-capable. Full dashboard, reports, AA/CSV flows,
   agent config. This is what ships first.
 - **Mobile (at scale — next)** — native **iOS + Android** apps via **React
@@ -265,7 +265,10 @@ system prompt. See prompt architecture in Appendix B.
 - **Design language** — deep navy `#1A3C5E`, forest green `#2C6E49`, gold
   `#F4B942`; Inter (web) / platform system fonts (mobile). Tone: professional,
   clean, confidence-inspiring. (The live landing page uses a warm family.co-style
-  palette; the product app will consolidate on the Finlio design tokens.)
+  palette; the product app will consolidate on the Finlio design tokens.) Web UI is
+  built on **shadcn + Base UI** themed by these tokens; mobile reuses the **tokens,
+  not the components** — native SwiftUI/Jetpack Compose screens carrying the same
+  design language (see [`TECHSTACK.md`](./TECHSTACK.md) §3).
 
 ---
 
@@ -417,4 +420,4 @@ Goal: {goal_name} | Target: {target_amount} | Deadline: {deadline}
 
 ---
 
-*Finlio — built by Quarix. Making every Indian a smarter investor.*
+*Finlio — Making every Indian a smarter investor.*

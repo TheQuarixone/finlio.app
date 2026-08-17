@@ -19,11 +19,13 @@ see [`architecture.md`](./architecture.md) and the decision records in
 
 | Layer | Choice | Notes |
 |---|---|---|
-| **Web framework** | **Next.js 16** (App Router, RSC, Turbopack) | React 19 + React Compiler; already in repo |
+| **Web framework** | **Next.js 16.3** (App Router, RSC, Turbopack) | React 19 + React Compiler; already in repo |
 | **Language** | TypeScript (strict) | shared types across web + mobile |
 | **Styling** | Tailwind CSS v4 | design tokens in `globals.css` |
+| **UI components (web)** | **shadcn + Base UI** | copy-in components on Base UI primitives; themed by our tokens |
 | **Mobile** | **React Native (Expo)** | one codebase → iOS + Android |
 | **Auth + DB** | **Supabase** (Postgres, Auth, Storage, RLS, pgvector) | JWT, row-level security |
+| **ORM / migrations** | **Drizzle ORM** (+ drizzle-kit) | typed schema + SQL migrations over Supabase Postgres |
 | **Edge / CDN / security** | **Cloudflare** | DNS, WAF, R2 (backups), Turnstile, Workers if needed |
 | **Payments** | **DodoPayments** (Merchant of Record) | web first → mobile |
 | **Analytics** | **PostHog** | product analytics, funnels, flags, session replay |
@@ -84,17 +86,31 @@ surface a two-person team maintains.
 
 ## 3. Frontend (web)
 
-- **Next.js 16 App Router**, React Server Components, Server Actions for mutations
+- **Next.js 16.3 App Router**, React Server Components, Server Actions for mutations
   (the waitlist already uses `joinWaitlist` in `src/app/actions.ts`).
 - **React 19 + React Compiler** (`reactCompiler: true` in `next.config.ts`) — avoid
   manual `useMemo`/`useCallback`; let the compiler handle memoisation.
 - **Tailwind v4** with tokens in `src/app/globals.css`. State: **Zustand** (local
   UI) + **TanStack Query** (server cache) once we move beyond the landing page.
+- **UI components:** **shadcn** (copy-in, owned-in-repo components) built on
+  **Base UI** primitives (unstyled, accessible), styled entirely through our
+  design tokens. We own the component source, so it stays on-brand and easy to fork.
 - **Forms:** React Hook Form + Zod (Zod also validates Server Action inputs and
   API bodies — one schema, shared).
 - **Charts:** Recharts (start) with room for D3 for the treemap/allocation view.
 
-> ⚠️ **Next 16 is not the Next.js in your training data.** Before writing app code,
+**Design language across platforms — share tokens, not components.** Base UI is a
+web/DOM library; its components **do not** run on React Native, so we deliberately
+do **not** try to port them. What ports is the **design language**: colour, spacing,
+type, radius, and motion tokens live in `packages/tokens` and feed both the web
+Tailwind/shadcn theme and the RN theme. On mobile we build screens from **native
+components** — SwiftUI on iOS and Jetpack Compose on Android (via `@expo/ui`), with
+React Native fallbacks — themed with those shared tokens plus a light touch of our
+design language, so each platform feels native yet unmistakably Finlio. This follows
+the repo rule: **share logic and values, never views** (see
+[`architecture.md`](./architecture.md)).
+
+> ⚠️ **Next 16.3 is not the Next.js in your training data.** Before writing app code,
 > read the relevant guide under `node_modules/next/dist/docs/` (per repo
 > `AGENTS.md`). Do not run `next build` while `next dev` is running (see README).
 
@@ -117,14 +133,41 @@ surface a two-person team maintains.
 
 ## 5. Backend & data
 
-### 5.1 Supabase
-- **Postgres** for relational/account data (users, subscriptions mirror, goals
-  metadata, snapshots, brief-send logs). **RLS on every table** — a user reads only
-  their own rows.
-- **Auth** — email OTP + Google + Apple; issues JWTs consumed by web + mobile.
+### 5.1 Supabase + Drizzle ORM
+- **Postgres** for relational/account data (waitlist/newsletter subscribers now;
+  users, subscriptions mirror, goals metadata, snapshots, brief-send logs later).
+  **RLS on every table** — a user reads only their own rows.
+- **Drizzle ORM** is our schema + query layer over Supabase Postgres. Schema is
+  defined in TypeScript (`src/db/schema.ts` → later `packages/data`), migrations are
+  generated and applied with **drizzle-kit**, and the typed client is shared across
+  Server Actions and route handlers. Drizzle owns the schema; Supabase provides the
+  managed Postgres, Auth, Storage, and RLS around it.
+- **Auth** — email OTP + Google + Apple; issues JWTs consumed by web + mobile
+  (Phase 2).
 - **Storage** — encrypted backups, generated report PDFs.
 - **pgvector** — embeddings for AI context retrieval (news/holdings relevance).
-- Migrations tracked in `supabase/migrations` and applied in CI.
+- Migrations are tracked in the repo (drizzle-kit output) and applied in CI against
+  the preview DB.
+
+**`subscribers` — the first table (Phase 1), named for scale.** The waitlist is not
+its own table; it is a `subscribers` table shaped so it becomes the **newsletter
+audience** later without a rename or migration churn: `id`, `email` (unique),
+`status` (`waitlist` | `subscribed` | `unsubscribed`), `source`, `referrer`,
+`created_at`, `updated_at`. The public form inserts a `waitlist` row (server-side,
+service-role); when newsletters launch, the same rows transition to `subscribed`.
+
+**Storage vs sending** ([ADR-0003](./adr/0003-subscriber-storage-and-sending.md)):
+Supabase `subscribers` is the **source of truth**; **Resend** is the sending layer.
+Transactional mail goes via `resend.emails.send`; the newsletter goes via **Resend
+Audiences + Broadcasts**, which provide managed one-click unsubscribe
+(`List-Unsubscribe` / RFC 8058) and suppression. Unsubscribes sync back into
+`subscribers.status` via a `contact.updated` webhook. We do **not** hand-roll
+unsubscribe/suppression. The current Resend-Contacts store in `src/lib/waitlist.ts`
+is interim until this table lands.
+
+**Local development** runs a full Supabase stack locally via the Supabase CLI
+(`supabase start`) with Drizzle migrations applied against it — a one-command setup
+documented in [`local-supabase.md`](./local-supabase.md).
 
 ### 5.2 Local Markdown store (the privacy core)
 Raw financial data lives **on the client** as structured Markdown (schema in PRD
@@ -210,8 +253,10 @@ than iterating in a single request to stay within serverless time limits.
 
 **Secrets** live in Vercel env vars (and GitHub Actions secrets for CI), never in
 the repo. Known keys today: `RESEND_API_KEY`, `RESEND_FROM_EMAIL`,
-`RESEND_WEBHOOK_SECRET`. Add per service:
+`RESEND_WEBHOOK_SECRET`, `INBOUND_FORWARD_TO` (relay destination for inbound
+mail; unset = no forwarding). Add per service:
 `SUPABASE_URL` / `SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY`,
+`DATABASE_URL` (pooled) / `DIRECT_URL` (direct, for drizzle-kit migrations),
 `UPSTASH_REDIS_REST_URL` / `_TOKEN`, `QSTASH_TOKEN` / `QSTASH_CURRENT_SIGNING_KEY` /
 `QSTASH_NEXT_SIGNING_KEY`, `DODO_API_KEY` / `DODO_WEBHOOK_SECRET`,
 `POSTHOG_KEY` / `POSTHOG_HOST`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`,
@@ -248,7 +293,10 @@ finance logic, not a blunt global %). Root scripts to add in Phase 1:
   "typecheck": "tsc --noEmit",
   "test": "vitest run",
   "test:watch": "vitest",
-  "test:coverage": "vitest run --coverage"
+  "test:coverage": "vitest run --coverage",
+  "db:generate": "drizzle-kit generate",
+  "db:migrate": "drizzle-kit migrate",
+  "db:studio": "drizzle-kit studio"
 }
 ```
 
@@ -276,9 +324,9 @@ Dependabot PR; low-risk groups can auto-merge once green.
 
 **Branch protection (to enable on `main`):** require PR review, require CI
 green, no direct pushes, linear history. See
-[`phase-1.md`](./phase-1.md) task INFRA-CI.
+[`phase-1.md`](./phase-1.md) task CI-5.
 
-**Mobile CI (from Phase 3):** EAS Build on tag/release; typecheck + Vitest on PR.
+**Mobile CI (from Phase 4):** EAS Build on tag/release; typecheck + Vitest on PR.
 
 ---
 
@@ -316,4 +364,11 @@ green, no direct pushes, linear history. See
 - **On-device Markdown** → the privacy differentiator *and* cheap LLM context.
 - **DodoPayments (MoR)** → handles India GST/tax and global cards without us
   becoming a payments/compliance company on day one.
+- **Drizzle ORM** → TypeScript-first schema, SQL-shaped queries, and lightweight
+  drizzle-kit migrations that fit a plain Supabase Postgres — typed end-to-end
+  without the weight of a heavier ORM.
+- **shadcn + Base UI** → we own the component source (copy-in, not a locked
+  dependency), Base UI gives accessible unstyled primitives, and everything is
+  themed by our tokens — the same tokens that theme native mobile, so the design
+  language ports even though the components don't.
 - **Vitest** → Vite-native speed, Jest-compatible API, first-class TS/ESM.

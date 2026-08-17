@@ -35,13 +35,13 @@ repo with **Turborepo** task orchestration and **pnpm** workspaces. Structure:
 ```
 finlio/
 ├─ apps/
-│  ├─ web/            Next.js 16 app (the current app moves here; Vercel root dir)
+│  ├─ web/            Next.js 16.3 app (the current app moves here; Vercel root dir)
 │  └─ mobile/         Expo / React Native (added in the mobile phase)
 ├─ packages/
 │  ├─ core/           Pure domain logic + service layer. Zero platform/framework deps.
 │  ├─ schemas/        Zod schemas + shared TS types (one source of truth)
 │  ├─ api/            tRPC router + typed client (the app-data API contract)
-│  ├─ data/           Supabase access + MarkdownStore interface (adapters per platform)
+│  ├─ data/           Drizzle schema + Supabase access + MarkdownStore interface (adapters per platform)
 │  ├─ tokens/         Design tokens (colour/space/type) → Tailwind preset + RN theme
 │  └─ config/         Shared eslint / tsconfig / tailwind preset
 ├─ turbo.json
@@ -66,7 +66,7 @@ This table is the whole game. Get it right and mobile is additive, not a rewrite
 | Agent logic + prompt building | Navigation (App Router vs Expo Router) |
 | Zod schemas + TS types | On-device storage + crypto **adapters** |
 | API contract + typed client (tRPC) | Push notifications, biometrics, widgets |
-| Supabase queries (with injected storage adapter) | Platform chrome (status bar, safe areas) |
+| DB queries (Drizzle) + Supabase access (injected adapter) | Platform chrome (status bar, safe areas) |
 | Design **token values** | Design **component implementations** |
 
 ---

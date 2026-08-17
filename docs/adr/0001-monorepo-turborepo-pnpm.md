@@ -9,7 +9,7 @@
 Finlio ships **web first**, then native **iOS + Android** (React Native / Expo) at
 scale. A large amount of logic is inherently shared — domain/finance calculations,
 Zod schemas, the API client, agent logic, design tokens. Today the repo is a single
-small Next.js waitlist app, so restructuring is cheap; retrofitting a monorepo
+small Next.js 16.3 waitlist app, so restructuring is cheap; retrofitting a monorepo
 around a mature web app plus a new mobile app later is expensive and error-prone.
 
 ## Decision

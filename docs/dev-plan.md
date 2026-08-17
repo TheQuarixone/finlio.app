@@ -8,6 +8,7 @@ lands. This file stays high-level; the phase docs hold the actual tasks.
 - **How we build it:** [`TECHSTACK.md`](./TECHSTACK.md)
 - **System design:** [`architecture.md`](./architecture.md) + [`adr/`](./adr)
 - **Phase 1 detail:** [`phase-1.md`](./phase-1.md)
+- **Local dev DB:** [`local-supabase.md`](./local-supabase.md)
 
 **Positioning:** **India-first, global later**, and **web/desktop first, mobile
 (iOS + Android) at scale**. Phases reflect this — the web product lands before
@@ -17,16 +18,25 @@ the React Native apps.
 
 ## Team & working model
 
-Two developers. Suggested ownership split by workstream (swap per preference):
+Both are **owners**; the build splits by **strength**:
 
-| Track | Focus | Owner |
-|---|---|---|
-| **A — Platform/Infra/Backend** | Supabase, auth, API routes, QStash, payments, CI, AI agents | _Dev 1_ |
-| **B — Product/Frontend/Mobile** | Web app UI, design system, dashboards, React Native | _Dev 2_ |
+| Dev | Owns |
+|---|---|
+| **Gokulakrishnan** (primary — builds most of the product; strength in AI) | The bulk of the build across phases — product features, backend, and the AI Core |
+| **Beny Dishon K** (foundations + polish) | Phase 1 foundation: Supabase + Drizzle (local dev → prod) through to the waitlist persisting in **prod Supabase**. UI/design polish thereafter |
 
-> Fill `_Dev 1_` / `_Dev 2_` with real names/handles. Each phase doc has an **Owner**
-> column and per-task checkboxes so **both devs tick off their own tasks in the same
-> doc**. Keep one phase doc as the shared board; use PRs (not doc edits) to land code.
+**How the two run in parallel.** Beny drives the **Phase 1 foundation** — standing
+up Supabase + Drizzle in local dev and pushing until the waitlist persists in
+**prod Supabase**. Gokul owns most of Phase 2+ (product + AI Core); the AI
+Core groundwork (LLM adapter, prompts, evals in `packages/core`) needs no UI and
+doesn't depend on the Supabase work, so it can start in parallel from day one. Once
+the foundation lands, Beny shifts to **polish** on the product surface. The one seam
+to agree up front is **the shape of agent output** — a shared Zod schema for
+briefs/reports — so the agents and the screens speak the same format.
+
+> Each phase doc has an **Owner** column and per-task checkboxes so **both devs tick
+> off their own tasks in the same doc**; land code via PRs (not doc edits). This
+> split is the default, not a wall — ownership can be swapped per task by preference.
 
 **Cadence:** single trunk `main`, **protected — all changes via PR, no direct
 pushes (admins included).** Short-lived feature branches → PR → CI green → squash
@@ -42,7 +52,7 @@ checkbox ticked with the merging PR linked.
 
 ## Where we are today (baseline)
 
-The repo is the **Finlio waitlist landing page** — Next.js 16, React 19, Tailwind
+The repo is the **Finlio waitlist landing page** — Next.js 16.3, React 19, Tailwind
 v4, TypeScript, Resend (waitlist + confirmation email + inbound relay). No auth, no
 database, no product app yet. Phases build the product app out from this foundation.
 
@@ -50,15 +60,29 @@ database, no product app yet. Phases build the product app out from this foundat
 
 ## Phase overview
 
-### Phase 1 — Foundation & Infrastructure  *(detailed in [`phase-1.md`](./phase-1.md))*
-Turn the landing page into a real product foundation. Testing + CI, Supabase auth &
-DB, app shell + design tokens, the on-device Markdown store abstraction, manual
-asset/liability entry, first net-worth dashboard, Zerodha/Groww CSV import, static
-goals, PostHog + Sentry, and DodoPayments scaffolding.
-**Exit:** a signed-in user can enter assets/liabilities (stored on-device) and see
-their real net worth on web; CI gates every PR; analytics live.
+### Phase 1 — Landing, Waitlist & Foundations  *(detailed in [`phase-1.md`](./phase-1.md))*
+Make the public surface solid and lay the engineering foundations — no product app
+yet, nothing fancy. Landing page + **waitlist + email infra** (Resend) hardened;
+**Supabase** plugged in via **Drizzle ORM** with a forward-named `subscribers` table
+(waitlist today, newsletters later) so signups persist; **Vitest** + **PostHog**
+wired to the current surface; design tokens finalised and the **app shell**
+(shadcn + Base UI) stood up; **CI green** with branch protection. Local Supabase
+runs from a documented one-command setup ([`local-supabase.md`](./local-supabase.md)).
+**Exit:** a visitor joins the waitlist and it persists to Supabase; confirmation
+email sends; CI gates every PR (lint · typecheck · test · build); PostHog funnel +
+finalised design tokens live; local Supabase documented.
 
-### Phase 2 — AI Core
+### Phase 2 — Product Foundation
+Turn the landing page into a signed-in product. Supabase **Auth** (email OTP +
+Google + Apple) and the product schema (`profiles`, `subscriptions`, `goals`,
+`snapshots`, `brief_logs`) via Drizzle with **RLS on every table**; the on-device
+**Markdown store** abstraction; manual asset/liability entry; first **net-worth
+dashboard**; Zerodha/Groww **CSV import**; static goals; **Sentry**; and
+**DodoPayments** scaffolding (not yet charging).
+**Exit:** a signed-in user can enter assets/liabilities (stored on-device) and see
+their real net worth on web.
+
+### Phase 3 — AI Core
 The agents and the daily value loop. QStash scheduling → API-route jobs; Market
 Monitor + **market-morning brief** (the wedge) by email; Expense Analyser; Goal
 Coach; Reminder & Action; Financial Health Score; Monthly Report (email + PDF via
@@ -67,7 +91,7 @@ e2e for the core happy path.
 **Exit:** users receive a useful daily brief and a monthly report; agents run on
 schedule with retries, idempotency, and disclaimers.
 
-### Phase 3 — Pro Growth & Mobile
+### Phase 4 — Pro Growth & Mobile
 Monetise and go multi-device. DodoPayments subscriptions live (Free/Pro/Ultra),
 tier gating via PostHog flags; Account Aggregator integration (TSP partner) + full
 broker CSV coverage; multi-currency NRI mode (USD/SGD/AED + live FX). **React Native
@@ -75,7 +99,7 @@ broker CSV coverage; multi-currency NRI mode (USD/SGD/AED + live FX). **React Na
 build → TestFlight/Play.
 **Exit:** paying users on web + mobile; AA-connected accounts; NRI multi-currency.
 
-### Phase 4 — Scale & Depth
+### Phase 5 — Scale & Depth
 Family profiles (Ultra, up to 5), goal stress-test simulator, tax module (80C +
 capital-gains), WhatsApp alerts (Ultra), home-screen widgets (iOS/Android), Siri/
 Assistant shortcuts, regional-language UI (Tamil/Hindi), and the B2B CA/advisor
@@ -88,10 +112,11 @@ white-label portal.
 
 | Milestone | Phase | Signal |
 |---|---|---|
-| M1 — Foundation live | 1 | Auth + net-worth dashboard on `main`, CI gating PRs |
-| M2 — Daily value | 2 | Morning brief + monthly report shipping to real users |
-| M3 — Revenue + mobile | 3 | First paid subscriptions; RN app in TestFlight/Play |
-| M4 — Depth | 4 | Family profiles, tax module, WhatsApp, widgets |
+| M1 — Waitlist + foundations live | 1 | Waitlist persists to Supabase; CI gating PRs; PostHog + tokens live |
+| M2 — Product foundation | 2 | Auth + net-worth dashboard on `main` |
+| M3 — Daily value | 3 | Morning brief + monthly report shipping to real users |
+| M4 — Revenue + mobile | 4 | First paid subscriptions; RN app in TestFlight/Play |
+| M5 — Depth | 5 | Family profiles, tax module, WhatsApp, widgets |
 
 ---
 

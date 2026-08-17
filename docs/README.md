@@ -10,6 +10,7 @@ Planning and reference docs for Finlio. Start here.
 | [`adr/`](./adr) | **Decision records** — why we chose the monorepo, the API boundary, etc. |
 | [`dev-plan.md`](./dev-plan.md) | **When** — abstract roadmap across all phases. |
 | [`phase-1.md`](./phase-1.md) | Detailed, checkbox-tracked task board for Phase 1. |
+| [`local-supabase.md`](./local-supabase.md) | **Local dev DB** — run Supabase locally + apply Drizzle migrations. |
 
 Later phases get their own `phase-N.md`, created from the abstract in
 [`dev-plan.md`](./dev-plan.md) as each phase begins.

@@ -10,6 +10,7 @@ came from. Read these alongside [`../architecture.md`](../architecture.md).
 |---|---|---|
 | [0001](./0001-monorepo-turborepo-pnpm.md) | Monorepo with Turborepo + pnpm | Accepted |
 | [0002](./0002-api-boundary.md) | API boundary: tRPC for app data, REST for webhooks/integrations | Accepted |
+| [0003](./0003-subscriber-storage-and-sending.md) | Subscriber storage: own the data (Supabase), rent the sending (Resend) | Accepted |
 
 ## Writing a new ADR
 
