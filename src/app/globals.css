@@ -26,6 +26,23 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Buttons keep a light grounding shadow plus a top-edge sheen for a tactile
+   pill; everything else on the page stays flat. Kept as a custom property so it
+   can be used through Tailwind's shadow-[var(--x)] (a single token compiles
+   reliably, unlike inline multi-layer rgba values). */
+:root {
+  --shadow-btn:
+    0 1px 2px rgba(0, 0, 0, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  --shadow-btn-hover:
+    0 4px 10px -3px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+/* Reserve the scrollbar gutter so the fixed header pill lines up with the
+   scrollable content instead of overhanging it on the scrollbar side. */
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   background: #ffffff;
   color: var(--color-body);
@@ -41,6 +58,17 @@ body {
 
 ::selection {
   background: rgba(1, 141, 255, 0.18);
+}
+
+/* Tailwind v4's preflight no longer sets a pointer cursor on buttons. Restore
+   it for anything clickable so hover always signals interactivity. */
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  summary,
+  label[for] {
+    cursor: pointer;
+  }
 }
 
 /* Staggered hero entrance. Runs once on load, so keyframes (not
@@ -211,8 +239,10 @@ html.gsap-smooth .reveal-line {
     rotate: var(--tilt, 0deg);
   }
   50% {
-    translate: var(--dx, 0px) var(--dy, -12px);
-    rotate: calc(var(--tilt, 0deg) + var(--spin, 1.5deg));
+    /* Kept deliberately gentle — the decor should drift, not bob. Amplitudes
+       are damped here in one place rather than per element. */
+    translate: calc(var(--dx, 0px) * 0.45) calc(var(--dy, -12px) * 0.45);
+    rotate: calc(var(--tilt, 0deg) + var(--spin, 0.7deg));
   }
 }
 
