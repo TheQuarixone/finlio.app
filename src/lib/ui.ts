@@ -1,22 +1,28 @@
 /* Shared surface treatments.
 
-   Finlio's marketing surfaces are flat: definition comes from a warm off-white
-   ground, hairline rings/outlines, and colour — never drop shadows. Buttons are
-   solid pills that respond with colour and a small press-scale rather than
-   elevation. */
+   Buttons follow a soft-depth pill language (à la cap.so): a fully-rounded pill
+   with a subtle top-edge highlight and a soft ambient shadow that lifts a touch
+   on hover, then presses in on click. Colour still does the heavy lifting; the
+   elevation is quiet, never glassy or heavy. */
 
 export const buttonPrimary = [
-  "inline-flex items-center justify-center rounded-full bg-btn font-medium text-white",
-  "transition-[scale,background-color] duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]",
-  "hover:bg-jet active:scale-[0.96] disabled:opacity-70",
+  "inline-flex items-center justify-center rounded-full font-medium text-white",
+  // Solid dark base with a faint top-lit gradient for the glossy pill look.
+  "bg-btn bg-gradient-to-b from-white/[0.16] to-white/0",
+  "shadow-[var(--shadow-btn)]",
+  // Lift + deepen + a touch of sheen on hover; snap back down on press.
+  "transition-[transform,box-shadow,filter] duration-[260ms] ease-[cubic-bezier(0.22,1,0.36,1)] will-change-transform",
+  "hover:-translate-y-[2px] hover:shadow-[var(--shadow-btn-hover)] hover:brightness-[1.14]",
+  "active:translate-y-0 active:scale-[0.97] active:brightness-100 active:duration-100",
+  "disabled:opacity-70 disabled:hover:translate-y-0 disabled:hover:brightness-100",
 ].join(" ");
 
-/* The quieter companion button: warm off-white, dark text, same pill. */
+/* The quieter companion button: flat white pill, dark text, hairline ring. */
 export const buttonSecondary = [
-  "inline-flex items-center justify-center rounded-full bg-sand font-medium text-jet",
-  "ring-1 ring-line/80",
-  "transition-[scale,background-color] duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]",
-  "hover:bg-line/60 active:scale-[0.96]",
+  "inline-flex items-center justify-center rounded-full bg-white font-medium text-jet",
+  "ring-1 ring-line",
+  "transition-[transform,background-color] duration-200 ease-[cubic-bezier(0.32,0.72,0,1)]",
+  "hover:bg-cream active:scale-[0.97]",
 ].join(" ");
 
 /* App icons keep only a hairline edge so pale glyphs stay defined against the
