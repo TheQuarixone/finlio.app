@@ -1,13 +1,16 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { joinWaitlist, type WaitlistState } from "@/app/actions";
+import { WaitlistSuccessModal } from "@/components/waitlist-success-modal";
 import { buttonPrimary } from "@/lib/ui";
 
 const initialState: WaitlistState = {
   status: "idle",
   message: "",
   count: null,
+  email: null,
+  added: false,
 };
 
 const inputShell =
@@ -21,6 +24,12 @@ export function WaitlistForm() {
     joinWaitlist,
     initialState
   );
+
+  // The confirmation is derived, not synced: it's open whenever the submission
+  // succeeded and the visitor hasn't dismissed it. Dismissing only hides the
+  // dialog — the inline success state stays behind it.
+  const [dismissed, setDismissed] = useState(false);
+  const showModal = state.status === "success" && !dismissed;
 
   return (
     <div className="flex w-full max-w-xl flex-col items-center gap-3 px-1 sm:gap-2.5">
@@ -83,6 +92,14 @@ export function WaitlistForm() {
 
       {/* Social-proof counter hidden pre-launch. To bring it back, render
           state.count ?? getWaitlistCount() here (see src/lib/waitlist.ts). */}
+
+      <WaitlistSuccessModal
+        open={showModal}
+        email={state.email}
+        isNew={state.added}
+        position={state.count}
+        onClose={() => setDismissed(true)}
+      />
     </div>
   );
 }

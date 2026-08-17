@@ -296,3 +296,56 @@ html.gsap-smooth .reveal-line {
 .animate-status-pulse {
   animation: status-pulse 2.4s ease-in-out infinite;
 }
+
+/* Waitlist confirmation dialog — enters with a soft rise, its backdrop fades,
+   the tick draws itself and the ring gives one quiet pulse. `allow-discrete`
+   lets a display:none → block dialog animate at all. */
+@keyframes dialog-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.97);
+  }
+}
+
+@keyframes dialog-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes tick-draw {
+  from {
+    stroke-dashoffset: 30;
+  }
+}
+
+@keyframes ring-pulse {
+  0% {
+    opacity: 0.9;
+    scale: 1;
+  }
+  70%,
+  100% {
+    opacity: 0;
+    scale: 1.35;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .waitlist-dialog[open] {
+    animation: dialog-in 0.42s cubic-bezier(0.32, 0.72, 0, 1) both;
+  }
+
+  .waitlist-dialog[open]::backdrop {
+    animation: dialog-backdrop-in 0.32s ease both;
+  }
+
+  .waitlist-dialog[open] .waitlist-dialog-tick {
+    stroke-dasharray: 30;
+    animation: tick-draw 0.5s cubic-bezier(0.32, 0.72, 0, 1) 0.14s both;
+  }
+
+  .waitlist-dialog[open] .waitlist-dialog-ring {
+    animation: ring-pulse 1.1s cubic-bezier(0.32, 0.72, 0, 1) 0.3s both;
+  }
+}

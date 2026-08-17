@@ -13,7 +13,13 @@ vi.mock("@/lib/email", () => ({ sendWaitlistConfirmation }));
 
 const { joinWaitlist } = await import("@/app/actions");
 
-const initial = { status: "idle" as const, message: "", count: null };
+const initial = {
+  status: "idle" as const,
+  message: "",
+  count: null,
+  email: null,
+  added: false,
+};
 const submit = (email: string) => {
   const data = new FormData();
   data.set("email", email);
@@ -54,7 +60,23 @@ describe("joinWaitlist behaviour", () => {
   it("sends a confirmation for a new signup and returns the count", async () => {
     const result = await submit("new@example.com");
     expect(sendWaitlistConfirmation).toHaveBeenCalledWith("new@example.com");
-    expect(result).toMatchObject({ status: "success", count: 1_285 });
+    expect(result).toMatchObject({
+      status: "success",
+      count: 1_285,
+      email: "new@example.com",
+      added: true,
+    });
+  });
+
+  it("normalises the email it echoes back to the UI", async () => {
+    const result = await submit("  MiXeD@Example.COM  ");
+    expect(result.email).toBe("mixed@example.com");
+  });
+
+  it("flags an existing subscriber so the UI can change its copy", async () => {
+    addToWaitlist.mockResolvedValue({ added: false, count: 1_285 });
+    const result = await submit("existing@example.com");
+    expect(result.added).toBe(false);
   });
 
   it("does not re-send a confirmation to an existing subscriber", async () => {

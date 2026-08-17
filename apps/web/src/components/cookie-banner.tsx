@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import {
   useCallback,
   useEffect,
@@ -193,18 +194,18 @@ export function CookieBanner() {
               Customise
             </button>
           ) : null}
-          <a
+          <Link
             href="/cookies"
             className="text-body/60 underline decoration-line underline-offset-4 transition-[color] hover:text-ink"
           >
             Cookie Policy
-          </a>
-          <a
+          </Link>
+          <Link
             href="/privacy"
             className="text-body/60 underline decoration-line underline-offset-4 transition-[color] hover:text-ink"
           >
             Privacy Policy
-          </a>
+          </Link>
         </div>
       </div>
     </div>

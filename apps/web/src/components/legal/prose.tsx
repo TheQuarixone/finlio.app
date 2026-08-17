@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 
 /* Typographic primitives for the legal pages.
@@ -38,14 +39,25 @@ export function T({ children }: { children: ReactNode }) {
 }
 
 export function A({ href, children }: { href: string; children: ReactNode }) {
-  const external = href.startsWith("http") || href.startsWith("mailto:");
+  const className =
+    "font-medium text-brand-link underline decoration-brand-link/30 underline-offset-[3px] transition-[text-decoration-color] hover:decoration-brand-link";
+
+  // Internal routes get client navigation; mail and off-site links stay plain
+  // anchors, and off-site ones open in a new tab.
+  if (href.startsWith("/")) {
+    return (
+      <Link href={href} className={className}>
+        {children}
+      </Link>
+    );
+  }
+
+  const offsite = href.startsWith("http");
   return (
     <a
       href={href}
-      {...(external && href.startsWith("http")
-        ? { target: "_blank", rel: "noreferrer noopener" }
-        : {})}
-      className="font-medium text-brand-link underline decoration-brand-link/30 underline-offset-[3px] transition-[text-decoration-color] hover:decoration-brand-link"
+      {...(offsite ? { target: "_blank", rel: "noreferrer noopener" } : {})}
+      className={className}
     >
       {children}
     </a>

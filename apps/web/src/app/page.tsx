@@ -1,11 +1,9 @@
 import Image from "next/image";
 import { Faq } from "@/components/faq";
-import { LogoMark } from "@/components/logo";
 import { RotatingWord } from "@/components/rotating-word";
 import { BriefCard } from "@/components/brief-card";
 import { HeroDecor, HeroDecorMobile } from "@/components/hero-decor";
 import { WaitlistForm } from "@/components/waitlist-form";
-import { CopyEmail } from "@/components/copy-email";
 import { appIcon } from "@/lib/ui";
 
 function AppIcon({
@@ -84,12 +82,6 @@ function SectionLabel({
     </p>
   );
 }
-
-const FOOTER_LINKS = [
-  { label: "How it works", href: "#about" },
-  { label: "FAQs", href: "#faqs" },
-  { label: "Join the waitlist", href: "#waitlist" },
-];
 
 /* Socials are hidden for now. Kept here so the icon paths are not lost;
    the real handles still need to go in before this is shown again.
@@ -339,48 +331,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-cream">
-        <div className="mx-auto w-full max-w-6xl px-4 pb-12 pt-4 sm:px-6 sm:py-16">
-          <div className="reveal-rise flex flex-col gap-8 rounded-2xl bg-white p-6 ring-1 ring-line sm:rounded-3xl sm:p-8">
-            <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-center gap-1">
-                <LogoMark className="size-8 shrink-0" />
-                <span className="text-[15px] font-semibold text-ink">
-                  Finlio
-                </span>
-              </div>
-
-              <nav>
-                <ul className="flex flex-wrap items-center gap-x-6 gap-y-3 text-[15px]">
-                  {FOOTER_LINKS.map((link) => (
-                    <li key={link.href}>
-                      <a
-                        href={link.href}
-                        className="inline-flex min-h-[44px] items-center text-body/60 transition-[color] hover:text-ink sm:min-h-0"
-                      >
-                        {link.label}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-
-              <p className="inline-flex items-center gap-2.5 text-[14px] font-medium text-body">
-                <span className="animate-status-pulse size-2.5 shrink-0 rounded-full bg-brand-green" />
-                Coming soon
-              </p>
-            </div>
-
-            <div className="flex flex-col items-start gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
-              <span className="text-[13px] text-body/50 sm:text-[14px]">
-                © 2026 Finlio
-              </span>
-              <CopyEmail email="hello@finlio.app" />
-            </div>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }

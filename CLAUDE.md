@@ -81,6 +81,37 @@ Config: [`lefthook.yml`](./lefthook.yml). Installed automatically on
 Bypass only in a genuine emergency with `--no-verify`; CI enforces the same
 rules, so a bypass just moves the failure to the PR.
 
+## Tests are part of the work, not a follow-up
+
+**Write Vitest coverage alongside any core code you add.** "Core" means anything
+whose breakage is silent or expensive:
+
+- domain / finance logic (net worth, XIRR, goal planner, inflation) — `packages/core`
+- data access and storage seams (`src/lib/*`, `src/db/*`), server actions, route
+  handlers, webhook verification
+- money-, email-, auth-, or entitlement-touching paths
+- **every bug you fix** — add the regression test that would have caught it
+
+Trivial presentational markup and pure styling don't need tests. Use judgement,
+but default to writing them.
+
+Rules:
+- **A merge requires green tests.** `Lint · Typecheck · Test · Build` is a
+  required status check on `main` and `enforce_admins` is on — nobody, including
+  admins, can merge a red build. Don't try to route around it; fix the test or
+  the code.
+- Tests must pass on a **clean checkout with no services running** — mock
+  Supabase (`@/db`), Resend, and any network. Never point tests at a real DB.
+- Test behaviour through the public/accessible API, not internals.
+- Conventions and the two-project (node/jsdom) setup:
+  [`docs/TECHSTACK.md`](./docs/TECHSTACK.md) §10.
+
+Run locally before pushing (the pre-push hook does this too):
+
+```bash
+pnpm turbo run lint typecheck test build
+```
+
 ## CI
 
 Workflow: [`.github/workflows/ci.yml`](./.github/workflows/ci.yml). On every PR

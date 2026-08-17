@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from "next/navigation";
 import { useEffect, useLayoutEffect, useRef, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -28,9 +29,17 @@ const useIsoLayoutEffect =
 export function SmoothScroll({ children }: { children: ReactNode }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const pathname = usePathname();
 
   useIsoLayoutEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    /* Smoothing is a landing-page treatment, and it is not free elsewhere: the
+       smoother's transformed content stops `position: sticky` from ever
+       sticking, which the legal pages rely on for their contents rail. Off
+       every route but the landing page, this leaves native scrolling in place
+       and the wrapper divs as plain, harmless markup. */
+    if (pathname !== "/") return;
 
     gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
@@ -166,12 +175,17 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     // glide instead of jumping, and land clear of the sticky top offset.
     const onAnchorClick = (event: MouseEvent) => {
       if (event.defaultPrevented || event.button !== 0) return;
+      // Shared chrome writes section links as `/#hash` so they also work from
+      // the legal routes. This only ever runs on the landing page, so both
+      // forms point at a section of the current document.
       const link = (event.target as HTMLElement)?.closest?.(
-        'a[href^="#"]'
+        'a[href^="#"], a[href^="/#"]'
       ) as HTMLAnchorElement | null;
       if (!link) return;
-      const hash = link.getAttribute("href");
-      if (!hash || hash.length < 2) return;
+      const href = link.getAttribute("href");
+      if (!href) return;
+      const hash = href.slice(href.indexOf("#"));
+      if (hash.length < 2) return;
       const target = document.querySelector(hash);
       if (!target || !smoother) return;
       event.preventDefault();
@@ -192,7 +206,7 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
       ctx.revert();
       root.classList.remove("gsap-smooth");
     };
-  }, []);
+  }, [pathname]);
 
   return (
     <div id="smooth-wrapper" ref={wrapperRef}>
