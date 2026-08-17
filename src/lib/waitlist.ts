@@ -1,15 +1,19 @@
-import { Resend } from "resend";
+import { assertResendConfigured, resend } from "@/lib/resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+/**
+ * Waitlist storage. For now signups are kept as Resend **contacts**
+ * (workspace-level, no audience needed) — the serverless filesystem is
+ * read-only outside /tmp and /tmp doesn't persist, so a local file can't be
+ * trusted in production.
+ *
+ * Phase 1 replaces this with a Supabase `subscribers` table via Drizzle
+ * (see docs/phase-1.md §3). Keep this module the single storage seam so that
+ * swap is contained.
+ */
 
 // Display seed so the counter doesn't start at zero pre-launch.
 const SEED_COUNT = 1_284;
 
-// Contacts are stored in Resend (workspace-level, no audience needed) instead
-// of a local JSON file. A local file can't be relied on in production: the
-// serverless filesystem is read-only outside /tmp, and /tmp itself doesn't
-// persist across invocations or instances, so every write there either
-// throws or silently disappears.
 export async function getWaitlistCount(): Promise<number> {
   const { data } = await resend.contacts.list();
   return SEED_COUNT + (data?.data.length ?? 0);
@@ -18,9 +22,7 @@ export async function getWaitlistCount(): Promise<number> {
 export async function addToWaitlist(
   email: string
 ): Promise<{ added: boolean; count: number }> {
-  if (!process.env.RESEND_API_KEY) {
-    throw new Error("RESEND_API_KEY is not configured");
-  }
+  assertResendConfigured();
 
   const normalized = email.trim().toLowerCase();
 
