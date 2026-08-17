@@ -157,11 +157,14 @@ export default function PrivacyPage() {
                 nothing is bundled.
               </P>
               <P>
-                You can withdraw it whenever you like, and it costs you one
-                click. Every email we send carries an unsubscribe link, and
-                emailing <A href={`mailto:${CONTACT.privacy}`}>{CONTACT.privacy}</A>{" "}
-                works just as well. Withdrawing consent stops the email; ask us
-                to delete the entry and the address goes too.
+                You can withdraw it whenever you like. Today that means one
+                email to{" "}
+                <A href={`mailto:${CONTACT.privacy}`}>{CONTACT.privacy}</A>{" "}
+                asking to come off the list, and we act on it by hand, usually
+                the same day. Before we send any product news beyond the
+                confirmation, every message will carry a one-click unsubscribe
+                link. Withdrawing consent stops the email; ask us to delete the
+                entry and the address goes too.
               </P>
               <P>
                 Analytics consent is separate, off by default, and changeable at

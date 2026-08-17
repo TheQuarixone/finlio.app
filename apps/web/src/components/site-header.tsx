@@ -1,5 +1,7 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollSmoother } from "gsap/ScrollSmoother";
@@ -54,6 +56,11 @@ const INTENT = 6;
 type Chrome = { pill: boolean; animate: boolean };
 
 export function SiteHeader() {
+  /* The nav points at sections of the landing page. On the landing page itself
+     the links stay bare hashes, which is what the smooth-scroll handler
+     intercepts to glide; from a legal route they need the leading "/" to get
+     home first. */
+  const hashPrefix = usePathname() === "/" ? "" : "/";
   const [chrome, setChrome] = useState<Chrome>({ pill: false, animate: false });
   const [open, setOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -257,7 +264,7 @@ export function SiteHeader() {
                 : "mx-0 mt-0 gap-4 rounded-none bg-transparent px-4 py-4 sm:px-6"
             }`}
           >
-        <a href="#top" aria-label="Finlio home" className="shrink-0 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40">
+        <a href={`${hashPrefix}#top`} aria-label="Finlio home" className="shrink-0 rounded-lg outline-none focus-visible:ring-2 focus-visible:ring-brand-blue/40">
           <Logo layout="inline" />
         </a>
 
@@ -266,7 +273,7 @@ export function SiteHeader() {
             {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <a
-                  href={link.href}
+                  href={`${hashPrefix}${link.href}`}
                   className="text-body/70 transition-colors duration-200 hover:text-ink"
                 >
                   {link.label}
@@ -282,7 +289,7 @@ export function SiteHeader() {
               `hidden` on the anchor. */}
           <span className="hidden md:contents">
             <a
-              href="#waitlist"
+              href={`${hashPrefix}#waitlist`}
               className={`h-10 px-5 text-[14px] ${buttonPrimary}`}
             >
               Join waitlist
@@ -340,7 +347,7 @@ export function SiteHeader() {
               >
                 {item.cta ? (
                   <a
-                    href={item.href}
+                    href={`${hashPrefix}${item.href}`}
                     onClick={() => setOpen(false)}
                     tabIndex={open ? undefined : -1}
                     className={`h-12 w-full text-[15px] ${buttonPrimary}`}
@@ -349,7 +356,7 @@ export function SiteHeader() {
                   </a>
                 ) : (
                   <a
-                    href={item.href}
+                    href={`${hashPrefix}${item.href}`}
                     onClick={() => setOpen(false)}
                     tabIndex={open ? undefined : -1}
                     className="flex min-h-[48px] items-center rounded-xl px-3 text-[16px] font-medium text-ink transition-colors hover:bg-sand"

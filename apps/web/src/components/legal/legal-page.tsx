@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { ReactNode } from "react";
 import { CookiePreferencesButton } from "@/components/cookie-preferences-button";
 import {
@@ -183,7 +184,7 @@ export function LegalPage({
               <ul className="mt-4 grid gap-3 sm:grid-cols-3">
                 {related.map((page) => (
                   <li key={page.href}>
-                    <a
+                    <Link
                       href={page.href}
                       className="flex h-full flex-col gap-1.5 rounded-2xl bg-white p-4 ring-1 ring-line transition-[background-color,transform] duration-200 hover:-translate-y-[2px] hover:bg-cream"
                     >
@@ -193,7 +194,7 @@ export function LegalPage({
                       <span className="text-[13px] font-medium leading-[1.45] text-body/70">
                         {page.summary}
                       </span>
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
