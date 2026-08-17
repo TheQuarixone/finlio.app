@@ -57,7 +57,7 @@ function Icon({ file, size }: { file: string; size: string }) {
 function Chip({ value, up }: { value: string; up: boolean }) {
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[12px] font-semibold tabular-nums shadow-[0_1px_2px_rgba(18,18,18,0.1),0_6px_14px_rgba(18,18,18,0.08)] ring-1 ring-line lg:text-[13px] ${
+      className={`inline-flex items-center gap-1 rounded-full bg-white px-2.5 py-1 text-[12px] font-semibold tabular-nums ring-1 ring-line lg:text-[13px] ${
         up ? "text-brand-green" : "text-brand-red"
       }`}
     >
@@ -74,7 +74,7 @@ function Chip({ value, up }: { value: string; up: boolean }) {
 
 function Coin() {
   return (
-    <span className="flex size-8 items-center justify-center rounded-full bg-brand-amber text-[14px] font-semibold text-[#7a5200] shadow-[inset_0_1px_0_rgba(255,255,255,0.5),0_1px_2px_rgba(18,18,18,0.14),0_6px_14px_rgba(18,18,18,0.1)] lg:size-9 lg:text-[15px]">
+    <span className="flex size-8 items-center justify-center rounded-full bg-brand-amber text-[14px] font-semibold text-[#7a5200] ring-1 ring-black/5 lg:size-9 lg:text-[15px]">
       ₹
     </span>
   );

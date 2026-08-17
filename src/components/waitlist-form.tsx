@@ -11,10 +11,10 @@ const initialState: WaitlistState = {
 };
 
 const inputShell =
-  "flex h-12 w-full items-center rounded-[1.25rem] bg-white px-4 shadow-[0_1px_2px_rgba(18,18,18,0.06),0_12px_28px_rgba(18,18,18,0.08)] ring-1 ring-line transition-shadow focus-within:ring-2 focus-within:ring-brand-blue/40 sm:h-14 sm:flex-1 sm:rounded-full sm:bg-cream sm:px-5 sm:shadow-none";
+  "flex h-12 w-full items-center rounded-[1.25rem] bg-white px-4 ring-1 ring-line transition-[box-shadow] focus-within:ring-2 focus-within:ring-brand-blue/40 sm:h-14 sm:flex-1 sm:rounded-full sm:bg-cream sm:px-5";
 
 const successShell =
-  "flex min-h-14 w-full max-w-xl items-center justify-center gap-2.5 rounded-[1.25rem] bg-white px-4 py-3 shadow-[0_1px_2px_rgba(18,18,18,0.06),0_12px_28px_rgba(18,18,18,0.08)] ring-1 ring-line sm:rounded-full sm:px-6 sm:py-0";
+  "flex min-h-14 w-full max-w-xl items-center justify-center gap-2.5 rounded-[1.25rem] bg-white px-4 py-3 ring-1 ring-line sm:rounded-full sm:px-6 sm:py-0";
 
 export function WaitlistForm() {
   const [state, formAction, isPending] = useActionState(

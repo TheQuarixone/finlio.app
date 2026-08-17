@@ -297,7 +297,7 @@ export default function Home() {
       {/* Footer */}
       <footer className="border-t border-line bg-cream">
         <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
-          <div className="reveal-rise flex flex-col gap-8 rounded-2xl bg-white p-6 shadow-[0_1px_2px_rgba(18,18,18,0.05),0_20px_44px_rgba(18,18,18,0.10)] ring-1 ring-line sm:rounded-3xl sm:p-8">
+          <div className="reveal-rise flex flex-col gap-8 rounded-2xl bg-white p-6 ring-1 ring-line sm:rounded-3xl sm:p-8">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
               <div className="flex items-center gap-3">
                 <LogoMark className="size-8 shrink-0" />
@@ -327,7 +327,7 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="flex flex-col gap-3 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
               <p className="max-w-md text-[13px] leading-relaxed text-body/50 sm:text-[14px]">
                 Finlio is your Personal AI Finance assistant.
               </p>

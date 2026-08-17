@@ -18,7 +18,7 @@ function Holding({
   reason: string;
 }) {
   return (
-    <div className="flex items-start justify-between gap-3">
+    <div data-brief-row className="flex items-start justify-between gap-3">
       <div className="min-w-0">
         <p className="text-[14px] font-semibold text-ink">
           {symbol}
@@ -41,8 +41,8 @@ function Holding({
 
 export function BriefCard() {
   return (
-    <div className="relative mx-auto w-full max-w-md">
-      <div className="rounded-2xl bg-white p-5 shadow-[0_1px_2px_rgba(18,18,18,0.05),0_20px_44px_rgba(18,18,18,0.10)] ring-1 ring-line sm:rounded-3xl sm:p-6">
+    <div data-brief className="relative mx-auto w-full max-w-md">
+      <div className="rounded-2xl bg-white p-5 ring-1 ring-line sm:rounded-3xl sm:p-6">
         <div className="flex items-center gap-3">
           <LogoMark className="size-8 shrink-0 sm:size-9" />
           <div className="min-w-0 flex-1">

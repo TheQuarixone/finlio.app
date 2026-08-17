@@ -180,6 +180,21 @@ body {
   }
 }
 
+/* When GSAP ScrollSmoother is active it owns scroll animation. A fixed
+   smooth-wrapper stops the native view()/scroll() timelines from ever
+   advancing, which would leave these reveals stuck at their `from` (hidden)
+   state — so we switch them off here and re-drive the same elements with
+   ScrollTrigger in components/smooth-scroll.tsx. Without JS (or under reduced
+   motion) the class is never added and the CSS reveals above stay in charge. */
+html.gsap-smooth .reveal-rise,
+html.gsap-smooth .reveal-word,
+html.gsap-smooth .reveal-icons > * {
+  animation: none !important;
+}
+html.gsap-smooth .reveal-line {
+  view-timeline-name: none;
+}
+
 /* Hero side decoration: pops in on load, then drifts. Tablet / laptop / TV
    only — the component itself is hidden below md (768px). */
 @keyframes decor-in {
