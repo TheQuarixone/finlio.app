@@ -279,18 +279,33 @@ earlier `production`, `docs`, and `email-templates` branches were consolidated i
 | E2E | Playwright (from Phase 2) | signup → add asset → see net worth; waitlist happy path |
 | Mobile | Vitest + RN Testing Library; Maestro for e2e (later) | shared logic + screens |
 
-Conventions: colocate `*.test.ts(x)` next to source; deterministic tests (no live
-network — mock market/FX/LLM); coverage reported in CI (target ≥ 70% on `src/lib`
-finance logic, not a blunt global %). Root scripts to add in Phase 1:
+### Conventions
+
+- **Colocate** `*.test.ts(x)` next to the source it covers.
+- **Two Vitest projects** (`apps/web/vitest.config.mts`), so each test runs in
+  the right environment:
+  - `unit` → **node**, matches `src/{lib,db,app}/**/*.test.ts`
+  - `dom` → **jsdom** + Testing Library, matches `src/**/*.test.tsx`
+- **Deterministic** — never hit the network or a real database. Mock Supabase
+  (`@/db`), Resend, and later market/FX/LLM calls. Tests must pass on a clean CI
+  checkout with no services running.
+- **Test behaviour, not internals** — query components through the accessible
+  API (roles/labels), not implementation details.
+- Testing Library **cleanup is explicit** in `vitest.setup.ts` (we don't run
+  Vitest with `globals: true`, so auto-cleanup doesn't register).
+- Vitest 4 requires an explicit `coverage.include`; target ≥ 70% on finance/
+  domain logic rather than a blunt global number.
+- Vitest **can't render async Server Components** — cover those with Playwright
+  E2E instead (Phase 2).
+
+Scripts (in `apps/web`, run from the root via Turbo):
 
 ```jsonc
-// package.json
 "scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start",
   "lint": "eslint",
-  "typecheck": "tsc --noEmit",
+  // Route types (LayoutProps etc.) live in .next/types and don't exist on a
+  // clean checkout, so generate them before tsc.
+  "typecheck": "next typegen && tsc --noEmit",
   "test": "vitest run",
   "test:watch": "vitest",
   "test:coverage": "vitest run --coverage",
