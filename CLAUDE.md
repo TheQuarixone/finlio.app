@@ -1,1 +1,99 @@
 @AGENTS.md
+
+# Finlio — working rules
+
+Guidance for anyone (human or AI) working in this repo. Read this before making
+changes. Product/architecture detail lives in [`docs/`](./docs) — PRD, TECHSTACK,
+dev-plan.
+
+## Product positioning (keep copy & docs consistent)
+
+- **India-first, global later.** Build for Indian investors and the NRI diaspora
+  first (INR, EPF/PPF/NPS/SGB, AA, SEBI framing). Global markets are a *scale*
+  goal, not a launch goal — don't write copy or docs that imply a worldwide
+  launch now.
+- **Web/desktop first, mobile next.** The product ships on the **web (desktop)**
+  first. Native **mobile apps for both iOS and Android** (React Native) come
+  **at scale**, after the web product lands. Don't describe Finlio as a
+  "mobile app" in current-tense marketing copy — it's a web product today with
+  mobile coming.
+- **Suggest, never execute.** Finlio advises; it never places trades or moves
+  money. Every AI-generated output carries a "not investment advice" disclaimer.
+
+## Branches & merging (enforced on `main`)
+
+- **`main` is protected. All changes land via Pull Request — no direct pushes,
+  by anyone (admins included).** Branch → PR → CI green → merge.
+- Merges are **squash** merges; the head branch is auto-deleted afterwards.
+- Keep branches short-lived. Suggested names: `feat/…`, `fix/…`, `chore/…`,
+  `docs/…`, `ci/…`.
+- CI (below) must be green before a PR can merge.
+
+## Commits — Conventional Commits (enforced)
+
+Every commit message must follow [Conventional Commits](https://www.conventionalcommits.org):
+
+```
+<type>(<optional scope>): <summary>
+```
+
+- **Types:** `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`,
+  `build`, `ci`, `chore`, `revert`.
+- Examples: `feat(waitlist): add referral field`, `fix(email): verify webhook
+  signature`, `docs(prd): clarify India-first positioning`,
+  `chore(deps): bump next`.
+- Enforced **locally** by the `commit-msg` hook (Lefthook → commitlint) and **in
+  CI** (the `Commit messages` job lints every commit in a PR). Config:
+  [`commitlint.config.mjs`](./commitlint.config.mjs).
+
+## Git hooks — Lefthook
+
+Config: [`lefthook.yml`](./lefthook.yml). Installed automatically on
+`npm install` (via the `prepare` script); run `npx lefthook install` to
+(re)install.
+
+- **pre-commit** — ESLint on staged `src/**` files.
+- **commit-msg** — commitlint (Conventional Commits).
+- **pre-push** — `npm run lint`, plus `npm run test` once a test script exists.
+
+Bypass only in a genuine emergency with `--no-verify`; CI enforces the same
+rules, so a bypass just moves the failure to the PR.
+
+## CI
+
+Workflow: [`.github/workflows/ci.yml`](./.github/workflows/ci.yml). On every PR
+(and push to `main`):
+
+- **verify** — install, lint, typecheck, test (`--if-present` until the scripts
+  exist), and `next build` (build also typechecks).
+- **commitlint** — Conventional-Commits check on the PR's commits.
+
+Notes:
+- Don't require the **Vercel** check — Vercel's Hobby plan can't deploy repos
+  owned by a GitHub org, so it fails regardless. Preview deploys need Vercel Pro.
+- `next build` needs a non-empty `RESEND_API_KEY`; CI passes a dummy build key
+  (real key is a Vercel secret, used only at request time).
+
+## Dependencies — Dependabot
+
+Config: [`.github/dependabot.yml`](./.github/dependabot.yml). Weekly grouped PRs
+for npm + GitHub Actions, labelled and Conventional-Commit prefixed
+(`chore(deps)` / `ci`). **TypeScript and ESLint majors are held** (ignore rules)
+— adopt those deliberately, then remove the ignore.
+
+## This is a PUBLIC repo
+
+- **Never commit secrets** (API keys, tokens, `.env`). Secret scanning + push
+  protection are enabled on GitHub; if a push is blocked, rotate the secret —
+  don't bypass. Secrets live in Vercel / GitHub Actions secrets. Keep
+  `.env.example` valueless.
+- Assume everything here is world-readable. Don't paste customer data, internal
+  URLs, or private tokens into code, issues, or commit messages.
+
+## Framework notes
+
+- **Next.js 16** (App Router, RSC, Turbopack) + React 19 (React Compiler on).
+  Its APIs differ from older Next — read the relevant guide under
+  `node_modules/next/dist/docs/` before writing app code (see `AGENTS.md`).
+- Don't run `next build` while `next dev` is running — both write `.next` and
+  can corrupt the dev manifest. Stop dev, `rm -rf .next`, then build.

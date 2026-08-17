@@ -52,3 +52,30 @@ jobs:
           # build succeed; the real key lives in Vercel and is only used at
           # request time. See docs/phase-1.md (could be made lazy later).
           RESEND_API_KEY: "re_ci_dummy_build_key"
+
+  commitlint:
+    name: Commit messages
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      # Enforce Conventional Commits on every commit in the PR. Same ruleset as
+      # the local commit-msg hook (commitlint.config.mjs).
+      - name: Lint PR commit messages
+        run: >-
+          npx commitlint
+          --from ${{ github.event.pull_request.base.sha }}
+          --to ${{ github.event.pull_request.head.sha }}
+          --verbose
