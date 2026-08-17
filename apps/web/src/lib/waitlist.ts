@@ -1,48 +1,47 @@
-import { assertResendConfigured, resend } from "@/lib/resend";
+import { count } from "drizzle-orm";
+import { db } from "@/db";
+import { subscribers } from "@/db/schema";
+import { getResend, isResendConfigured } from "@/lib/resend";
 
 /**
- * Waitlist storage. For now signups are kept as Resend **contacts**
- * (workspace-level, no audience needed) — the serverless filesystem is
- * read-only outside /tmp and /tmp doesn't persist, so a local file can't be
- * trusted in production.
- *
- * Phase 1 replaces this with a Supabase `subscribers` table via Drizzle
- * (see docs/phase-1.md §3). Keep this module the single storage seam so that
- * swap is contained.
+ * Waitlist storage. Supabase `subscribers` (via Drizzle) is the source of
+ * truth; Resend is the optional mailing mirror for the newsletter layer.
+ * See docs/adr/0003-subscriber-storage-and-sending.md.
  */
 
 // Display seed so the counter doesn't start at zero pre-launch.
 const SEED_COUNT = 1_284;
 
 export async function getWaitlistCount(): Promise<number> {
-  const { data } = await resend.contacts.list();
-  return SEED_COUNT + (data?.data.length ?? 0);
+  const [row] = await db.select({ value: count() }).from(subscribers);
+  return SEED_COUNT + (row?.value ?? 0);
 }
 
 export async function addToWaitlist(
-  email: string
+  email: string,
+  /** Where the signup came from, for attribution (see `subscribers.source`). */
+  source = "landing"
 ): Promise<{ added: boolean; count: number }> {
-  assertResendConfigured();
-
   const normalized = email.trim().toLowerCase();
 
-  const { data: existing, error: lookupError } = await resend.contacts.get({
-    email: normalized,
-  });
+  // Insert; a duplicate email is a no-op (unique constraint) → not newly added.
+  const inserted = await db
+    .insert(subscribers)
+    .values({ email: normalized, source })
+    .onConflictDoNothing({ target: subscribers.email })
+    .returning({ id: subscribers.id });
 
-  if (lookupError && lookupError.name !== "not_found") {
-    throw new Error(lookupError.message);
+  const added = inserted.length > 0;
+
+  // Best-effort mirror into Resend contacts for the newsletter layer (ADR-0003).
+  // The DB is authoritative, so this must never block or fail a signup.
+  if (added && isResendConfigured()) {
+    try {
+      await getResend().contacts.create({ email: normalized });
+    } catch (err) {
+      console.error("Resend contact mirror failed:", err);
+    }
   }
 
-  if (existing) {
-    return { added: false, count: await getWaitlistCount() };
-  }
-
-  const { error } = await resend.contacts.create({ email: normalized });
-
-  if (error) {
-    throw new Error(error.message);
-  }
-
-  return { added: true, count: await getWaitlistCount() };
+  return { added, count: await getWaitlistCount() };
 }
