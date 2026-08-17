@@ -295,7 +295,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="border-t border-line bg-cream">
+      <footer className="bg-cream">
         <div className="mx-auto w-full max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
           <div className="reveal-rise flex flex-col gap-8 rounded-2xl bg-white p-6 ring-1 ring-line sm:rounded-3xl sm:p-8">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
