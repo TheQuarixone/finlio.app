@@ -47,9 +47,10 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 | [ ] | REPO-4 | Add `CONTRIBUTING.md` (branch flow, DoD, how to tick phase docs) | _ | A | P1 |
 | [ ] | REPO-5 | Update root `README.md`: point to `docs/`, describe current waitlist app | _ | B | P1 |
 
-> **Monorepo migration** (Turborepo + pnpm, `apps/web` + `packages/*`, see
-> [ADR-0001](./adr/0001-monorepo-turborepo-pnpm.md)) is **deferred to Phase 2** —
-> Phase 1 stays at the repo root to keep the foundation work simple.
+> **Monorepo migration** (Turborepo + pnpm, `apps/web` + seed `packages/*`, see
+> [ADR-0001](./adr/0001-monorepo-turborepo-pnpm.md)) is **done** — the repo is now
+> a monorepo. Everything runs from the root via pnpm + Turbo (`pnpm dev` /
+> `pnpm build` / `pnpm lint`).
 
 ---
 

@@ -249,7 +249,7 @@ than iterating in a single request to stay within serverless time limits.
 |---|---|---|---|
 | **Production** | `main` (default) | Vercel prod + `finlio.app` | prod Supabase / Upstash / Dodo live |
 | **Preview** | every PR | Vercel preview URL | preview/staging Supabase, Dodo test |
-| **Local** | feature branches | `npm run dev` (:3000) | local env + test keys |
+| **Local** | feature branches | `pnpm dev` (:3000) | local env + test keys |
 
 **Secrets** live in Vercel env vars (and GitHub Actions secrets for CI), never in
 the repo. Known keys today: `RESEND_API_KEY`, `RESEND_FROM_EMAIL`,

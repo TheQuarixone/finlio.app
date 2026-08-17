@@ -13,9 +13,11 @@ Finlio is **one system with two clients** (web now, React Native mobile later), 
 **how** you build matters as much as what. Read
 [`docs/architecture.md`](./docs/architecture.md) first. The load-bearing rules:
 
-- **Monorepo** (Turborepo + pnpm): `apps/web`, `apps/mobile` (later), shared
-  `packages/*` ([ADR-0001](./docs/adr/0001-monorepo-turborepo-pnpm.md)). *Migration
-  to this layout is a planned PR — until it lands, the app is at the repo root.*
+- **Monorepo** (Turborepo + pnpm): the web app lives in `apps/web`, `apps/mobile`
+  comes later, shared code goes in `packages/*` (`core`, `schemas`, `tokens` are
+  seeded empty) ([ADR-0001](./docs/adr/0001-monorepo-turborepo-pnpm.md)). Run
+  everything from the root via pnpm (`pnpm dev` / `pnpm build` / `pnpm lint` →
+  Turbo). Use **pnpm**, not npm.
 - **Share logic and values, never views.** Domain logic, Zod schemas, API client,
   and design tokens go in `packages/*`; UI components are per-platform.
 - **API boundary** ([ADR-0002](./docs/adr/0002-api-boundary.md)): business logic in
@@ -69,12 +71,12 @@ Every commit message must follow [Conventional Commits](https://www.conventional
 ## Git hooks — Lefthook
 
 Config: [`lefthook.yml`](./lefthook.yml). Installed automatically on
-`npm install` (via the `prepare` script); run `npx lefthook install` to
+`pnpm install` (via the `prepare` script); run `pnpm exec lefthook install` to
 (re)install.
 
-- **pre-commit** — ESLint on staged `src/**` files.
+- **pre-commit** — ESLint (via `pnpm turbo run lint`) when `apps/web` source is staged.
 - **commit-msg** — commitlint (Conventional Commits).
-- **pre-push** — `npm run lint`, plus `npm run test` once a test script exists.
+- **pre-push** — `pnpm turbo run lint`.
 
 Bypass only in a genuine emergency with `--no-verify`; CI enforces the same
 rules, so a bypass just moves the failure to the PR.
