@@ -52,6 +52,9 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
         smooth: 1.2,
       });
 
+      // Responsive pins/animations register through this; reverted with the ctx.
+      const mm = gsap.matchMedia();
+
       // 1) Sections / cards / eyebrows: fade + rise as each enters. Batched so
       //    siblings sharing a scroll position come in with a light stagger.
       gsap.set(".reveal-rise", { autoAlpha: 0, y: 18 });
@@ -68,44 +71,51 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
           }),
       });
 
-      // 2) The story: each line sharpens word by word, left to right, and its
-      //    app icons pop in just after the words land.
-      const wordsFrom = isSmall
-        ? { autoAlpha: 0.25 }
-        : { autoAlpha: 0.2, filter: "blur(5px)" };
-      const wordsTo = isSmall
-        ? { autoAlpha: 1 }
-        : { autoAlpha: 1, filter: "blur(0px)" };
-
+      // 2) The story reveals *with* the scroll. Each line's words sharpen from
+      //    dim/blurred to crisp, left to right, scrubbed to scroll position — so
+      //    the sentence uncovers itself as you read down it (and re-veils if you
+      //    scroll back up). Its app icons pop in as the line finishes.
       gsap.utils.toArray<HTMLElement>(".reveal-line").forEach((line) => {
         const words = line.querySelectorAll(".reveal-word");
         const icons = line.querySelectorAll(".reveal-icons > *");
-        gsap.set(words, wordsFrom);
-        if (icons.length) gsap.set(icons, { autoAlpha: 0, scale: 0.4, y: 6 });
 
-        ScrollTrigger.create({
-          trigger: line,
-          start: "top 82%",
-          once: true,
-          onEnter: () => {
-            gsap.to(words, {
-              ...wordsTo,
-              duration: 0.5,
-              ease: "power2.out",
-              stagger: 0.025,
-            });
-            if (icons.length)
-              gsap.to(icons, {
-                autoAlpha: 1,
-                scale: 1,
-                y: 0,
-                duration: 0.5,
-                ease: "back.out(1.7)",
-                stagger: 0.07,
-                delay: 0.18,
-              });
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: line,
+            start: "top 90%",
+            end: "top 42%",
+            scrub: 0.6,
           },
         });
+
+        tl.fromTo(
+          words,
+          isSmall
+            ? { autoAlpha: 0.18 }
+            : { autoAlpha: 0.12, filter: "blur(6px)" },
+          {
+            autoAlpha: 1,
+            filter: isSmall ? undefined : "blur(0px)",
+            ease: "none",
+            duration: 1,
+            stagger: 0.6,
+          }
+        );
+
+        if (icons.length)
+          tl.fromTo(
+            icons,
+            { autoAlpha: 0, scale: 0.4, y: 8 },
+            {
+              autoAlpha: 1,
+              scale: 1,
+              y: 0,
+              ease: "back.out(1.8)",
+              duration: 1,
+              stagger: 0.4,
+            },
+            ">-0.5"
+          );
       });
 
       // 3) Closing brief card: its rows fade + rise one after another.
@@ -117,6 +127,35 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
         ease: "power3.out",
         stagger: 0.1,
       });
+
+      // 4) Desktop only: pin the "from the Finlio team" rail so it holds while
+      //    the story scrolls past it. CSS position:sticky can't be used here —
+      //    ScrollSmoother's transformed content stops it from ever sticking — so
+      //    we pin via ScrollTrigger, which is built to work under the smoother.
+      //    matchMedia unpins (and cleans up) below the lg breakpoint, where the
+      //    rail simply stacks above the story.
+      mm.add("(min-width: 1024px)", () => {
+        ScrollTrigger.create({
+          trigger: "#about",
+          start: "top top+=96",
+          end: "bottom bottom-=96",
+          pin: "[data-about-aside]",
+          pinSpacing: false,
+        });
+      });
+
+      // Deep-link: honour a real section hash on load; drop the internal #top.
+      const initial = window.location.hash;
+      if (initial === "#top") {
+        window.history.replaceState(
+          null,
+          "",
+          window.location.pathname + window.location.search
+        );
+      } else if (initial) {
+        const target = document.querySelector(initial);
+        if (target) smoother?.scrollTo(target, false, "top 84px");
+      }
 
       // Heights only settle once fonts, images and the smooth-content transform
       // are in place; recompute trigger positions so nothing stays hidden.
@@ -136,8 +175,15 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
       const target = document.querySelector(hash);
       if (!target || !smoother) return;
       event.preventDefault();
-      smoother.scrollTo(target, true, "top 32px");
-      history.pushState(null, "", hash);
+      // #top goes fully to the top with a clean URL; everything else lands just
+      // below the fixed header pill (~64px) and keeps its deep-linkable hash.
+      if (hash === "#top") {
+        smoother.scrollTo(0, true);
+        history.pushState(null, "", location.pathname + location.search);
+      } else {
+        smoother.scrollTo(target, true, "top 84px");
+        history.pushState(null, "", hash);
+      }
     };
     document.addEventListener("click", onAnchorClick);
 
