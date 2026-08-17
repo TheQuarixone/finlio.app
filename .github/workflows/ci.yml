@@ -31,11 +31,10 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # Turbo runs lint + build across the workspace (packages without those
-      # tasks are skipped). Typecheck happens inside `next build`. `test` will
-      # join here once Vitest lands (Phase 1).
-      - name: Lint · Build
-        run: pnpm turbo run lint build
+      # Turbo runs these across the workspace; packages without a given task are
+      # skipped. Cheap checks first so failures surface fast.
+      - name: Lint · Typecheck · Test · Build
+        run: pnpm turbo run lint typecheck test build
         env:
           NEXT_TELEMETRY_DISABLED: "1"
           # next build evaluates modules that construct the Resend client at
