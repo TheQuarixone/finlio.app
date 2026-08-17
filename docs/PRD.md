@@ -78,6 +78,13 @@ that operates privately, proactively, and across every device the user carries.
 6. **Suggest, never execute** — agents advise; the human acts. No trades, no fund
    movement, no personalised regulated investment advice.
 
+**Positioning & sequencing**
+- **India-first, global later.** Build for Indian investors and the NRI diaspora
+  first; global markets are a scale goal, not a launch goal.
+- **Web/desktop first, mobile next.** Ship the **web (desktop) product first**;
+  native **iOS + Android** apps (React Native) follow **at scale**. Finlio is a
+  web product today — not a "mobile app" — with mobile coming.
+
 ---
 
 ## 4. Personas
@@ -247,11 +254,14 @@ system prompt. See prompt architecture in Appendix B.
 
 ## 9. Platform strategy
 
-- **Web (launch)** — Next.js 16 (App Router, RSC, Turbopack), Tailwind v4,
-  desktop-first, PWA-capable. Full dashboard, reports, AA/CSV flows, agent config.
-- **Mobile (fast-follow)** — **React Native (Expo)** for iOS + Android from one
-  codebase: core dashboard, push notifications, biometric app-lock, home-screen
-  widgets, net-worth glance. Native niceties (Siri/Assistant, Watch) later.
+- **Web / desktop (launch — first)** — Next.js 16 (App Router, RSC, Turbopack),
+  Tailwind v4, desktop-first, PWA-capable. Full dashboard, reports, AA/CSV flows,
+  agent config. This is what ships first.
+- **Mobile (at scale — next)** — native **iOS + Android** apps via **React
+  Native (Expo)** from one codebase: core dashboard, push notifications,
+  biometric app-lock, home-screen widgets, net-worth glance. Both platforms
+  together, after the web product lands. Native niceties (Siri/Assistant, Watch)
+  later still.
 - **Design language** — deep navy `#1A3C5E`, forest green `#2C6E49`, gold
   `#F4B942`; Inter (web) / platform system fonts (mobile). Tone: professional,
   clean, confidence-inspiring. (The live landing page uses a warm family.co-style

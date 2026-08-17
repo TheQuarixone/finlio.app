@@ -8,6 +8,10 @@ lands. This file stays high-level; the phase docs hold the actual tasks.
 - **How we build it:** [`TECHSTACK.md`](./TECHSTACK.md)
 - **Phase 1 detail:** [`phase-1.md`](./phase-1.md)
 
+**Positioning:** **India-first, global later**, and **web/desktop first, mobile
+(iOS + Android) at scale**. Phases reflect this — the web product lands before
+the React Native apps.
+
 ---
 
 ## Team & working model
@@ -23,9 +27,11 @@ Two developers. Suggested ownership split by workstream (swap per preference):
 > column and per-task checkboxes so **both devs tick off their own tasks in the same
 > doc**. Keep one phase doc as the shared board; use PRs (not doc edits) to land code.
 
-**Cadence:** single trunk `main`. Short-lived feature branches → PR → CI green →
-review → merge. Preview deploy per PR. Weekly dependency PRs via Dependabot. No
-direct pushes to `main`.
+**Cadence:** single trunk `main`, **protected — all changes via PR, no direct
+pushes (admins included).** Short-lived feature branches → PR → CI green → squash
+merge (branch auto-deleted). **Conventional Commits enforced** (Lefthook +
+commitlint in CI). Weekly dependency PRs via Dependabot. See
+[`CLAUDE.md`](../CLAUDE.md) for the full rules.
 
 **Definition of Done (every task):** code + tests (where logic exists) + typecheck
 + lint pass in CI; docs/`.env.example` updated if config changed; the phase-doc

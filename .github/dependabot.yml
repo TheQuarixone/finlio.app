@@ -11,6 +11,10 @@ updates:
     open-pull-requests-limit: 10
     labels:
       - dependencies
+    # Conventional Commits so Dependabot PRs pass commitlint in CI.
+    commit-message:
+      prefix: "chore(deps)"
+      prefix-development: "chore(deps-dev)"
     # Hold these on their current major — adopt deliberately, not automatically.
     # TypeScript 7 is the new native-port compiler; ESLint 10 needs
     # eslint-config-next to officially support it. Minor/patch still flow.
@@ -44,6 +48,8 @@ updates:
     labels:
       - dependencies
       - github-actions
+    commit-message:
+      prefix: "ci"
     groups:
       actions:
         patterns:

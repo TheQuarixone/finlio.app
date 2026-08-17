@@ -1,0 +1,26 @@
+# Git hooks, managed by Lefthook.
+# Installed automatically on `npm install` (see the "prepare" script);
+# run `npx lefthook install` to (re)install manually.
+
+pre-commit:
+  parallel: true
+  commands:
+    eslint:
+      # Only lint staged source files — keeps commits fast and leaves config
+      # files (this one, commitlint) out of it.
+      glob: "src/**/*.{js,jsx,ts,tsx}"
+      run: npx eslint {staged_files}
+
+commit-msg:
+  commands:
+    commitlint:
+      # Enforce Conventional Commits (feat:, fix:, chore: …). See CLAUDE.md.
+      run: npx --no-install commitlint --edit {1}
+
+pre-push:
+  commands:
+    lint:
+      run: npm run lint
+    test:
+      # Skips cleanly until a `test` script exists (Vitest, Phase 1).
+      run: npm run test --if-present

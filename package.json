@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "commitlint": "commitlint --edit",
+    "prepare": "lefthook install"
   },
   "dependencies": {
     "gsap": "^3.15.0",
@@ -16,6 +18,8 @@
     "resend": "^6.20.0"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.2",
+    "@commitlint/config-conventional": "^21.2.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^26",
     "@types/react": "^19",
@@ -23,6 +27,7 @@
     "babel-plugin-react-compiler": "1.0.0",
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
+    "lefthook": "^2.1.10",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
