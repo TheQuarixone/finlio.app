@@ -68,7 +68,7 @@ export function WaitlistForm() {
           <button
             type="submit"
             disabled={isPending}
-            className={`h-12 w-full shrink-0 px-5 text-[15px] sm:h-14 sm:w-auto sm:min-w-[8.75rem] ${buttonPrimary}`}
+            className={`h-12 w-full shrink-0 px-5 text-[16px] sm:h-14 sm:w-auto sm:min-w-[8.75rem] ${buttonPrimary}`}
           >
             {isPending ? "Joining…" : "Join Waitlist"}
           </button>

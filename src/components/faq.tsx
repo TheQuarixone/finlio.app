@@ -11,7 +11,7 @@ const FAQ_ITEMS: FaqItem[] = [
   {
     question: "What is Finlio?",
     answer:
-      "Finlio is a mobile app. You tell it which stocks and mutual funds you own. Every morning it sends you one short message that explains why they may go up or down that day. It uses simple words, not share market language.",
+      "Finlio starts on the web, with iPhone and Android apps coming later. You tell it which stocks and mutual funds you own. Every morning it sends you one short message that explains why they may go up or down that day. It uses simple words, not share market language.",
   },
   {
     question: "How is this different from a news app?",
@@ -116,22 +116,62 @@ function FaqRow({
   );
 }
 
+const INITIAL_COUNT = 5;
+
 export function Faq() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const [showAll, setShowAll] = useState(false);
+
+  const visibleItems = showAll
+    ? FAQ_ITEMS
+    : FAQ_ITEMS.slice(0, INITIAL_COUNT);
+  const hiddenCount = FAQ_ITEMS.length - INITIAL_COUNT;
 
   return (
-    <ul>
-      {FAQ_ITEMS.map((item, index) => (
-        <FaqRow
-          key={item.question}
-          id={`faq-${index}`}
-          item={item}
-          isOpen={openIndex === index}
-          onToggle={() =>
-            setOpenIndex((current) => (current === index ? null : index))
-          }
-        />
-      ))}
-    </ul>
+    <div>
+      <ul>
+        {visibleItems.map((item, index) => (
+          <FaqRow
+            key={item.question}
+            id={`faq-${index}`}
+            item={item}
+            isOpen={openIndex === index}
+            onToggle={() =>
+              setOpenIndex((current) => (current === index ? null : index))
+            }
+          />
+        ))}
+      </ul>
+
+      {hiddenCount > 0 && (
+        <div className="pt-6 sm:pt-8">
+          <button
+            type="button"
+            onClick={() => {
+              setShowAll((current) => !current);
+              if (showAll) setOpenIndex((current) => (current !== null && current >= INITIAL_COUNT ? null : current));
+            }}
+            aria-expanded={showAll}
+            className="inline-flex min-h-[48px] w-full items-center justify-center gap-2 rounded-full bg-white px-5 py-2.5 text-[15px] font-medium tracking-[-0.011em] text-ink ring-1 ring-line transition-colors duration-200 hover:bg-cream sm:w-auto sm:justify-start"
+          >
+            {showAll ? "Show less" : `View all questions`}
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 16 16"
+              className={`size-4 text-brand-orange transition-transform duration-300 ease-[cubic-bezier(0.2,0,0,1)] ${
+                showAll ? "-rotate-180" : "rotate-0"
+              }`}
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.75"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M4 6l4 4 4-4" />
+            </svg>
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
