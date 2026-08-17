@@ -2,15 +2,19 @@
   "name": "finlio",
   "version": "0.1.0",
   "private": true,
+  "license": "AGPL-3.0-or-later",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
     "commitlint": "commitlint --edit",
+    "email:dev": "email dev --dir emails",
+    "email:export": "email export --dir emails",
     "prepare": "lefthook install"
   },
   "dependencies": {
+    "@react-email/components": "1.0.12",
     "gsap": "^3.15.0",
     "next": "16.3.1",
     "react": "19.2.8",
@@ -20,6 +24,7 @@
   "devDependencies": {
     "@commitlint/cli": "^21.2.2",
     "@commitlint/config-conventional": "^21.2.2",
+    "@react-email/ui": "^6.9.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^26",
     "@types/react": "^19",
@@ -28,6 +33,7 @@
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
     "lefthook": "^2.1.10",
+    "react-email": "6.9.2",
     "tailwindcss": "^4",
     "typescript": "^5"
   }
