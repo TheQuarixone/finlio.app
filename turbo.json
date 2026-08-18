@@ -9,7 +9,10 @@
     },
     "lint": {},
     "typecheck": {
-      "dependsOn": ["^build"]
+      // Depends on this package's own build, not just upstream: `next typegen`
+      // and `next build` both write .next, so running them in parallel lets
+      // build wipe the directory typegen is writing route types into.
+      "dependsOn": ["build"]
     },
     "test": {},
     "test:coverage": {
