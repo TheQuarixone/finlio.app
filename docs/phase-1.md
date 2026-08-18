@@ -90,7 +90,7 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | DB-1 | Create **Supabase** projects (prod + preview); store keys in Vercel/GitHub secrets | _ | A | P0 |
+| [x] | DB-1 | Create **Supabase** projects (prod + preview); store keys in Vercel/GitHub secrets *Prod project live (ap-south-1), migrated and smoke-tested; preview project + Vercel env vars still to add.* | Claude | A | P0 |
 | [x] | DB-2 | **Local Supabase**: CLI-based one-command dev DB; write [`local-supabase.md`](./local-supabase.md) | Beny | A | P0 |
 | [x] | DB-3 | Wire **Drizzle ORM** (`drizzle.config.ts`, `drizzle-kit` migrations, typed client) | Beny | A | P0 |
 | [x] | DB-4 | Define **`subscribers`** schema — forward-named for scale: `id`, `email` (unique), `status` (`waitlist`/`subscribed`/`unsubscribed`), `source`, `referrer`, `created_at`, `updated_at`. | Claude | A | P0 |
@@ -135,14 +135,14 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 
 ## 7. Phase-1 exit checklist
 
-- [ ] Waitlist signup persists to Supabase `subscribers` (Drizzle) **and** sends the confirmation email
-- [ ] `subscribers` shaped for scale (status field), migrations tracked, RLS/insert policy set
+- [x] Waitlist signup persists to Supabase `subscribers` (Drizzle) **and** sends the confirmation email
+- [x] `subscribers` shaped for scale (status field), migrations tracked, RLS enabled
 - [x] Local Supabase runs from `docs/local-supabase.md` (one command)
-- [ ] Vitest configured; example component test + waitlist-action test pass
+- [x] Vitest configured; example component test + waitlist-action test pass
 - [ ] Design tokens finalised; shadcn/Base UI primitives + app shell in place
 - [ ] PostHog waitlist funnel live
-- [ ] CI gates every PR (lint · typecheck · test · build); branch protection on
-- [ ] Dependabot opening weekly PRs, CI-gated
+- [x] CI gates every PR (lint · typecheck · test · build); branch protection on
+- [x] Dependabot opening weekly PRs, CI-gated
 - [ ] `docs/` (PRD, TECHSTACK, dev-plan, phase-1, local-supabase) current with what shipped
 
 > **Moved to Phase 2 (Product Foundation):** Supabase Auth, the product schema
