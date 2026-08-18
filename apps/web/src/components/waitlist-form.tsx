@@ -1,7 +1,8 @@
 "use client";
 
-import { useActionState, useState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { joinWaitlist, type WaitlistState } from "@/app/actions";
+import { EVENTS, track } from "@/lib/analytics";
 import { WaitlistSuccessModal } from "@/components/waitlist-success-modal";
 import { buttonPrimary } from "@/lib/ui";
 
@@ -31,6 +32,14 @@ export function WaitlistForm() {
   const [dismissed, setDismissed] = useState(false);
   const showModal = state.status === "success" && !dismissed;
 
+  // The funnel's last step. Keyed on the address so a second, different
+  // signup in the same session still counts, but a re-render never double
+  // counts the same one.
+  const confirmed = state.status === "success" ? state.email : null;
+  useEffect(() => {
+    if (confirmed) track(EVENTS.waitlistConfirmed, { new_subscriber: state.added });
+  }, [confirmed, state.added]);
+
   return (
     <div className="flex w-full max-w-xl flex-col items-center gap-3 px-1 sm:gap-2.5">
       {state.status === "success" ? (
@@ -57,6 +66,7 @@ export function WaitlistForm() {
       ) : (
         <form
           action={formAction}
+          onSubmit={() => track(EVENTS.waitlistSubmitted)}
           className="flex w-full flex-col gap-3 sm:flex-row sm:items-stretch sm:gap-2.5"
         >
           <div className={inputShell}>

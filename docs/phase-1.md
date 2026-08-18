@@ -127,9 +127,9 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | ANA-1 | PostHog wired (web) | _ | A | P0 |
-| [ ] | ANA-2 | Waitlist funnel events: `page_view` → `waitlist_submitted` → `waitlist_confirmed` | _ | A | P0 |
-| [ ] | ANA-3 | Feature flags set up (for gating future work) | _ | A | P1 |
+| [x] | ANA-1 | PostHog wired (web) *Consent-gated: PostHog is not initialised at all until analytics consent exists.* | Claude | A | P0 |
+| [x] | ANA-2 | Waitlist funnel events: `page_view` → `waitlist_submitted` → `waitlist_confirmed` *`waitlist_submitted` on submit, `waitlist_confirmed` on success; `page_view` via PostHog defaults.* | Claude | A | P0 |
+| [x] | ANA-3 | Feature flags set up (for gating future work) *Flags available through the initialised client; no gates defined yet.* | Claude | A | P1 |
 
 ---
 
@@ -140,7 +140,7 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 - [x] Local Supabase runs from `docs/local-supabase.md` (one command)
 - [x] Vitest configured; example component test + waitlist-action test pass
 - [x] Design tokens finalised; shadcn/Base UI primitives + app shell in place
-- [ ] PostHog waitlist funnel live
+- [x] PostHog waitlist funnel live
 - [x] CI gates every PR (lint · typecheck · test · build); branch protection on
 - [x] Dependabot opening weekly PRs, CI-gated
 - [x] `docs/` (PRD, TECHSTACK, dev-plan, phase-1, local-supabase) current with what shipped

@@ -4,6 +4,8 @@ packages:
 
 # Native postinstall builds we trust (pnpm blocks build scripts by default).
 allowBuilds:
+  # posthog-js pulls core-js, whose postinstall only prints a donation banner.
+  core-js: false
   esbuild: true
   lefthook: true
   unrs-resolver: true
