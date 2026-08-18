@@ -23,10 +23,26 @@ export function isAnalyticsConfigured(): boolean {
   return Boolean(KEY && HOST);
 }
 
+/* Local development is not a user journey. Sending it to PostHog inflates
+   pageviews, pollutes the waitlist funnel with our own submits, and creates
+   person records for developers. Checked on hostname rather than NODE_ENV
+   because `next build && next start` runs a production build on localhost. */
+function isLocalHost(): boolean {
+  const { hostname } = window.location;
+  return (
+    hostname === "localhost" ||
+    hostname === "127.0.0.1" ||
+    hostname === "[::1]" ||
+    hostname === "::1" ||
+    hostname.endsWith(".local")
+  );
+}
+
 /** Boots PostHog if it is configured, consented to, and not already running. */
 export function startAnalytics(): void {
   if (started || !isAnalyticsConfigured() || !hasConsent("analytics")) return;
   if (typeof window === "undefined") return;
+  if (isLocalHost()) return;
 
   posthog.init(KEY as string, {
     api_host: HOST,

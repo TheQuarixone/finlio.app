@@ -32,8 +32,17 @@ vi.mock("@/lib/consent", () => ({ hasConsent }));
 const KEY = "phc_test";
 const HOST = "https://eu.i.posthog.com";
 
-async function load({ configured = true } = {}) {
+function setHost(hostname: string) {
+  Object.defineProperty(window, "location", {
+    value: { ...window.location, hostname },
+    writable: true,
+    configurable: true,
+  });
+}
+
+async function load({ configured = true, hostname = "finlio.app" } = {}) {
   vi.resetModules();
+  setHost(hostname);
   if (configured) {
     process.env.NEXT_PUBLIC_POSTHOG_KEY = KEY;
     process.env.NEXT_PUBLIC_POSTHOG_HOST = HOST;
@@ -127,5 +136,32 @@ describe("track", () => {
     a.startAnalytics();
     a.track(a.EVENTS.waitlistConfirmed, { new_subscriber: true });
     expect(capture).toHaveBeenCalledWith("waitlist_confirmed", { new_subscriber: true });
+  });
+});
+
+describe("local development", () => {
+  it.each(["localhost", "127.0.0.1", "::1", "mac.local"])(
+    "does not initialise on %s",
+    async (hostname) => {
+      hasConsent.mockReturnValue(true);
+      const a = await load({ hostname });
+      a.startAnalytics();
+      expect(init).not.toHaveBeenCalled();
+    }
+  );
+
+  it("captures nothing from a dev machine even after consent", async () => {
+    hasConsent.mockReturnValue(true);
+    const a = await load({ hostname: "localhost" });
+    a.startAnalytics();
+    a.track("waitlist_submitted");
+    expect(capture).not.toHaveBeenCalled();
+  });
+
+  it("still initialises on a deployed host", async () => {
+    hasConsent.mockReturnValue(true);
+    const a = await load({ hostname: "finlio.app" });
+    a.startAnalytics();
+    expect(init).toHaveBeenCalled();
   });
 });
