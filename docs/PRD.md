@@ -262,10 +262,18 @@ system prompt. See prompt architecture in Appendix B.
   biometric app-lock, home-screen widgets, net-worth glance. Both platforms
   together, after the web product lands. Native niceties (Siri/Assistant, Watch)
   later still.
-- **Design language** — deep navy `#1A3C5E`, forest green `#2C6E49`, gold
-  `#F4B942`; Inter (web) / platform system fonts (mobile). Tone: professional,
-  clean, confidence-inspiring. (The live landing page uses a warm family.co-style
-  palette; the product app will consolidate on the Finlio design tokens.) Web UI is
+- **Design language** — a warm near-white ground (`#fbfaf9` panels on white)
+  with near-black type (`#343433`) and saturated accents used to colour-code
+  sections: blue `#018dff`, green `#34c759`, orange `#ff5310`, purple `#9553f9`,
+  amber `#ffbe4c`. Geist (web) / platform system fonts (mobile). Tone:
+  professional, clean, confidence-inspiring.
+
+  *This supersedes the original navy/forest/gold trio.* That palette was written
+  before any design existed; the shipped landing page established the one above,
+  and it is now the single token set in `globals.css` — including the semantic
+  roles (`--primary`, `--muted`, `--border`, chart series) that shadcn components
+  read, so registry components arrive on-brand. Re-theming the live site to the
+  older trio would have been a visual regression with no product reason. Web UI is
   built on **shadcn + Base UI** themed by these tokens; mobile reuses the **tokens,
   not the components** — native SwiftUI/Jetpack Compose screens carrying the same
   design language (see [`TECHSTACK.md`](./TECHSTACK.md) §3).
