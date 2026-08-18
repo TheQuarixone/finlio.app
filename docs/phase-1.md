@@ -44,8 +44,8 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 | [x] | REPO-1 | Confirm default branch = `main` (single trunk; old `production`/`docs`/`email-templates` deleted) | Beny | A | P0 |
 | [ ] | REPO-2 | Rename local working folder `finchai` → `finlio` (repo is `Finlio.app`); update any local scripts/paths | _ | A | P1 |
 | [x] | REPO-3 | Add `.env.example` listing every key from TECHSTACK §9 (no values). *Partial: current keys listed; PostHog / Sentry / QStash / Dodo / LLM keys still to add.* | Claude | A | P0 |
-| [ ] | REPO-4 | Add `CONTRIBUTING.md` (branch flow, DoD, how to tick phase docs) | _ | A | P1 |
-| [ ] | REPO-5 | Update root `README.md`: point to `docs/`, describe current waitlist app | _ | B | P1 |
+| [x] | REPO-4 | Add `CONTRIBUTING.md` (branch flow, DoD, how to tick phase docs) | Claude | A | P1 |
+| [x] | REPO-5 | Update root `README.md`: point to `docs/`, describe current waitlist app | Claude | B | P1 |
 
 > **Monorepo migration** (Turborepo + pnpm, `apps/web` + seed `packages/*`, see
 > [ADR-0001](./adr/0001-monorepo-turborepo-pnpm.md)) is **done** — the repo is now
@@ -62,7 +62,7 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 | [x] | TEST-2 | Add scripts: `test`, `test:watch`, `test:coverage`, `typecheck` (see TECHSTACK §10) | Beny | A | P0 |
 | [x] | TEST-3 | Add **Testing Library** (React) + example component test (existing landing components). | Claude | B | P0 |
 | [x] | TEST-4 | Unit/integration test for the **waitlist action** (`joinWaitlist`) with Supabase + Resend mocked | Beny | A | P0 |
-| [ ] | TEST-5 | Coverage reporting (v8) wired into CI | _ | A | P1 |
+| [x] | TEST-5 | Coverage reporting (v8) wired into CI | Claude | A | P1 |
 | [x] | TEST-6 | Test conventions section: colocated `*.test.ts`, no live network, mock Resend/Supabase | Claude | A | P1 |
 
 ---
@@ -78,10 +78,10 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 |---|---|---|---|---|---|
 | [x] | CI-1 | Verify CI runs lint · typecheck · test · build on PR (green) | Claude | A | P0 |
 | [x] | CI-2 | Tighten CI: drop `--if-present` once `typecheck`/`test` scripts exist | Beny | A | P0 |
-| [ ] | CI-3 | Add coverage upload/summary to the CI run | _ | A | P1 |
-| [ ] | CI-4 | Confirm **Dependabot** opens grouped weekly PRs (npm + actions) | _ | A | P0 |
+| [x] | CI-3 | Add coverage upload/summary to the CI run | Claude | A | P1 |
+| [x] | CI-4 | Confirm **Dependabot** opens grouped weekly PRs (npm + actions) *Confirmed: grouped weekly PRs opened for npm + actions; all CI-gated.* | Claude | A | P0 |
 | [x] | CI-5 | **Branch protection** on `main`: require review + CI green, no direct push, linear history | Claude | A | P0 |
-| [ ] | CI-6 | Add PR template + (optional) `CODEOWNERS` | _ | A | P1 |
+| [x] | CI-6 | Add PR template + (optional) `CODEOWNERS` | Claude | A | P1 |
 | [x] | CI-7 | Confirm Vercel preview deploy posts a URL on each PR | Claude | A | P0 |
 
 ---
@@ -119,7 +119,7 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 | [ ] | UI-2 | Set up **shadcn + Base UI** (components.json, Base UI primitives, Tailwind v4 wiring) | _ | B | P0 |
 | [ ] | UI-3 | Core UI primitives on shadcn/Base UI (button, input, card) reusing `src/lib/ui.ts` | _ | B | P0 |
 | [ ] | UI-4 | Minimal **app shell** (header/nav/footer, responsive, light/dark) — chrome only, no product routes | _ | B | P0 |
-| [ ] | UI-5 | Document the **tokens-shared / native-components** rule for RN (see TECHSTACK §3) | _ | B | P1 |
+| [x] | UI-5 | Document the **tokens-shared / native-components** rule for RN (see TECHSTACK §3) *Covered in TECHSTACK §3 (share tokens, not components).* | Claude | B | P1 |
 
 ---
 
