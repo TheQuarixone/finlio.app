@@ -204,6 +204,13 @@ export function SmoothScroll({ children }: { children: ReactNode }) {
     return () => {
       document.removeEventListener("click", onAnchorClick);
       ctx.revert();
+      /* Explicit kill, not just the context revert: this runs when a client-side
+         navigation leaves the landing page, and the smoother has to hand back
+         the inline styles it wrote on the wrapper, the content and the body.
+         Left in place, the fixed wrapper would clip a legal page to one
+         viewport. `get()` returns nothing if the revert already took it, which
+         keeps this safe to call either way. */
+      ScrollSmoother.get()?.kill();
       root.classList.remove("gsap-smooth");
     };
   }, [pathname]);

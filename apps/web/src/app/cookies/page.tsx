@@ -61,7 +61,7 @@ export default function CookiesPage() {
                     "6 months",
                   ],
                   [
-                    "ph_… , _phcookie",
+                    "ph_…_posthog",
                     "PostHog, only with your consent",
                     "Counts page views and repeat visits so we can tell which parts of the page are read. Not enabled on this site yet, and never set unless you allow analytics",
                     "Up to 12 months",
