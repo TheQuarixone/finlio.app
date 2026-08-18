@@ -42,6 +42,15 @@ jobs:
           # Vercel deploy secret, used only at request time.
           RESEND_API_KEY: "re_ci_dummy_build_key"
 
+      # Reported after the gate above, so a coverage hiccup never decides a
+      # merge on its own. Needs no secrets — every test mocks its I/O.
+      - name: Coverage
+        run: pnpm --filter web test:coverage
+
+      - name: Coverage summary
+        if: always()
+        run: node .github/scripts/coverage-summary.mjs >> "$GITHUB_STEP_SUMMARY"
+
   commitlint:
     name: Commit messages
     if: github.event_name == 'pull_request'

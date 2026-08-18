@@ -42,7 +42,7 @@ export default defineConfig({
       // Vitest 4 requires an explicit include; `coverage.all` was removed.
       include: ["src/lib/**/*.ts", "src/db/**/*.ts", "src/app/actions.ts"],
       exclude: ["**/*.test.{ts,tsx}", "**/*.d.ts"],
-      reporter: ["text", "html"],
+      reporter: ["text", "html", "json-summary"],
     },
   },
 });
