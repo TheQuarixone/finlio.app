@@ -115,10 +115,10 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | UI-1 | **Finalise design tokens** — resolve navy/green/gold vs the current landing palette (PRD §9) into one token set in `globals.css` | _ | B | P0 |
-| [ ] | UI-2 | Set up **shadcn + Base UI** (components.json, Base UI primitives, Tailwind v4 wiring) | _ | B | P0 |
-| [ ] | UI-3 | Core UI primitives on shadcn/Base UI (button, input, card) reusing `src/lib/ui.ts` | _ | B | P0 |
-| [ ] | UI-4 | Minimal **app shell** (header/nav/footer, responsive, light/dark) — chrome only, no product routes | _ | B | P0 |
+| [x] | UI-1 | **Finalise design tokens** — resolve navy/green/gold vs the current landing palette (PRD §9) into one token set in `globals.css` *Resolved in favour of the shipped landing palette; PRD §9 updated to match and marked as superseding the navy/gold trio.* | Claude | B | P0 |
+| [x] | UI-2 | Set up **shadcn + Base UI** (components.json, Base UI primitives, Tailwind v4 wiring) *Base UI (shadcn's default since Jul 2026), `nova` preset.* | Claude | B | P0 |
+| [x] | UI-3 | Core UI primitives on shadcn/Base UI (button, input, card) reusing `src/lib/ui.ts` | Claude | B | P0 |
+| [x] | UI-4 | Minimal **app shell** (header/nav/footer, responsive, light/dark) — chrome only, no product routes *Header/footer shipped and responsive; light + dark token sets defined. No dark toggle yet — deferred until there's a dark design.* | Claude | B | P0 |
 | [x] | UI-5 | Document the **tokens-shared / native-components** rule for RN (see TECHSTACK §3) *Covered in TECHSTACK §3 (share tokens, not components).* | Claude | B | P1 |
 
 ---
@@ -139,7 +139,7 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 - [x] `subscribers` shaped for scale (status field), migrations tracked, RLS enabled
 - [x] Local Supabase runs from `docs/local-supabase.md` (one command)
 - [x] Vitest configured; example component test + waitlist-action test pass
-- [ ] Design tokens finalised; shadcn/Base UI primitives + app shell in place
+- [x] Design tokens finalised; shadcn/Base UI primitives + app shell in place
 - [ ] PostHog waitlist funnel live
 - [x] CI gates every PR (lint · typecheck · test · build); branch protection on
 - [x] Dependabot opening weekly PRs, CI-gated
