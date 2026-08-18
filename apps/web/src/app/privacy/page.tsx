@@ -113,8 +113,8 @@ export default function PrivacyPage() {
                   ],
                   [
                     "Anything you write to us",
-                    "When you email hello@finlio.app",
-                    "To answer you. Mail to that address is relayed to a mailbox we read",
+                    "When you email one of our published addresses",
+                    "To answer you. Mail to hello@, privacy@ and grievance@finlio.app is relayed to a mailbox we read",
                   ],
                   [
                     "Standard server logs",

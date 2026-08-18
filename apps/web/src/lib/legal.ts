@@ -24,14 +24,16 @@ export const COMPANY = {
   site: "https://finlio.app",
 };
 
-/* A single mailbox, because it is the only one that actually receives mail:
-   hello@finlio.app is relayed through the Resend inbound webhook. Dedicated
-   privacy@ / grievance@ aliases are worth adding before launch (docs/legal.md);
-   naming them here first would publish addresses that bounce. */
+/* All three are real: Resend's inbound MX covers the whole domain and the
+   relay forwards every one of them to the mailbox we read (src/lib/inbound.ts,
+   and the webhook under app/api/webhooks/resend-inbound). Separating them costs
+   nothing and means a privacy request or a grievance arrives already sorted,
+   each with its own clock. Add an address to INBOUND_ADDRESSES before
+   publishing it here, or this page will advertise a mailbox that bounces. */
 export const CONTACT = {
   general: "hello@finlio.app",
-  privacy: "hello@finlio.app",
-  grievance: "hello@finlio.app",
+  privacy: "privacy@finlio.app",
+  grievance: "grievance@finlio.app",
 };
 
 /** Response windows we commit to in the policies. Days. */
