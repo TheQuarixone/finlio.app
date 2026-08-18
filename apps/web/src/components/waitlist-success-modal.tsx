@@ -15,15 +15,12 @@ export function WaitlistSuccessModal({
   open,
   email,
   isNew,
-  position,
   onClose,
 }: {
   open: boolean;
   email: string | null;
   /** false when they were already on the list — the copy changes. */
   isNew: boolean;
-  /** Their place in line, if we have a count. */
-  position: number | null;
   onClose: () => void;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
@@ -80,14 +77,6 @@ export function WaitlistSuccessModal({
           .
         </p>
 
-        {position !== null && (
-          <p className="mt-5 inline-flex items-center gap-2 rounded-full bg-cream px-4 py-2 text-[14px] font-medium ring-1 ring-line">
-            <span className="size-2 rounded-full bg-brand-green" />
-            <span>
-              {`You’re #${position.toLocaleString("en-IN")} in line`}
-            </span>
-          </p>
-        )}
 
         <div className="mt-7 w-full rounded-2xl bg-cream p-5 text-left ring-1 ring-line">
           <p className="flex items-center gap-2 text-[13px] font-semibold uppercase tracking-[0.14em] text-body/60">

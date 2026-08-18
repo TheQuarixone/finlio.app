@@ -107,7 +107,6 @@ export function WaitlistForm() {
         open={showModal}
         email={state.email}
         isNew={state.added}
-        position={state.count}
         onClose={() => setDismissed(true)}
       />
     </div>
