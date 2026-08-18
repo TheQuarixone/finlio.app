@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import {
   useCallback,
   useEffect,
@@ -42,6 +41,10 @@ export function CookieBanner() {
   const [panel, setPanel] = useState<Panel>("summary");
   const [analytics, setAnalytics] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  /* Set when the visitor asked for the banner from the footer. Focus follows
+     the request, but never the automatic first appearance: stealing focus from
+     someone who is mid-sentence on the page would be its own dark pattern. */
+  const focusOnOpenRef = useRef(false);
   const headingId = useId();
 
   /* The cookie is client-only state, so it is read through an external store
@@ -69,14 +72,19 @@ export function CookieBanner() {
       setAnalytics(readConsent()?.analytics ?? false);
       setPanel("details");
       setOpen(true);
-      // Move focus to the panel so a keyboard user is not left behind in the
-      // footer wondering what changed.
-      requestAnimationFrame(() => cardRef.current?.focus());
+      // Focus has to wait for the panel to mount; see the effect below.
+      focusOnOpenRef.current = true;
     };
 
     window.addEventListener(CONSENT_OPEN_EVENT, onOpen);
     return () => window.removeEventListener(CONSENT_OPEN_EVENT, onOpen);
   }, []);
+
+  useEffect(() => {
+    if (!open || !focusOnOpenRef.current) return;
+    focusOnOpenRef.current = false;
+    cardRef.current?.focus();
+  }, [open]);
 
   const save = useCallback((allowAnalytics: boolean) => {
     writeConsent(allowAnalytics);
@@ -89,7 +97,7 @@ export function CookieBanner() {
 
   return (
     <div
-      className="fixed inset-x-3 bottom-3 z-[45] sm:inset-x-auto sm:bottom-6 sm:left-6 sm:max-w-[26rem]"
+      className="fixed inset-x-3 bottom-3 z-[45] sm:inset-x-auto sm:bottom-6 sm:right-6 sm:max-w-[26rem]"
       style={{
         paddingBottom: "env(safe-area-inset-bottom)",
       }}
@@ -152,14 +160,14 @@ export function CookieBanner() {
               <button
                 type="button"
                 onClick={() => save(true)}
-                className={`${buttonPrimary} h-11 flex-1 px-5 text-[14px]`}
+                className={`${buttonPrimary} h-12 w-full px-5 text-[15px] sm:h-11 sm:w-auto sm:flex-1 sm:text-[14px]`}
               >
                 Accept all
               </button>
               <button
                 type="button"
                 onClick={() => save(false)}
-                className={`${buttonSecondary} h-11 flex-1 px-5 text-[14px]`}
+                className={`${buttonSecondary} h-12 w-full px-5 text-[15px] sm:h-11 sm:w-auto sm:flex-1 sm:text-[14px]`}
               >
                 Reject all
               </button>
@@ -169,14 +177,14 @@ export function CookieBanner() {
               <button
                 type="button"
                 onClick={() => save(analytics)}
-                className={`${buttonPrimary} h-11 flex-1 px-5 text-[14px]`}
+                className={`${buttonPrimary} h-12 w-full px-5 text-[15px] sm:h-11 sm:w-auto sm:flex-1 sm:text-[14px]`}
               >
                 Save choices
               </button>
               <button
                 type="button"
                 onClick={() => save(false)}
-                className={`${buttonSecondary} h-11 flex-1 px-5 text-[14px]`}
+                className={`${buttonSecondary} h-12 w-full px-5 text-[15px] sm:h-11 sm:w-auto sm:flex-1 sm:text-[14px]`}
               >
                 Reject all
               </button>
@@ -184,29 +192,29 @@ export function CookieBanner() {
           )}
         </div>
 
-        <div className="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-[13px]">
-          {panel === "summary" ? (
-            <button
-              type="button"
-              onClick={() => setPanel("details")}
-              className="font-medium text-body/70 underline decoration-line underline-offset-4 transition-[color] hover:text-ink"
+        {panel === "summary" ? (
+          <button
+            type="button"
+            onClick={() => setPanel("details")}
+            className="mt-2.5 inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-full text-[15px] font-medium text-body/75 transition-colors duration-200 hover:bg-cream hover:text-ink sm:h-10 sm:text-[14px]"
+          >
+            Customise
+            <svg
+              viewBox="0 0 16 16"
+              fill="none"
+              aria-hidden="true"
+              className="size-3.5"
             >
-              Customise
-            </button>
-          ) : null}
-          <Link
-            href="/cookies"
-            className="text-body/60 underline decoration-line underline-offset-4 transition-[color] hover:text-ink"
-          >
-            Cookie Policy
-          </Link>
-          <Link
-            href="/privacy"
-            className="text-body/60 underline decoration-line underline-offset-4 transition-[color] hover:text-ink"
-          >
-            Privacy Policy
-          </Link>
-        </div>
+              <path
+                d="M6 3.5 10.5 8 6 12.5"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
+        ) : null}
       </div>
     </div>
   );

@@ -11,6 +11,7 @@ Planning and reference docs for Finlio. Start here.
 | [`dev-plan.md`](./dev-plan.md) | **When** — abstract roadmap across all phases. |
 | [`phase-1.md`](./phase-1.md) | Detailed, checkbox-tracked task board for Phase 1. |
 | [`local-supabase.md`](./local-supabase.md) | **Local dev DB** — run Supabase locally + apply Drizzle migrations. |
+| [`legal.md`](./legal.md) | **Legal pages & consent** — what the policy pages claim, the DPDP / cookie / SEBI rules behind them, and the pre-launch review checklist. |
 
 Later phases get their own `phase-N.md`, created from the abstract in
 [`dev-plan.md`](./dev-plan.md) as each phase begins.
