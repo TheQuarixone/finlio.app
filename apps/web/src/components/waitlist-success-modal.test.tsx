@@ -12,7 +12,6 @@ const base = {
   open: true,
   email: "someone@example.com",
   isNew: true,
-  position: 1285,
   onClose: () => {},
 };
 
@@ -37,14 +36,11 @@ describe("WaitlistSuccessModal", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows the place in line, grouped for readability", () => {
+  it("claims no queue position", () => {
+    // The count is mostly a display seed, so a per-person "#N in line" would
+    // be a fabricated fact about that visitor.
     render(<WaitlistSuccessModal {...base} />);
-    expect(screen.getByText(/#1,285 in line/)).toBeInTheDocument();
-  });
-
-  it("omits the place in line when there is no count", () => {
-    render(<WaitlistSuccessModal {...base} position={null} />);
-    expect(screen.queryByText(/in line/)).not.toBeInTheDocument();
+    expect(screen.queryByText(/in line/i)).not.toBeInTheDocument();
   });
 
   it("falls back gracefully when no address came back", () => {
