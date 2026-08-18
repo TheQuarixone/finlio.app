@@ -42,7 +42,7 @@ finishes it prints local credentials — keep these handy:
 - **API URL** — `http://127.0.0.1:54321`
 - **DB URL** — `postgresql://postgres:postgres@127.0.0.1:54322/postgres`
 - **Studio** — `http://127.0.0.1:54323` (browse tables/data)
-- **anon key** / **service_role key** — printed in the same output
+- **publishable key** / **secret key** — printed in the same output
 
 Re-print them anytime with:
 
@@ -61,9 +61,9 @@ Add these to `apps/web/.env.local` (never commit real values — see
 `apps/web/.env.example`):
 
 ```bash
-SUPABASE_URL=http://127.0.0.1:54321
-SUPABASE_ANON_KEY=<anon key from `supabase status`>
-SUPABASE_SERVICE_ROLE_KEY=<service_role key from `supabase status`>
+NEXT_PUBLIC_SUPABASE_URL=http://127.0.0.1:54321
+NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=<publishable key from `supabase status`>
+SUPABASE_SECRET_KEY=<secret key from `supabase status`>
 
 # Drizzle talks straight to Postgres:
 DATABASE_URL=postgresql://postgres:postgres@127.0.0.1:54322/postgres
