@@ -43,7 +43,7 @@ export function LegalPage({
 
   return (
     <main id="top" className="bg-white">
-      <div className="mx-auto w-full max-w-6xl px-4 pt-24 sm:px-6 sm:pt-32 lg:pt-36">
+      <div className="mx-auto w-full max-w-6xl px-4 pb-20 pt-24 sm:px-6 sm:pb-28 sm:pt-32 lg:pb-32 lg:pt-36">
         <header className="max-w-3xl">
           <p
             className={`text-[13px] font-semibold uppercase tracking-[0.06em] ${meta.accent}`}
@@ -57,13 +57,9 @@ export function LegalPage({
             {meta.summary}
           </p>
 
-          <div className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-2 text-[13px] font-medium text-body/70">
+          <div className="mt-6 text-[13px] font-medium text-body/70">
             <span className="rounded-full bg-sand px-3 py-1.5">
-              In effect from{" "}
               <time dateTime={updated}>{formatLegalDate(updated)}</time>
-            </span>
-            <span className="rounded-full bg-sand px-3 py-1.5">
-              {COMPANY.name} by {COMPANY.operator}
             </span>
           </div>
         </header>

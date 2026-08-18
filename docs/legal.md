@@ -117,10 +117,15 @@ Blocking, in rough order:
 - [ ] **Legal entity.** Set `COMPANY.legalName`, `registeredAddress` and
       `jurisdictionCity` in `src/lib/legal.ts`. Until they are set the pages omit
       those lines, and the terms name Indian courts generally instead of a seat.
-- [ ] **Dedicated mailboxes.** `privacy@` and `grievance@finlio.app`, wired
-      through the Resend inbound relay, then point `CONTACT` at them. Everything
-      currently routes to `hello@finlio.app`, which is the only address that
-      receives mail.
+- [x] **Dedicated mailboxes.** `privacy@` and `grievance@finlio.app` are
+      published and relayed. Resend's inbound MX covers the whole domain, so all
+      three addresses hit the same webhook and forward to `INBOUND_FORWARD_TO`.
+      The set lives in `src/lib/inbound.ts`; add an address there *before*
+      publishing it in `CONTACT`, or the pages advertise a mailbox that bounces.
+      The relay now refuses to forward to one of our own inbound addresses,
+      which would otherwise loop. **Confirm in the Resend dashboard** that
+      inbound is enabled for the domain (not only for `hello@`), then send a
+      test mail to each address.
 - [ ] **Name the person** who answers data questions and handles grievances.
 - [ ] **One-click unsubscribe** before any email beyond the confirmation goes
       out: an unsubscribe link plus `List-Unsubscribe` headers, and a route that
