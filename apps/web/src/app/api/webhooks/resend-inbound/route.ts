@@ -1,12 +1,15 @@
+import { INBOUND_ADDRESSES, wouldLoop } from "@/lib/inbound";
 import { getResend } from "@/lib/resend";
 
-// Mail sent to hello@finlio.app is relayed here. Resend's own inbound MX
-// (finlio.app -> Resend, verified in the Resend dashboard) delivers this
-// webhook for every "email.received" event; there is no separate mailbox to
-// poll or DNS forwarding rule to keep in sync.
-// Destination for relayed inbound mail. Must differ from the inbound address
-// (hello@finlio.app) or forwarding would loop, so there is no default — if it
-// isn't set, we acknowledge the webhook and skip forwarding.
+// Mail sent to any of our published addresses (hello@, privacy@, grievance@ —
+// see lib/inbound) is relayed here. Resend's own inbound MX (finlio.app ->
+// Resend, verified in the Resend dashboard) covers the whole domain and
+// delivers this webhook for every "email.received" event, so a new address
+// needs no new plumbing: add it to INBOUND_ADDRESSES and it is published and
+// relayed like the rest. There is no mailbox to poll and no DNS forwarding
+// rule to keep in sync.
+// Destination for relayed inbound mail. No default — if it isn't set, we
+// acknowledge the webhook and skip forwarding.
 const FORWARD_TO = process.env.INBOUND_FORWARD_TO;
 const FORWARD_FROM =
   process.env.RESEND_FROM_EMAIL ?? "Finlio <hello@finlio.app>";
@@ -49,6 +52,23 @@ export async function POST(request: Request) {
     console.warn("INBOUND_FORWARD_TO not set — acknowledging without forwarding");
     return Response.json({ received: true });
   }
+
+  /* Forwarding to one of our own inbound addresses would bounce the message
+     back through this webhook forever. Acknowledge so Resend stops retrying,
+     and make the misconfiguration loud in the logs instead. */
+  if (wouldLoop(FORWARD_TO)) {
+    console.error(
+      `INBOUND_FORWARD_TO (${FORWARD_TO}) is one of our own inbound addresses ` +
+        `(${INBOUND_ADDRESSES.join(", ")}). Refusing to forward: this would loop.`
+    );
+    return Response.json({ received: true });
+  }
+
+  /* Which address it was sent to matters for triage: a privacy request runs on
+     a 30-day clock and a grievance on 90. `passthrough` keeps the original
+     headers, so the To: line survives into the forwarded copy; this is just for
+     the logs. */
+  console.info(`Relaying inbound mail addressed to: ${event.data.to.join(", ")}`);
 
   try {
     await getResend().emails.receiving.forward({
