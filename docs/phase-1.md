@@ -106,7 +106,7 @@ finalise **design tokens + app shell** (shadcn + Base UI), and get **CI green**.
 | [x] | WL-1 | Persist waitlist signups to `subscribers` via Drizzle in `joinWaitlist` (dedupe on email) | Beny | A | P0 |
 | [x] | WL-2 | Keep the Resend confirmation email; verify send path + error handling | Beny | A | P0 |
 | [x] | WL-3 | Verify the Resend **inbound relay** webhook (signature-verified) still works *Signature verification and the loop/address logic are covered by `inbound.test.ts`; a live end-to-end send still needs a real email to `hello@finlio.app`.* | Claude | A | P1 |
-| [ ] | WL-4 | **Turnstile** on the waitlist form to curb bot signups | _ | A | P1 |
+| [~] | WL-4 | **Turnstile** on the waitlist form to curb bot signups *Deferred — not blocking launch; revisit if bot signups actually appear in `subscribers`.* | _ | A | P1 |
 | [x] | WL-5 | Graceful UX for duplicate/invalid email + success state | Claude | B | P1 |
 
 ---
