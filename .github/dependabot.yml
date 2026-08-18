@@ -1,8 +1,14 @@
 version: 2
 updates:
   # npm dependencies — grouped so we get a few tidy PRs a week, not dozens.
+  # `directories` (not `directory`) because it is the only one that globs: the
+  # app's real dependencies live in apps/web/package.json, so a bare "/" would
+  # only ever see the root's build tooling.
   - package-ecosystem: npm
-    directory: "/"
+    directories:
+      - "/"
+      - "/apps/*"
+      - "/packages/*"
     schedule:
       interval: weekly
       day: monday
