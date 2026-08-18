@@ -117,10 +117,21 @@ export function CookieBanner() {
         </h2>
 
         <p className="mt-2 text-[14px] font-medium leading-[1.55] text-body [text-wrap:pretty]">
-          We use the few cookies this site needs to work. Analytics cookies,
-          which help us see which parts of the page people read, stay off unless
-          you allow them. We never use cookies for advertising, and we do not
-          sell your data.
+          We use only the cookies this site needs to work. Analytics stay off
+          unless you allow them, and we never use cookies for ads.
+          {panel === "summary" ? (
+            <>
+              {" "}
+              <button
+                type="button"
+                onClick={() => setPanel("details")}
+                className="font-medium text-ink underline decoration-line decoration-2 underline-offset-4 transition-colors hover:decoration-brand-blue"
+              >
+                Customise
+              </button>
+              .
+            </>
+          ) : null}
         </p>
 
         {panel === "details" ? (
@@ -192,29 +203,6 @@ export function CookieBanner() {
           )}
         </div>
 
-        {panel === "summary" ? (
-          <button
-            type="button"
-            onClick={() => setPanel("details")}
-            className="mt-2.5 inline-flex h-12 w-full items-center justify-center gap-1.5 rounded-full text-[15px] font-medium text-body/75 transition-colors duration-200 hover:bg-cream hover:text-ink sm:h-10 sm:text-[14px]"
-          >
-            Customise
-            <svg
-              viewBox="0 0 16 16"
-              fill="none"
-              aria-hidden="true"
-              className="size-3.5"
-            >
-              <path
-                d="M6 3.5 10.5 8 6 12.5"
-                stroke="currentColor"
-                strokeWidth="1.6"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-        ) : null}
       </div>
     </div>
   );
