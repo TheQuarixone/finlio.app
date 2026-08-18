@@ -255,7 +255,8 @@ than iterating in a single request to stay within serverless time limits.
 the repo. Known keys today: `RESEND_API_KEY`, `RESEND_FROM_EMAIL`,
 `RESEND_WEBHOOK_SECRET`, `INBOUND_FORWARD_TO` (relay destination for inbound
 mail; unset = no forwarding). Add per service:
-`SUPABASE_URL` / `SUPABASE_ANON_KEY` / `SUPABASE_SERVICE_ROLE_KEY`,
+`NEXT_PUBLIC_SUPABASE_URL` / `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` /
+`SUPABASE_SECRET_KEY`,
 `DATABASE_URL` (pooled) / `DIRECT_URL` (direct, for drizzle-kit migrations),
 `UPSTASH_REDIS_REST_URL` / `_TOKEN`, `QSTASH_TOKEN` / `QSTASH_CURRENT_SIGNING_KEY` /
 `QSTASH_NEXT_SIGNING_KEY`, `DODO_API_KEY` / `DODO_WEBHOOK_SECRET`,
