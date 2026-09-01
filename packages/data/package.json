@@ -18,7 +18,8 @@
     "test": "vitest run",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "db:bootstrap": "psql -d finlio -v ON_ERROR_STOP=1 -f dev/bootstrap-local.sql"
   },
   "dependencies": {
     "@finlio/core": "workspace:*",

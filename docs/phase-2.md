@@ -231,10 +231,10 @@ coaches or alerts. The Goal Coach agent is Phase 3.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | GOAL-1 | **Goal planner in `packages/core`** — monthly saving needed, **6% INR inflation default**, Vitest including the "impossible in this timeframe" case | _ | A | P0 |
-| [ ] | GOAL-2 | tRPC goals CRUD over the service layer; **≤ 3 goals on Free** enforced server-side | _ | A | P0 |
-| [ ] | GOAL-3 | Goals UI — create / edit / list with progress | _ | B | P0 |
-| [ ] | GOAL-4 | Progress derived from current net worth (read-only; no nudges, no milestone alerts) | _ | A | P0 |
+| [x] | GOAL-1 | **Goal planner in `packages/core`** — monthly saving needed, **6% INR inflation default**, Vitest including the "impossible in this timeframe" case | _ | A | P0 |
+| [x] | GOAL-2 | tRPC goals CRUD over the service layer; **≤ 3 goals on Free** enforced server-side | _ | A | P0 |
+| [x] | GOAL-3 | Goals UI — create / edit / list with progress | _ | B | P0 |
+| [x] | GOAL-4 | Progress derived from current net worth (read-only; no nudges, no milestone alerts) | _ | A | P0 |
 | [ ] | GOAL-5 | Link assets / SIPs to a goal (PRD `GO-3`, Pro) | _ | B | P1 |
 
 ---

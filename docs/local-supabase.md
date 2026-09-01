@@ -28,6 +28,59 @@ npx supabase --version
 
 ---
 
+## 1b. No Docker? Postgres-only fallback
+
+`supabase start` needs Docker Desktop. If you can't install it (locked-down
+machine, no admin rights), you can still run **everything that talks to the
+database** — the product tables, RLS policies, tRPC, goals — against a plain
+Postgres. What you don't get is GoTrue (Auth), Studio, or Storage, so
+**sign-in must be tested against a real Supabase project**; locally the app
+falls back to a development user (see `apps/web/src/lib/dal.ts`, which is
+disabled in production).
+
+```bash
+brew install postgresql@17
+
+# macOS needs LC_ALL set or the postmaster refuses to start
+export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH" LC_ALL="en_US.UTF-8"
+pg_ctl -D /opt/homebrew/var/postgresql@17 -l /opt/homebrew/var/log/postgresql@17.log start
+
+createdb finlio
+psql -d finlio -f packages/data/dev/bootstrap-local.sql
+```
+
+`bootstrap-local.sql` creates the `anon` / `authenticated` / `service_role`
+roles and an `auth.uid()` function, which is all our migrations actually depend
+on from Supabase. That matters: the **real migration files then apply verbatim,
+RLS policies included**, so a broken policy fails here rather than in
+production.
+
+Point the app at it in `apps/web/.env.local`:
+
+```
+DATABASE_URL=postgresql://$(whoami)@127.0.0.1:5432/finlio
+DIRECT_URL=postgresql://$(whoami)@127.0.0.1:5432/finlio
+```
+
+Then apply migrations as usual:
+
+```bash
+pnpm --filter @finlio/data db:migrate
+```
+
+**Checking RLS actually works.** `auth.uid()` reads a session GUC locally, so
+you can impersonate a user and confirm isolation:
+
+```sql
+GRANT SELECT, INSERT, UPDATE, DELETE ON goals TO authenticated;
+SET ROLE authenticated;
+SET request.jwt.claim.sub = '<some-user-uuid>';
+SELECT * FROM goals;   -- only that user's rows
+RESET ROLE;
+```
+
+---
+
 ## 2. One-command start
 
 From the repo root:
