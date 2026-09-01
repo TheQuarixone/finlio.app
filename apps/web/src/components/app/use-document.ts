@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import type { Asset, FinlioDocument, Goal, Liability } from "@finlio/schemas";
+import type { Asset, FinlioDocument, Liability } from "@finlio/schemas";
 import { emptyDocument } from "@finlio/schemas";
 import { loadDocument, saveDocument } from "@/lib/store/document-store";
 
@@ -75,20 +75,10 @@ export function useDocument() {
     [commit]
   );
 
-  const addGoal = useCallback(
-    (goal: Goal) => commit((prev) => ({ ...prev, goals: [...prev.goals, goal] })),
-    [commit]
-  );
-
-  const removeGoal = useCallback(
-    (id: string) => commit((prev) => ({ ...prev, goals: prev.goals.filter((g) => g.id !== id) })),
-    [commit]
-  );
 
   return {
     doc, loading,
     addAsset, removeAsset,
     addLiability, removeLiability,
-    addGoal, removeGoal,
   };
 }

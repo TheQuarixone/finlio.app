@@ -41,6 +41,16 @@ export const FinlioDocument = z.object({
   meta: DocumentMeta,
   assets: z.array(Asset).default([]),
   liabilities: z.array(Liability).default([]),
+  /**
+   * **Export-only.** Goals are stored on the server, not here — they are
+   * metadata (a name, a number, a date) that the Phase-3 Goal Coach has to
+   * reach on a schedule, and an agent running in a cron job cannot open
+   * somebody's browser.
+   *
+   * The field stays because PRD Appendix A defines it and a full data export
+   * should be complete (STORE-7). The app never writes it; whatever fills it
+   * pulls from the server at export time.
+   */
   goals: z.array(Goal).default([]),
   snapshots: z.array(MonthlySnapshot).default([]),
 });

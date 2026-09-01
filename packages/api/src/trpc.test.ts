@@ -87,3 +87,31 @@ describe("ServiceError mapping", () => {
     }
   });
 });
+
+describe("errorFormatter", () => {
+  it("never lets an internal failure describe itself to the client", async () => {
+    // Drizzle puts the full SQL in the message; that is a free schema dump.
+    const caller = callerFor("user-1", {
+      goals: {
+        list: async () => {
+          throw new Error('Failed query: select "id", "user_id" from "goals"');
+        },
+      } as never,
+    });
+
+    const formatted = await caller.goal.list().catch((error: unknown) => {
+      const shape = appRouter._def._config.errorFormatter({
+        error: error as never,
+        shape: { message: (error as Error).message, code: -32603, data: {} } as never,
+        type: "query",
+        path: "goal.list",
+        input: undefined,
+        ctx: undefined,
+      });
+      return shape;
+    });
+
+    expect(JSON.stringify(formatted)).not.toContain("select");
+    expect(JSON.stringify(formatted)).not.toContain("goals");
+  });
+});

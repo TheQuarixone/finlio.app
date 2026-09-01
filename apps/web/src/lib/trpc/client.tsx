@@ -19,12 +19,26 @@ export function TrpcProvider({ children }: { children: React.ReactNode }) {
     () =>
       new QueryClient({
         defaultOptions: {
+          mutations: { networkMode: "always" },
           queries: {
             // Financial data is not a feed. Refetching on every window focus
             // costs requests and buys nothing the user asked for.
             refetchOnWindowFocus: false,
             staleTime: 30_000,
             retry: 1,
+            /**
+             * React Query's default (`"online"`) *pauses* a query when it
+             * believes the browser is offline, and a paused query reports
+             * `status: "pending"` forever. The screen then shows a loading
+             * skeleton with no error and no way out — the worst failure mode
+             * available, because it looks like the app is working.
+             *
+             * Finlio is already offline-capable where it matters: holdings
+             * live on the device. What comes over the network is goal metadata,
+             * and for that we would much rather attempt the request and show a
+             * real error than hang silently.
+             */
+            networkMode: "always",
           },
         },
       })

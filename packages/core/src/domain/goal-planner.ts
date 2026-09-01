@@ -10,6 +10,8 @@ export const DEFAULT_INFLATION_PCT = 6;
 export interface GoalPlan {
   goalId: string;
   name: string;
+  /** Carried through so a caller rendering a plan needs no second lookup. */
+  deadline: string;
   /** Target restated in the money of the deadline year. */
   inflatedTarget: Money;
   /** Already earmarked toward it. */
@@ -78,6 +80,7 @@ export function planGoal({
   return {
     goalId: goal.id,
     name: goal.name,
+    deadline: goal.deadline,
     inflatedTarget,
     saved,
     shortfall,

@@ -18,7 +18,23 @@ export interface Context {
 }
 
 const t = initTRPC.context<Context>().create({
-  errorFormatter: ({ shape }) => shape,
+  /**
+   * Never let an internal failure describe itself to a client.
+   *
+   * An unhandled exception here is usually a database error, and Drizzle puts
+   * the full SQL — table and column names included — in the message. Sending
+   * that to a browser hands an attacker a free schema dump and shows an
+   * ordinary user a wall of SQL. Deliberate failures (`ServiceError`, auth,
+   * validation) are written for people and pass through untouched.
+   */
+  errorFormatter: ({ shape, error }) => {
+    if (error.code !== "INTERNAL_SERVER_ERROR") return shape;
+    return {
+      ...shape,
+      message: "Something went wrong on our end. Please try again.",
+      data: { ...shape.data, stack: undefined },
+    };
+  },
 });
 
 export const router = t.router;
