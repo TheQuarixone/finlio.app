@@ -7,7 +7,8 @@ lands. This file stays high-level; the phase docs hold the actual tasks.
 - **What we build:** [`PRD.md`](./PRD.md)
 - **How we build it:** [`TECHSTACK.md`](./TECHSTACK.md)
 - **System design:** [`architecture.md`](./architecture.md) + [`adr/`](./adr)
-- **Phase 1 detail:** [`phase-1.md`](./phase-1.md)
+- **Phase 1 detail:** [`phase-1.md`](./phase-1.md) *(complete)*
+- **Phase 2 detail (current):** [`phase-2.md`](./phase-2.md)
 - **Local dev DB:** [`local-supabase.md`](./local-supabase.md)
 
 **Positioning:** **India-first, global later**, and **web/desktop first, mobile
@@ -25,14 +26,14 @@ Both are **owners**; the build splits by **strength**:
 | **Gokulakrishnan** (primary — builds most of the product; strength in AI) | The bulk of the build across phases — product features, backend, and the AI Core |
 | **Beny Dishon K** (foundations + polish) | Phase 1 foundation: Supabase + Drizzle (local dev → prod) through to the waitlist persisting in **prod Supabase**. UI/design polish thereafter |
 
-**How the two run in parallel.** Beny drives the **Phase 1 foundation** — standing
-up Supabase + Drizzle in local dev and pushing until the waitlist persists in
-**prod Supabase**. Gokul owns most of Phase 2+ (product + AI Core); the AI
-Core groundwork (LLM adapter, prompts, evals in `packages/core`) needs no UI and
-doesn't depend on the Supabase work, so it can start in parallel from day one. Once
-the foundation lands, Beny shifts to **polish** on the product surface. The one seam
-to agree up front is **the shape of agent output** — a shared Zod schema for
-briefs/reports — so the agents and the screens speak the same format.
+**How the two run in parallel.** Beny drove the **Phase 1 foundation** — standing up
+Supabase + Drizzle in local dev and pushing until the waitlist persisted in **prod
+Supabase** — and has now shifted to **polish** on the product surface. Gokul owns most
+of Phase 2+ (product + AI Core); the AI Core groundwork (LLM adapter, prompts, evals
+in `packages/core`) needs no UI and doesn't depend on the Supabase work, so it runs in
+parallel from day one. The one seam to agree up front is **the shape of agent output**
+— a shared Zod schema for briefs/reports — so the agents and the screens speak the
+same format (`SCHEMA-6` in [`phase-2.md`](./phase-2.md)).
 
 > Each phase doc has an **Owner** column and per-task checkboxes so **both devs tick
 > off their own tasks in the same doc**; land code via PRs (not doc edits). This
@@ -52,9 +53,27 @@ checkbox ticked with the merging PR linked.
 
 ## Where we are today (baseline)
 
-The repo is the **Finlio waitlist landing page** — Next.js 16.3, React 19, Tailwind
-v4, TypeScript, Resend (waitlist + confirmation email + inbound relay). No auth, no
-database, no product app yet. Phases build the product app out from this foundation.
+**Phase 1 is done; [Phase 2](./phase-2.md) is the current phase.**
+
+The repo is a **Turborepo + pnpm monorepo** ([ADR-0001](./adr/0001-monorepo-turborepo-pnpm.md)):
+the Next.js 16.3 / React 19 / Tailwind v4 waitlist landing page lives in `apps/web`,
+with `packages/core`, `packages/schemas`, and `packages/tokens` seeded empty. What
+Phase 1 actually shipped:
+
+- **Waitlist persists to Supabase** — a `subscribers` table via **Drizzle**, RLS
+  enabled with no public policies (all writes server-side) — and still sends the
+  **Resend** confirmation email; the inbound relay is signature-verified.
+- **CI gates every PR** on `Lint · Typecheck · Test · Build` with branch protection,
+  Conventional Commits (Lefthook + commitlint), coverage reporting, and Dependabot.
+- **Vitest** (node + jsdom projects) covering the waitlist action, email libs, and
+  landing components.
+- **PostHog** wired behind the consent gate with the waitlist funnel.
+- **Design tokens finalised** on the shipped landing palette (PRD §9), with
+  **shadcn + Base UI** on top and the app shell (header/nav/footer) in place.
+- **Local Supabase** from a one-command setup ([`local-supabase.md`](./local-supabase.md)).
+
+There is still **no auth, no product schema, and no signed-in app** — that is Phase 2,
+tracked in [`phase-2.md`](./phase-2.md).
 
 ---
 
@@ -72,7 +91,7 @@ runs from a documented one-command setup ([`local-supabase.md`](./local-supabase
 email sends; CI gates every PR (lint · typecheck · test · build); PostHog funnel +
 finalised design tokens live; local Supabase documented.
 
-### Phase 2 — Product Foundation
+### Phase 2 — Product Foundation  *(current — detailed in [`phase-2.md`](./phase-2.md))*
 Turn the landing page into a signed-in product. Supabase **Auth** (email OTP +
 Google + Apple) and the product schema (`profiles`, `subscriptions`, `goals`,
 `snapshots`, `brief_logs`) via Drizzle with **RLS on every table**; the on-device

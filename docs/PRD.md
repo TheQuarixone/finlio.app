@@ -360,12 +360,15 @@ Moat: on-device privacy + proactive agents + Tamil/NRI community distribution.
       recurring — confirm before building billing.
 - [ ] On-device Markdown on **web**: where does "on-device" live for a browser
       (IndexedDB/OPFS + encryption) vs. native file storage on mobile? (see
-      TECHSTACK §"Local Markdown store").
+      TECHSTACK §"Local Markdown store"). *Now a Phase-2 P0 decision — `STORE-1` in
+      [`phase-2.md`](./phase-2.md), to be recorded as ADR-0005.*
 - [ ] Market-data provider(s) and licensing for NSE/BSE realtime + news.
 - [ ] AA TSP (Technical Service Provider) partner (Setu / Finvu / etc.).
 - [ ] Legal review of "not investment advice" + SEBI wording.
-- [ ] Design-system consolidation: keep landing-page palette vs. adopt navy/green/
-      gold app tokens.
+- [x] **Design-system consolidation — resolved in Phase 1** in favour of the shipped
+      landing palette; the navy/green/gold trio is superseded and §9 now documents the
+      single token set in `globals.css` (semantic roles included, so shadcn components
+      arrive on-brand).
 
 ---
 
