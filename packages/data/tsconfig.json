@@ -1,0 +1,4 @@
+{
+  "extends": "@finlio/config/tsconfig/library.json",
+  "include": ["src/**/*.ts", "*.ts"]
+}

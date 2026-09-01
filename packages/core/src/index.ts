@@ -1,1 +1,3 @@
-// @finlio/core — placeholder. See docs/architecture.md for what belongs here.
+export * from "./domain";
+export * from "./ports";
+export * from "./llm";

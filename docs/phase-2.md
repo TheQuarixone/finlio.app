@@ -86,11 +86,11 @@ imports from here.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | PKG-1 | Add **`packages/config`** (shared eslint / tsconfig / Tailwind preset); point `apps/web` at it | _ | A | P0 |
-| [ ] | PKG-2 | Add **`packages/data`** — Drizzle schema + Supabase access + the `MarkdownStore` interface | _ | A | P0 |
-| [ ] | PKG-3 | Add **`packages/api`** — the tRPC router + typed client | _ | A | P0 |
-| [ ] | PKG-4 | Turbo pipeline covers packages: `lint` / `typecheck` / `test` per package; Vitest configured in `core` + `schemas` | _ | A | P0 |
-| [ ] | PKG-5 | **Purity guard** — a lint rule or test asserting `packages/core` imports no `next/*`, no React, no platform APIs ([architecture §4.2](./architecture.md)) | _ | A | P0 |
+| [x] | PKG-1 | Add **`packages/config`** (shared eslint / tsconfig / Tailwind preset); point `apps/web` at it | _ | A | P0 |
+| [x] | PKG-2 | Add **`packages/data`** — Drizzle schema + Supabase access + the `MarkdownStore` interface | _ | A | P0 |
+| [x] | PKG-3 | Add **`packages/api`** — the tRPC router + typed client | _ | A | P0 |
+| [x] | PKG-4 | Turbo pipeline covers packages: `lint` / `typecheck` / `test` per package; Vitest configured in `core` + `schemas` | _ | A | P0 |
+| [x] | PKG-5 | **Purity guard** — a lint rule or test asserting `packages/core` imports no `next/*`, no React, no platform APIs ([architecture §4.2](./architecture.md)) | _ | A | P0 |
 | [ ] | PKG-6 | Extract design **token values** into `packages/tokens` and generate the Tailwind preset from them, so `globals.css` stops being the source of truth (the RN theme reads the same values later) | _ | B | P1 |
 
 ---
@@ -161,12 +161,12 @@ Markdown store, the CSV importers, and the agents all validate against it.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | SCHEMA-1 | Stand up `packages/schemas` — Zod, exported barrel, Vitest | _ | A | P0 |
-| [ ] | SCHEMA-2 | **Money primitives** — integer minor units + currency code, INR default. No floats for money anywhere in the codebase | _ | A | P0 |
-| [ ] | SCHEMA-3 | **Asset + liability schemas** covering the PRD Appendix A classes: equity, mutual funds, fixed deposits, real estate, cash, EPF/PPF/NPS, SGB, insurance | _ | A | P0 |
-| [ ] | SCHEMA-4 | **Goal schema** (name, target, deadline, linked assets, progress) | _ | A | P0 |
-| [ ] | SCHEMA-5 | **`finlio/v1` document schema** — frontmatter + section shapes, the contract the parser/serializer round-trips (PRD Appendix A) | _ | A | P0 |
-| [ ] | SCHEMA-6 | **Agent-output schema — the Gokul↔Beny seam.** One envelope for briefs and reports: sections, per-item one-liners, ₹ amounts as money primitives, disclaimer, `generatedAt`, model + prompt version. **Agree this before either side builds against it**; the agents validate outputs into it (`AI-5`) and the screens render from it | Gokul + Beny | A | P0 |
+| [x] | SCHEMA-1 | Stand up `packages/schemas` — Zod, exported barrel, Vitest | _ | A | P0 |
+| [x] | SCHEMA-2 | **Money primitives** — integer minor units + currency code, INR default. No floats for money anywhere in the codebase | _ | A | P0 |
+| [x] | SCHEMA-3 | **Asset + liability schemas** covering the PRD Appendix A classes: equity, mutual funds, fixed deposits, real estate, cash, EPF/PPF/NPS, SGB, insurance | _ | A | P0 |
+| [x] | SCHEMA-4 | **Goal schema** (name, target, deadline, linked assets, progress) | _ | A | P0 |
+| [x] | SCHEMA-5 | **`finlio/v1` document schema** — frontmatter + section shapes, the contract the parser/serializer round-trips (PRD Appendix A) | _ | A | P0 |
+| [x] | SCHEMA-6 | **Agent-output schema — the Gokul↔Beny seam.** One envelope for briefs and reports: sections, per-item one-liners, ₹ amounts as money primitives, disclaimer, `generatedAt`, model + prompt version. **Agree this before either side builds against it**; the agents validate outputs into it (`AI-5`) and the screens render from it | Gokul + Beny | A | P0 |
 | [ ] | SCHEMA-7 | Versioning strategy for `finlio/v1` — how a stored document is upgraded when the schema moves (architecture §7 open question) | _ | A | P1 |
 
 ---
@@ -179,11 +179,11 @@ writing either adapter** — mobile implements the same one in Phase 4.
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
 | [ ] | STORE-1 | **ADR-0005 — what "on-device" means on the web.** Resolve the PRD §14 open question: OPFS primary with an IndexedDB fallback, encrypted client-side, no server copy by default. Blocks `STORE-4` | _ | A | P0 |
-| [ ] | STORE-2 | **`MarkdownStore` interface** in `packages/data` — `read` / `write` / `list` / `delete`, storage-agnostic, zero browser APIs in the signature | _ | A | P0 |
-| [ ] | STORE-3 | **`finlio/v1` parser + serializer** in `packages/core` — pure functions, table round-trip, Vitest incl. malformed input | _ | A | P0 |
-| [ ] | STORE-4 | **Web adapter** — OPFS/IndexedDB + WebCrypto **AES-GCM**; the key is derived client-side and **never sent to the server** | _ | A | P0 |
+| [x] | STORE-2 | **`MarkdownStore` interface** in `packages/data` — `read` / `write` / `list` / `delete`, storage-agnostic, zero browser APIs in the signature | _ | A | P0 |
+| [x] | STORE-3 | **`finlio/v1` parser + serializer** in `packages/core` — pure functions, table round-trip, Vitest incl. malformed input | _ | A | P0 |
+| [x] | STORE-4 | **Web adapter** — OPFS/IndexedDB + WebCrypto **AES-GCM**; the key is derived client-side and **never sent to the server** | _ | A | P0 |
 | [ ] | STORE-5 | **Key lifecycle, documented** — where the key comes from, what happens on a second device, and what happens when it is lost. Ship nothing that writes encrypted data until this is written down | _ | A | P0 |
-| [ ] | STORE-6 | **In-memory adapter + conformance test suite** every adapter must pass — the mobile adapter reuses it verbatim in Phase 4 | _ | A | P0 |
+| [x] | STORE-6 | **In-memory adapter + conformance test suite** every adapter must pass — the mobile adapter reuses it verbatim in Phase 4 | _ | A | P0 |
 | [ ] | STORE-7 | Export / import the raw `.md` file (data-rights obligation and the user's escape hatch) | _ | B | P1 |
 
 ---
@@ -196,13 +196,13 @@ provider interface so live pricing drops in later without a rewrite.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | NW-1 | **Net-worth engine in `packages/core`** — assets − liabilities in base currency, per-class aggregation, Vitest on the math (target ≥ 90% on this module) | _ | A | P0 |
-| [ ] | NW-2 | **Valuation provider interface** — `manual` implementation now; live NSE/BSE/NAV/gold adapters plug in later (PRD `IN-1`, Phase 3+) | _ | A | P0 |
-| [ ] | NW-3 | Asset-allocation breakdown across classes (the data behind the pie/treemap) | _ | A | P0 |
+| [x] | NW-1 | **Net-worth engine in `packages/core`** — assets − liabilities in base currency, per-class aggregation, Vitest on the math (target ≥ 90% on this module) | _ | A | P0 |
+| [x] | NW-2 | **Valuation provider interface** — `manual` implementation now; live NSE/BSE/NAV/gold adapters plug in later (PRD `IN-1`, Phase 3+) | _ | A | P0 |
+| [x] | NW-3 | Asset-allocation breakdown across classes (the data behind the pie/treemap) | _ | A | P0 |
 | [ ] | NW-4 | `/app` shell + routes behind auth — dashboard layout, nav, signed-in chrome (Gokul builds, Beny polishes) | _ | B | P0 |
-| [ ] | NW-5 | **Manual asset entry** — guided, first asset in < 3 min (PRD `ON-3`), writing through `MarkdownStore` | _ | B | P0 |
-| [ ] | NW-6 | **Manual liability entry** — EMIs, cards, loans (PRD `NW-3`) | _ | B | P0 |
-| [ ] | NW-7 | **Net-worth dashboard** — total, allocation chart, liabilities, last-updated. This is the exit criterion | _ | B | P0 |
+| [x] | NW-5 | **Manual asset entry** — guided, first asset in < 3 min (PRD `ON-3`), writing through `MarkdownStore` | _ | B | P0 |
+| [x] | NW-6 | **Manual liability entry** — EMIs, cards, loans (PRD `NW-3`) | _ | B | P0 |
+| [x] | NW-7 | **Net-worth dashboard** — total, allocation chart, liabilities, last-updated. This is the exit criterion | _ | B | P0 |
 | [ ] | NW-8 | Monthly `snapshots` write (aggregates only) + MoM delta | _ | A | P1 |
 | [ ] | NW-9 | Empty / loading / error states and a **WCAG 2.1 AA** pass on the new surface | Beny | B | P1 |
 | [ ] | NW-10 | **Playwright** e2e: sign in → add asset → see net worth (TECHSTACK §10 puts Playwright from this phase; it is also how async Server Components get covered) | _ | A | P1 |
@@ -279,11 +279,11 @@ call.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | AI-1 | **LLM adapter interface** in `packages/core` — provider-agnostic `generate({ task, input, schema })`; Claude (reasoning) + Gemini Flash (fast) implementations behind it | Gokul | A | P0 |
-| [ ] | AI-2 | Task → model **routing table** + failover, so a provider change is config, not a refactor | Gokul | A | P0 |
-| [ ] | AI-3 | **Prompt skeletons as pure builders** (PRD Appendix B shape): morning brief, goal coach, expense analyser, monthly report. Pure functions of typed input — testable with zero network | Gokul | A | P0 |
-| [ ] | AI-4 | **Guardrails module** — disclaimer appended to every output, suggest-never-execute assertions, no system-prompt leakage, prompt-injection hardening for any fetched web/news text | Gokul | A | P0 |
-| [ ] | AI-5 | **Output validation** — every LLM response parsed against `SCHEMA-6` before it can be used or rendered; typed failure path, never a raw string to the UI | Gokul | A | P0 |
+| [x] | AI-1 | **LLM adapter interface** in `packages/core` — provider-agnostic `generate({ task, input, schema })`; Claude (reasoning) + Gemini Flash (fast) implementations behind it | Gokul | A | P0 |
+| [x] | AI-2 | Task → model **routing table** + failover, so a provider change is config, not a refactor | Gokul | A | P0 |
+| [x] | AI-3 | **Prompt skeletons as pure builders** (PRD Appendix B shape): morning brief, goal coach, expense analyser, monthly report. Pure functions of typed input — testable with zero network | Gokul | A | P0 |
+| [x] | AI-4 | **Guardrails module** — disclaimer appended to every output, suggest-never-execute assertions, no system-prompt leakage, prompt-injection hardening for any fetched web/news text | Gokul | A | P0 |
+| [x] | AI-5 | **Output validation** — every LLM response parsed against `SCHEMA-6` before it can be used or rendered; typed failure path, never a raw string to the UI | Gokul | A | P0 |
 | [ ] | AI-6 | **Eval-suite stub** — golden fixtures + Vitest harness asserting output structure, **no fabricated numbers**, and disclaimer present. Runs offline against a recorded/mock provider so CI never calls an LLM | Gokul | A | P0 |
 | [ ] | AI-7 | Token/cost accounting helper + per-user caps (Upstash Redis) | _ | A | P1 |
 | [ ] | AI-8 | pgvector retrieval helper stub for news/holdings relevance (Phase 3 fills it) | _ | A | P1 |

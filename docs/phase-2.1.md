@@ -203,13 +203,13 @@ no-op for packages (no `build` task), so it can stay as-is.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | PKG-1 | `packages/config` — eslint / tsconfig / tailwind preset; `apps/web` points at it | _ | A | P0 |
-| [ ] | PKG-2 | `packages/data` — created; Drizzle client + repositories | _ | A | P0 |
-| [ ] | PKG-3 | `packages/api` — tRPC skeleton | _ | A | P0 |
-| [ ] | PKG-4 | Turbo covers packages (`lint`/`typecheck`/`test`); Vitest in `core` + `schemas` | _ | A | P0 |
-| [ ] | PKG-5 | Purity lint rule on `packages/core` (D1) | _ | A | P0 |
-| [ ] | DB-7 | Move Drizzle schema **and migration history** into `packages/data` | _ | A | P0 |
-| [ ] | PKG-7 | Restructure `core` into `domain/` `ports/` `services/`; note the D1 amendment in ADR-0002 | _ | A | P0 |
+| [x] | PKG-1 | `packages/config` — eslint / tsconfig / tailwind preset; `apps/web` points at it | _ | A | P0 |
+| [x] | PKG-2 | `packages/data` — created; Drizzle client + repositories | _ | A | P0 |
+| [x] | PKG-3 | `packages/api` — tRPC skeleton | _ | A | P0 |
+| [x] | PKG-4 | Turbo covers packages (`lint`/`typecheck`/`test`); Vitest in `core` + `schemas` | _ | A | P0 |
+| [x] | PKG-5 | Purity lint rule on `packages/core` (D1) | _ | A | P0 |
+| [x] | DB-7 | Move Drizzle schema **and migration history** into `packages/data` | _ | A | P0 |
+| [x] | PKG-7 | Restructure `core` into `domain/` `ports/` `services/`; note the D1 amendment in ADR-0002 | _ | A | P0 |
 
 ---
 
@@ -326,12 +326,12 @@ rejected, and a `FinlioDocument` fixture matching PRD Appendix A accepted.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | SCHEMA-1 | Stand up `packages/schemas` on Zod 4 + Vitest | _ | A | P0 |
-| [ ] | SCHEMA-2 | Money primitives (integer minor units, D2) | _ | A | P0 |
-| [ ] | SCHEMA-3 | Asset + liability discriminated unions (PRD §6.4) | _ | A | P0 |
-| [ ] | SCHEMA-4 | Goal schema | _ | A | P0 |
-| [ ] | SCHEMA-5 | `FinlioDocument` — the `finlio/v1` in-memory model | _ | A | P0 |
-| [ ] | SCHEMA-6 | **Agree + land `AgentOutput`** — needs Beny | Gokul + Beny | A | P0 |
+| [x] | SCHEMA-1 | Stand up `packages/schemas` on Zod 4 + Vitest | _ | A | P0 |
+| [x] | SCHEMA-2 | Money primitives (integer minor units, D2) | _ | A | P0 |
+| [x] | SCHEMA-3 | Asset + liability discriminated unions (PRD §6.4) | _ | A | P0 |
+| [x] | SCHEMA-4 | Goal schema | _ | A | P0 |
+| [x] | SCHEMA-5 | `FinlioDocument` — the `finlio/v1` in-memory model | _ | A | P0 |
+| [x] | SCHEMA-6 | **Agree + land `AgentOutput`** — needs Beny | Gokul + Beny | A | P0 |
 
 ---
 
@@ -498,9 +498,9 @@ default and the ≤150-word cap are inputs to the builder, not prose baked into 
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | AI-1 | `LlmClient` port + Anthropic / Gemini / Recorded adapters | Gokul | A | P0 |
-| [ ] | AI-2 | Task→model routing table + failover | Gokul | A | P0 |
-| [ ] | AI-3 | Prompt builders as pure, versioned functions | Gokul | A | P0 |
+| [x] | AI-1 | `LlmClient` port + Anthropic / Gemini / Recorded adapters | Gokul | A | P0 |
+| [x] | AI-2 | Task→model routing table + failover | Gokul | A | P0 |
+| [x] | AI-3 | Prompt builders as pure, versioned functions | Gokul | A | P0 |
 | [ ] | OBS-6 | Update TECHSTACK §7 to point at the routing table instead of naming a model tier | _ | A | P1 |
 
 ---
@@ -510,7 +510,7 @@ default and the ≤150-word cap are inputs to the builder, not prose baked into 
 | ✔ | ID | Item | Owner |
 |---|---|---|---|
 | [ ] | DB-1b | Preview Supabase project + keys in Vercel/GitHub secrets — blocks `DB-14` | Beny |
-| [ ] | SCHEMA-6 | Sit with Beny on the agent-output envelope; the strawman in §2 is the starting point | Gokul + Beny |
+| [x] | SCHEMA-6 | Sit with Beny on the agent-output envelope; the strawman in §2 is the starting point | Gokul + Beny |
 | [ ] | REPO-6 | ~~Stray root `package-lock.json`~~ **done** — removed and reinstalled with pnpm | — |
 
 > Note from the reinstall: `package.json` pins `packageManager: pnpm@11.22.0` but the
