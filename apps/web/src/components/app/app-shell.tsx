@@ -98,14 +98,17 @@ function Rail() {
         >
           <Settings className="size-[19px]" strokeWidth={1.75} />
         </span>
-        <Link
-          href="/"
-          title="Back to site"
-          aria-label="Back to site"
-          className="grid size-11 place-items-center rounded-xl text-white/45 transition hover:bg-white/5 hover:text-white/80"
-        >
-          <LogOut className="size-[19px]" strokeWidth={1.75} />
-        </Link>
+        {/* POST, not a link: a prefetch must never be able to sign somebody out. */}
+        <form action="/auth/sign-out" method="post">
+          <button
+            type="submit"
+            title="Sign out"
+            aria-label="Sign out"
+            className="grid size-11 place-items-center rounded-xl text-white/45 transition hover:bg-white/5 hover:text-white/80"
+          >
+            <LogOut className="size-[19px]" strokeWidth={1.75} />
+          </button>
+        </form>
       </div>
     </nav>
   );

@@ -8,6 +8,13 @@
       "when": 1787008745958,
       "tag": "0000_fair_ulik",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788234440971,
+      "tag": "0001_product_tables",
+      "breakpoints": true
     }
   ]
 }

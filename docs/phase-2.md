@@ -102,14 +102,14 @@ stores the session in cookies, mobile will use Expo SecureStore, same client.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | AUTH-1 | Enable Supabase **Auth** on local + prod projects; configure redirect URLs, email OTP templates, session/JWT lifetimes | _ | A | P0 |
-| [ ] | AUTH-2 | **Supabase client in `packages/data` taking an injected storage adapter** (`getItem`/`setItem`/`removeItem`); web adapter = cookie storage via `@supabase/ssr`. No `next/*` inside the client itself | _ | A | P0 |
-| [ ] | AUTH-3 | **Email OTP** sign-in end-to-end (request code → verify → session) | _ | A | P0 |
-| [ ] | AUTH-4 | **Google** OAuth provider wired and tested | _ | A | P0 |
-| [ ] | AUTH-5 | Server-side session read in RSC + route protection for `/app/*` (unauthenticated → sign-in, preserving intent) | _ | A | P0 |
-| [ ] | AUTH-6 | Sign-in / verify / sign-out screens on the existing shell (Gokul builds, Beny polishes) | _ | B | P0 |
-| [ ] | AUTH-7 | `profiles` row created on first sign-in, via the service layer (not a Server Action) | _ | A | P0 |
-| [ ] | AUTH-8 | Auth tests with Supabase mocked: session present/absent, expiry, sign-out, protected-route redirect | _ | A | P0 |
+| [ ] | AUTH-1 | Enable Supabase **Auth** on local + prod projects; configure redirect URLs, email OTP templates, session/JWT lifetimes *Blocked: needs Supabase dashboard access — providers, redirect URLs, OTP templates.* | _ | A | P0 |
+| [x] | AUTH-2 | **Supabase client in `packages/data` taking an injected storage adapter** (`getItem`/`setItem`/`removeItem`); web adapter = cookie storage via `@supabase/ssr`. No `next/*` inside the client itself | _ | A | P0 |
+| [~] | AUTH-3 | **Email OTP** sign-in end-to-end (request code → verify → session) *Code complete; unverified against a live Supabase project.* | _ | A | P0 |
+| [~] | AUTH-4 | **Google** OAuth provider wired and tested *Code complete; unverified against a live Supabase project.* | _ | A | P0 |
+| [x] | AUTH-5 | Server-side session read in RSC + route protection for `/app/*` (unauthenticated → sign-in, preserving intent) | _ | A | P0 |
+| [x] | AUTH-6 | Sign-in / verify / sign-out screens on the existing shell (Gokul builds, Beny polishes) | _ | B | P0 |
+| [x] | AUTH-7 | `profiles` row created on first sign-in, via the service layer (not a Server Action) | _ | A | P0 |
+| [x] | AUTH-8 | Auth tests with Supabase mocked: session present/absent, expiry, sign-out, protected-route redirect | _ | A | P0 |
 | [ ] | AUTH-9 | **Apple** Sign-in provider. *P1 only because it is blocked on Apple Developer Program enrolment and is mandatory for the App Store in Phase 4 — the adapter seam (`AUTH-2`) is what Phase 2 must get right, the provider itself is configuration.* | _ | A | P1 |
 | [ ] | AUTH-10 | Onboarding: base currency, risk profile, income, avg monthly expenses (PRD `ON-2`) | _ | B | P1 |
 | [ ] | AUTH-11 | Account deletion + full data export (PRD §8 data rights) | _ | A | P1 |
@@ -123,14 +123,14 @@ data goes to Postgres — raw holdings stay on-device (`DB-15`).
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | DB-7 | Move the Drizzle schema + typed client from `apps/web/src/db` into **`packages/data`**; `apps/web` re-exports | _ | A | P0 |
-| [ ] | DB-8 | **`profiles`** — `user_id` → `auth.users`, base currency, risk profile, annual income, avg monthly expenses, timestamps | _ | A | P0 |
-| [ ] | DB-9 | **`subscriptions`** — tier, status, Dodo customer/subscription ids, current period end. **Server-written only** (webhook), clients read | _ | A | P0 |
-| [ ] | DB-10 | **`goals`** — name, target amount, deadline, currency, linked-asset ids, timestamps | _ | A | P0 |
-| [ ] | DB-11 | **`snapshots`** — month, net worth, total assets, total liabilities, savings rate. **Aggregates only, never raw holdings** | _ | A | P0 |
-| [ ] | DB-12 | **`brief_logs`** — user, job, run key, sent_at, status. Phase 3 writes it; the table + RLS land now so the agents have somewhere to go | _ | A | P0 |
-| [ ] | DB-13 | **RLS enabled + owner-only policy on every new table**, plus a test that fails if any table in the schema has RLS off | _ | A | P0 |
-| [ ] | DB-14 | Migrations generated and **applied in CI against the preview DB** (closes the Phase-1 `DB-5` gap; needs `DB-1b`) | _ | A | P0 |
+| [x] | DB-7 | Move the Drizzle schema + typed client from `apps/web/src/db` into **`packages/data`**; `apps/web` re-exports | _ | A | P0 |
+| [x] | DB-8 | **`profiles`** — `user_id` → `auth.users`, base currency, risk profile, annual income, avg monthly expenses, timestamps | _ | A | P0 |
+| [x] | DB-9 | **`subscriptions`** — tier, status, Dodo customer/subscription ids, current period end. **Server-written only** (webhook), clients read | _ | A | P0 |
+| [x] | DB-10 | **`goals`** — name, target amount, deadline, currency, linked-asset ids, timestamps | _ | A | P0 |
+| [x] | DB-11 | **`snapshots`** — month, net worth, total assets, total liabilities, savings rate. **Aggregates only, never raw holdings** | _ | A | P0 |
+| [x] | DB-12 | **`brief_logs`** — user, job, run key, sent_at, status. Phase 3 writes it; the table + RLS land now so the agents have somewhere to go | _ | A | P0 |
+| [x] | DB-13 | **RLS enabled + owner-only policy on every new table**, plus a test that fails if any table in the schema has RLS off | _ | A | P0 |
+| [ ] | DB-14 | Migrations generated and **applied in CI against the preview DB** (closes the Phase-1 `DB-5` gap; needs `DB-1b`) *Blocked on DB-1b (preview project).* | _ | A | P0 |
 | [ ] | DB-15 | **ADR-0004 — what may leave the device.** Write down the rule: raw holdings never reach the server; only derived aggregates (`snapshots`) and metadata (`goals`) do. Everything below depends on this being settled | _ | A | P0 |
 | [ ] | DB-16 | Enable **pgvector** on the product project (Phase 3 retrieval needs it; enabling early avoids a migration then) | _ | A | P1 |
 
@@ -144,11 +144,11 @@ Server Action.**
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | API-1 | tRPC router in **`packages/api`**: context (verify the Supabase JWT → `userId`), `publicProcedure` / `protectedProcedure`, Zod input validation from `packages/schemas` | _ | A | P0 |
-| [ ] | API-2 | Mount it at `apps/web/app/api/trpc/[trpc]/route.ts` | _ | A | P0 |
-| [ ] | API-3 | Typed client + query provider in `apps/web`; **no component or page touches Drizzle/Supabase directly** | _ | A | P0 |
-| [ ] | API-4 | **Service layer in `packages/core/src/services/*`** — profile, goals, snapshots, entitlements. Routers are ~10 lines each | _ | A | P0 |
-| [ ] | API-5 | Audit existing Server Actions: `joinWaitlist` stays a thin wrapper; document the rule so nothing new grows logic there | _ | A | P0 |
+| [x] | API-1 | tRPC router in **`packages/api`**: context (verify the Supabase JWT → `userId`), `publicProcedure` / `protectedProcedure`, Zod input validation from `packages/schemas` | _ | A | P0 |
+| [x] | API-2 | Mount it at `apps/web/app/api/trpc/[trpc]/route.ts` | _ | A | P0 |
+| [x] | API-3 | Typed client + query provider in `apps/web`; **no component or page touches Drizzle/Supabase directly** | _ | A | P0 |
+| [x] | API-4 | **Service layer in `packages/core/src/services/*`** — profile, goals, snapshots, entitlements. Routers are ~10 lines each | _ | A | P0 |
+| [x] | API-5 | Audit existing Server Actions: `joinWaitlist` stays a thin wrapper; document the rule so nothing new grows logic there | _ | A | P0 |
 | [ ] | API-6 | Error mapping (`TRPCError` → user-safe copy) and a shared **not-investment-advice** disclaimer helper | _ | A | P1 |
 | [ ] | API-7 | Rate limiting on protected procedures (Upstash Redis) | _ | A | P1 |
 
@@ -178,7 +178,7 @@ writing either adapter** — mobile implements the same one in Phase 4.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | STORE-1 | **ADR-0005 — what "on-device" means on the web.** Resolve the PRD §14 open question: OPFS primary with an IndexedDB fallback, encrypted client-side, no server copy by default. Blocks `STORE-4` | _ | A | P0 |
+| [x] | STORE-1 | **ADR-0005 — what "on-device" means on the web.** Resolve the PRD §14 open question: OPFS primary with an IndexedDB fallback, encrypted client-side, no server copy by default. Blocks `STORE-4` | _ | A | P0 |
 | [x] | STORE-2 | **`MarkdownStore` interface** in `packages/data` — `read` / `write` / `list` / `delete`, storage-agnostic, zero browser APIs in the signature | _ | A | P0 |
 | [x] | STORE-3 | **`finlio/v1` parser + serializer** in `packages/core` — pure functions, table round-trip, Vitest incl. malformed input | _ | A | P0 |
 | [x] | STORE-4 | **Web adapter** — OPFS/IndexedDB + WebCrypto **AES-GCM**; the key is derived client-side and **never sent to the server** | _ | A | P0 |

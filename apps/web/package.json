@@ -12,22 +12,16 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
-    "typecheck": "next typegen && tsc --noEmit",
-    "db:generate": "drizzle-kit generate",
-    "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "typecheck": "next typegen && tsc --noEmit"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",
     "@react-email/components": "1.0.12",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "drizzle-orm": "^0.45.2",
     "gsap": "^3.15.0",
     "lucide-react": "^1.31.0",
     "next": "16.3.1",
-    "postgres": "^3.4.9",
     "posthog-js": "^1.417.1",
     "react": "19.2.8",
     "react-dom": "19.2.8",
@@ -37,7 +31,14 @@
     "tw-animate-css": "^1.4.0",
     "@finlio/core": "workspace:*",
     "@finlio/schemas": "workspace:*",
-    "@finlio/data": "workspace:*"
+    "@finlio/data": "workspace:*",
+    "@finlio/api": "workspace:*",
+    "@trpc/server": "^11.18.0",
+    "@trpc/client": "^11.18.0",
+    "@trpc/tanstack-react-query": "^11.18.0",
+    "@tanstack/react-query": "^5.102.8",
+    "@supabase/supabase-js": "^2.112.4",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@react-email/ui": "^6.9.2",
@@ -53,7 +54,6 @@
     "@vitest/coverage-v8": "^4.1.10",
     "babel-plugin-react-compiler": "1.0.0",
     "dotenv": "^17.4.2",
-    "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
     "jsdom": "^30.0.1",

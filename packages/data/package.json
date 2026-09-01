@@ -7,19 +7,28 @@
     ".": "./src/index.ts",
     "./llm": "./src/llm/index.ts",
     "./market": "./src/market/index.ts",
-    "./store": "./src/store/index.ts"
+    "./store": "./src/store/index.ts",
+    "./db": "./src/db/index.ts",
+    "./auth": "./src/auth/index.ts",
+    "./repositories": "./src/repositories/index.ts"
   },
   "scripts": {
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate",
+    "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
     "@finlio/core": "workspace:*",
     "@finlio/schemas": "workspace:*",
     "@google/genai": "^2.20.0",
     "zod": "^4.5.4",
-    "yahoo-finance2": "^4.0.2"
+    "yahoo-finance2": "^4.0.2",
+    "drizzle-orm": "^0.45.2",
+    "postgres": "^3.4.9",
+    "@supabase/supabase-js": "^2.112.4"
   },
   "devDependencies": {
     "@finlio/config": "workspace:*",
@@ -28,6 +37,8 @@
     "typescript-eslint": "^8",
     "typescript": "^5",
     "vitest": "^4.1.10",
-    "@types/node": "^26"
+    "@types/node": "^26",
+    "drizzle-kit": "^0.31.10",
+    "dotenv": "^17.4.2"
   }
 }

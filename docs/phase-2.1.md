@@ -415,14 +415,14 @@ repository, and a sign-in form component test through accessible roles.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | AUTH-1 | Supabase Auth enabled local + prod; redirect URLs, OTP templates, JWT lifetimes | _ | A | P0 |
-| [ ] | AUTH-2 | `createFinlioAuthClient` + `SessionStorage` in `packages/data`; cookie adapter in `apps/web` | _ | A | P0 |
-| [ ] | AUTH-3 | Email OTP end-to-end | _ | A | P0 |
-| [ ] | AUTH-4 | Google OAuth | _ | A | P0 |
-| [ ] | AUTH-5 | `src/proxy.ts` optimistic redirect + `requireUser()` DAL (D3) | _ | A | P0 |
-| [ ] | AUTH-6 | Sign-in / verify / sign-out screens (Gokul builds, Beny polishes) | _ | B | P0 |
-| [ ] | AUTH-7 | `ensureProfile` on first sign-in, via the service layer | _ | A | P0 |
-| [ ] | AUTH-8 | Auth tests — storage conformance, DAL redirect, profile idempotency | _ | A | P0 |
+| [ ] | AUTH-1 | Supabase Auth enabled local + prod; redirect URLs, OTP templates, JWT lifetimes *Blocked: needs Supabase dashboard access — providers, redirect URLs, OTP templates.* | _ | A | P0 |
+| [x] | AUTH-2 | `createFinlioAuthClient` + `SessionStorage` in `packages/data`; cookie adapter in `apps/web` | _ | A | P0 |
+| [~] | AUTH-3 | Email OTP end-to-end *Code complete; unverified against a live Supabase project.* | _ | A | P0 |
+| [~] | AUTH-4 | Google OAuth *Code complete; unverified against a live Supabase project.* | _ | A | P0 |
+| [x] | AUTH-5 | `src/proxy.ts` optimistic redirect + `requireUser()` DAL (D3) | _ | A | P0 |
+| [x] | AUTH-6 | Sign-in / verify / sign-out screens (Gokul builds, Beny polishes) | _ | B | P0 |
+| [x] | AUTH-7 | `ensureProfile` on first sign-in, via the service layer | _ | A | P0 |
+| [x] | AUTH-8 | Auth tests — storage conformance, DAL redirect, profile idempotency | _ | A | P0 |
 
 ---
 

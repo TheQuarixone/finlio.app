@@ -22,3 +22,6 @@ if (process.env.NODE_ENV !== "production") {
 }
 
 export const db = drizzle(client, { schema });
+
+/** The typed Drizzle client, so repositories can take it as a dependency. */
+export type Db = typeof db;

@@ -2,7 +2,7 @@ import { config } from "dotenv";
 import { defineConfig } from "drizzle-kit";
 
 // drizzle-kit runs outside Next, so load the app's local env explicitly.
-config({ path: ".env.local" });
+config({ path: "../../apps/web/.env.local" });
 
 export default defineConfig({
   schema: "./src/db/schema.ts",
