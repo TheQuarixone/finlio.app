@@ -37,12 +37,18 @@ export async function GET(request: NextRequest) {
   // First sign-in creates the profile row. Idempotent, so every later sign-in
   // is a no-op — and it runs through the service layer because mobile will hit
   // exactly this path in Phase 4.
+  let isNewAccount = false;
   try {
-    await ensureProfile(serviceContextFor(data.user.id));
+    ({ created: isNewAccount } = await ensureProfile(serviceContextFor(data.user.id)));
   } catch (cause) {
     // A profile row is recoverable; blocking the sign-in over it is not.
     console.error("ensureProfile failed after sign-in:", cause);
   }
 
-  return NextResponse.redirect(new URL(destination, request.url));
+  // The funnel's first step is fired from the client, which is where consent
+  // lives — so it is passed as a one-shot flag rather than captured here.
+  const target = new URL(destination, request.url);
+  if (isNewAccount) target.searchParams.set("welcome", "1");
+
+  return NextResponse.redirect(target);
 }

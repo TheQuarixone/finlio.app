@@ -1,0 +1,23 @@
+{
+  "name": "goal coach — one reachable goal, one not",
+  "promptVersion": "goal-coach@1",
+  "allowedFigures": ["725096", "325000", "10259", "4162616", "36549", "600000"],
+  "allowedRefs": ["3f2504e0-4f89-41d3-9a0c-0305e82c3305"],
+  "response": {
+    "headline": "Your emergency fund is on pace; education is not",
+    "sections": [
+      {
+        "id": "goals",
+        "title": "Where you stand",
+        "body": "Setting aside 10259 a month keeps the emergency fund on track.",
+        "items": [
+          {
+            "ref": "3f2504e0-4f89-41d3-9a0c-0305e82c3305",
+            "text": "Education needs 36549 a month, which is more than your current surplus.",
+            "amount": { "minor": 3654900, "currency": "INR" }
+          }
+        ]
+      }
+    ]
+  }
+}

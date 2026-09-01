@@ -84,4 +84,17 @@ export function track(
 export const EVENTS = {
   waitlistSubmitted: "waitlist_submitted",
   waitlistConfirmed: "waitlist_confirmed",
+
+  /* The signed-in funnel (phase-2 OBS-3): sign up → add a holding → see a net
+     worth. These three answer the only question that matters this phase — does
+     a new account reach a number that means something to them.
+
+     Properties are counts and categories, never amounts. A holding's value is
+     exactly what must not leave the device (ADR-0004), and analytics is a
+     leak path like any other. */
+  signupCompleted: "signup_completed",
+  assetAdded: "asset_added",
+  networthViewed: "networth_viewed",
+  csvImported: "csv_imported",
+  goalCreated: "goal_created",
 } as const;

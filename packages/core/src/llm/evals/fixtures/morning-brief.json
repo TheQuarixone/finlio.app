@@ -1,0 +1,28 @@
+{
+  "name": "morning brief — two holdings with news",
+  "promptVersion": "morning-brief@1",
+  "allowedFigures": ["2850", "285000", "1450", "145000", "57000", "1743000"],
+  "allowedRefs": ["3f2504e0-4f89-41d3-9a0c-0305e82c3301", "3f2504e0-4f89-41d3-9a0c-0305e82c3302"],
+  "response": {
+    "headline": "Two of your holdings report results today",
+    "sections": [
+      {
+        "id": "holdings",
+        "title": "Your holdings",
+        "body": "Both companies you hold report before the open.",
+        "items": [
+          {
+            "ref": "3f2504e0-4f89-41d3-9a0c-0305e82c3301",
+            "text": "Reliance reports Q2 results after close; the stock last traded at 2850.",
+            "direction": "flat"
+          },
+          {
+            "ref": "3f2504e0-4f89-41d3-9a0c-0305e82c3302",
+            "text": "Infosys holds its board meeting today.",
+            "direction": "up"
+          }
+        ]
+      }
+    ]
+  }
+}

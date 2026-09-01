@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { computeNetWorth } from "@finlio/core/domain";
 import { useTRPC } from "@/lib/trpc/client";
+import { EVENTS, track } from "@/lib/analytics";
 import { useDocument } from "./use-document";
 import { AddGoalForm, GoalList, type NewGoal } from "./goals-panel";
 
@@ -75,6 +76,8 @@ export function GoalsView() {
   );
 
   function addGoal(goal: NewGoal) {
+    // No name and no amount — a goal's target is the user's business.
+    track(EVENTS.goalCreated, { existing: plans.data?.length ?? 0 });
     create.mutate(goal);
   }
 

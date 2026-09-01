@@ -131,7 +131,7 @@ data goes to Postgres — raw holdings stay on-device (`DB-15`).
 | [x] | DB-12 | **`brief_logs`** — user, job, run key, sent_at, status. Phase 3 writes it; the table + RLS land now so the agents have somewhere to go | _ | A | P0 |
 | [x] | DB-13 | **RLS enabled + owner-only policy on every new table**, plus a test that fails if any table in the schema has RLS off | _ | A | P0 |
 | [ ] | DB-14 | Migrations generated and **applied in CI against the preview DB** (closes the Phase-1 `DB-5` gap; needs `DB-1b`) *Blocked on DB-1b (preview project).* | _ | A | P0 |
-| [ ] | DB-15 | **ADR-0004 — what may leave the device.** Write down the rule: raw holdings never reach the server; only derived aggregates (`snapshots`) and metadata (`goals`) do. Everything below depends on this being settled | _ | A | P0 |
+| [x] | DB-15 | **ADR-0004 — what may leave the device.** Write down the rule: raw holdings never reach the server; only derived aggregates (`snapshots`) and metadata (`goals`) do. Everything below depends on this being settled | _ | A | P0 |
 | [ ] | DB-16 | Enable **pgvector** on the product project (Phase 3 retrieval needs it; enabling early avoids a migration then) | _ | A | P1 |
 
 ---
@@ -182,9 +182,9 @@ writing either adapter** — mobile implements the same one in Phase 4.
 | [x] | STORE-2 | **`MarkdownStore` interface** in `packages/data` — `read` / `write` / `list` / `delete`, storage-agnostic, zero browser APIs in the signature | _ | A | P0 |
 | [x] | STORE-3 | **`finlio/v1` parser + serializer** in `packages/core` — pure functions, table round-trip, Vitest incl. malformed input | _ | A | P0 |
 | [x] | STORE-4 | **Web adapter** — OPFS/IndexedDB + WebCrypto **AES-GCM**; the key is derived client-side and **never sent to the server** | _ | A | P0 |
-| [ ] | STORE-5 | **Key lifecycle, documented** — where the key comes from, what happens on a second device, and what happens when it is lost. Ship nothing that writes encrypted data until this is written down | _ | A | P0 |
+| [x] | STORE-5 | **Key lifecycle, documented** — where the key comes from, what happens on a second device, and what happens when it is lost. Ship nothing that writes encrypted data until this is written down | _ | A | P0 |
 | [x] | STORE-6 | **In-memory adapter + conformance test suite** every adapter must pass — the mobile adapter reuses it verbatim in Phase 4 | _ | A | P0 |
-| [ ] | STORE-7 | Export / import the raw `.md` file (data-rights obligation and the user's escape hatch) | _ | B | P1 |
+| [x] | STORE-7 | Export / import the raw `.md` file (data-rights obligation and the user's escape hatch) | _ | B | P1 |
 
 ---
 
@@ -199,7 +199,7 @@ provider interface so live pricing drops in later without a rewrite.
 | [x] | NW-1 | **Net-worth engine in `packages/core`** — assets − liabilities in base currency, per-class aggregation, Vitest on the math (target ≥ 90% on this module) | _ | A | P0 |
 | [x] | NW-2 | **Valuation provider interface** — `manual` implementation now; live NSE/BSE/NAV/gold adapters plug in later (PRD `IN-1`, Phase 3+) | _ | A | P0 |
 | [x] | NW-3 | Asset-allocation breakdown across classes (the data behind the pie/treemap) | _ | A | P0 |
-| [ ] | NW-4 | `/app` shell + routes behind auth — dashboard layout, nav, signed-in chrome (Gokul builds, Beny polishes) | _ | B | P0 |
+| [x] | NW-4 | `/app` shell + routes behind auth — dashboard layout, nav, signed-in chrome (Gokul builds, Beny polishes) | _ | B | P0 |
 | [x] | NW-5 | **Manual asset entry** — guided, first asset in < 3 min (PRD `ON-3`), writing through `MarkdownStore` | _ | B | P0 |
 | [x] | NW-6 | **Manual liability entry** — EMIs, cards, loans (PRD `NW-3`) | _ | B | P0 |
 | [x] | NW-7 | **Net-worth dashboard** — total, allocation chart, liabilities, last-updated. This is the exit criterion | _ | B | P0 |
@@ -215,11 +215,11 @@ PRD `ON-4`. Parsing is pure and **client-side** — the file never leaves the de
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | CSV-1 | Import pipeline in `packages/core`: parse → normalise → map to `finlio/v1` assets. Pure, fixture-tested | _ | A | P0 |
-| [ ] | CSV-2 | **Zerodha** holdings CSV parser + fixtures (incl. a malformed file) | _ | A | P0 |
-| [ ] | CSV-3 | **Groww** holdings CSV parser + fixtures | _ | A | P0 |
-| [ ] | CSV-4 | Import UI — file picker, parsed preview, **dedupe/merge** against existing holdings, explicit confirm before writing | _ | B | P0 |
-| [ ] | CSV-5 | Assert in tests that import performs **no network call** — the CSV is parsed in the browser and never uploaded | _ | A | P0 |
+| [x] | CSV-1 | Import pipeline in `packages/core`: parse → normalise → map to `finlio/v1` assets. Pure, fixture-tested | _ | A | P0 |
+| [x] | CSV-2 | **Zerodha** holdings CSV parser + fixtures (incl. a malformed file) | _ | A | P0 |
+| [x] | CSV-3 | **Groww** holdings CSV parser + fixtures | _ | A | P0 |
+| [x] | CSV-4 | Import UI — file picker, parsed preview, **dedupe/merge** against existing holdings, explicit confirm before writing | _ | B | P0 |
+| [x] | CSV-5 | Assert in tests that import performs **no network call** — the CSV is parsed in the browser and never uploaded | _ | A | P0 |
 | [ ] | CSV-6 | Angel One / ICICI Direct / Kite parsers | _ | A | P1 |
 
 ---
@@ -248,8 +248,8 @@ never force a billing rewrite.
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
 | [ ] | PAY-1 | DodoPayments account + products in **test mode**; confirm the INR recurring model and GST/entity setup (PRD §14 open question) | _ | A | P0 |
-| [ ] | PAY-2 | `POST /api/webhooks/dodo` REST route handler — **signature-verified**, idempotent, writes `subscriptions`. REST because the caller is external (ADR-0002) | _ | A | P0 |
-| [ ] | PAY-3 | **Entitlement service in `packages/core`** — `getEntitlement(userId)` → tier, read from the account. Clients never derive tier from a local purchase record | _ | A | P0 |
+| [x] | PAY-2 | `POST /api/webhooks/dodo` REST route handler — **signature-verified**, idempotent, writes `subscriptions`. REST because the caller is external (ADR-0002) | _ | A | P0 |
+| [x] | PAY-3 | **Entitlement service in `packages/core`** — `getEntitlement(userId)` → tier, read from the account. Clients never derive tier from a local purchase record | _ | A | P0 |
 | [ ] | PAY-4 | Wire the Free-tier gates (e.g. `GOAL-2`'s 3-goal cap) to entitlements | _ | A | P1 |
 | [ ] | PAY-5 | Pricing page + checkout link, **disabled / test mode only** | _ | B | P1 |
 
@@ -259,10 +259,10 @@ never force a billing rewrite.
 
 | ✔ | ID | Task | Owner | Track | Pri |
 |---|---|---|---|---|---|
-| [ ] | OBS-1 | **Sentry** on web (client + server + edge), source maps, release tagging | _ | A | P0 |
-| [ ] | OBS-2 | **Scrubbing** — a tested rule that raw Markdown, holdings, and ₹ amounts never reach Sentry or PostHog. A finance app leaking balances into an error tracker is the worst-case bug | _ | A | P0 |
-| [ ] | OBS-3 | PostHog product funnel for the signed-in surface: `signup_completed` → `asset_added` → `networth_viewed` (consent-gated, as Phase 1 established) | _ | A | P0 |
-| [ ] | OBS-4 | Add the new keys to `.env.example` — `SENTRY_DSN`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `DODO_*`, Upstash (closes Phase-1 `REPO-3`) | _ | A | P0 |
+| [x] | OBS-1 | **Sentry** on web (client + server + edge), source maps, release tagging | _ | A | P0 |
+| [x] | OBS-2 | **Scrubbing** — a tested rule that raw Markdown, holdings, and ₹ amounts never reach Sentry or PostHog. A finance app leaking balances into an error tracker is the worst-case bug | _ | A | P0 |
+| [x] | OBS-3 | PostHog product funnel for the signed-in surface: `signup_completed` → `asset_added` → `networth_viewed` (consent-gated, as Phase 1 established) | _ | A | P0 |
+| [x] | OBS-4 | Add the new keys to `.env.example` — `SENTRY_DSN`, `ANTHROPIC_API_KEY`, `GEMINI_API_KEY`, `DODO_*`, Upstash (closes Phase-1 `REPO-3`) | _ | A | P0 |
 | [ ] | OBS-5 | Uptime/health check on the app + a note on the 99.5% target (PRD §6.9) | _ | A | P1 |
 
 ---
@@ -284,9 +284,35 @@ call.
 | [x] | AI-3 | **Prompt skeletons as pure builders** (PRD Appendix B shape): morning brief, goal coach, expense analyser, monthly report. Pure functions of typed input — testable with zero network | Gokul | A | P0 |
 | [x] | AI-4 | **Guardrails module** — disclaimer appended to every output, suggest-never-execute assertions, no system-prompt leakage, prompt-injection hardening for any fetched web/news text | Gokul | A | P0 |
 | [x] | AI-5 | **Output validation** — every LLM response parsed against `SCHEMA-6` before it can be used or rendered; typed failure path, never a raw string to the UI | Gokul | A | P0 |
-| [ ] | AI-6 | **Eval-suite stub** — golden fixtures + Vitest harness asserting output structure, **no fabricated numbers**, and disclaimer present. Runs offline against a recorded/mock provider so CI never calls an LLM | Gokul | A | P0 |
-| [ ] | AI-7 | Token/cost accounting helper + per-user caps (Upstash Redis) | _ | A | P1 |
+| [x] | AI-6 | **Eval-suite stub** — golden fixtures + Vitest harness asserting output structure, **no fabricated numbers**, and disclaimer present. Runs offline against a recorded/mock provider so CI never calls an LLM | Gokul | A | P0 |
+| [x] | AI-7 | Token/cost accounting helper + per-user caps (Upstash Redis) | _ | A | P1 |
 | [ ] | AI-8 | pgvector retrieval helper stub for news/holdings relevance (Phase 3 fills it) | _ | A | P1 |
+
+---
+
+## 12b. What is left, and why
+
+Everything not blocked on a third-party account is done. The six open P0s all
+need credentials or a dashboard nobody has stood up yet — they are not
+engineering work, and none of them is waiting on a design decision.
+
+| ID | Needs | Owner |
+|---|---|---|
+| `DB-1b` | A preview Supabase project + keys in Vercel/GitHub secrets | Beny |
+| `AUTH-1` | Supabase dashboard: enable providers, redirect URLs, OTP templates | Gokul |
+| `AUTH-3` | A live project to send a real OTP through | Gokul |
+| `AUTH-4` | Google OAuth credentials on that project | Gokul |
+| `DB-14` | `DB-1b` first — then CI applies migrations against it | _ |
+| `PAY-1` | A DodoPayments account in test mode | Gokul |
+
+**The honest status of sign-in.** `AUTH-3` and `AUTH-4` are written, typed, and
+wired end to end, but no one has watched an OTP arrive. Every session tested so
+far ran through the development-user fallback in `lib/dal.ts`, which is disabled
+in production. Treat sign-in as unproven until someone signs in.
+
+Everything that could be verified without those accounts has been, against a
+real Postgres: RLS isolation, goals CRUD through tRPC, the free-tier cap, CSV
+import with dedupe, and the net-worth maths.
 
 ---
 
@@ -296,25 +322,25 @@ call.
       **real net worth** on web
 - [ ] Supabase Auth live — email OTP + Google (Apple tracked in `AUTH-9`) — through an
       **injectable storage adapter** in `packages/data`
-- [ ] `profiles`, `subscriptions`, `goals`, `snapshots`, `brief_logs` exist via Drizzle
+- [x] `profiles`, `subscriptions`, `goals`, `snapshots`, `brief_logs` exist via Drizzle
       migrations with **RLS + owner-only policies on every table**; migrations apply in
       CI against the preview DB
-- [ ] App data flows over **tRPC** (`packages/api`); business logic lives in
+- [x] App data flows over **tRPC** (`packages/api`); business logic lives in
       `packages/core`; Server Actions are still thin wrappers; webhooks are REST
-- [ ] `MarkdownStore` is an interface with a **passing conformance suite**; the web
+- [x] `MarkdownStore` is an interface with a **passing conformance suite**; the web
       adapter (OPFS/IndexedDB + WebCrypto) implements it; the key lifecycle is documented
-- [ ] Net-worth engine, goal planner, `finlio/v1` parser, and CSV parsers are pure
+- [x] Net-worth engine, goal planner, `finlio/v1` parser, and CSV parsers are pure
       `packages/core` code with **Vitest** coverage
-- [ ] Shared Zod schemas in `packages/schemas`, **including the agreed agent-output
+- [x] Shared Zod schemas in `packages/schemas`, **including the agreed agent-output
       schema** (`SCHEMA-6`)
-- [ ] Zerodha + Groww CSV import works client-side, with dedupe and confirm
-- [ ] Static goals: create, plan (6% inflation), see progress
-- [ ] **Sentry** live with financial values scrubbed; PostHog signed-in funnel firing
-- [ ] DodoPayments **scaffolding** only — webhook + `subscriptions` + entitlement
+- [x] Zerodha + Groww CSV import works client-side, with dedupe and confirm
+- [x] Static goals: create, plan (6% inflation), see progress
+- [x] **Sentry** live with financial values scrubbed; PostHog signed-in funnel firing
+- [x] DodoPayments **scaffolding** only — webhook + `subscriptions` + entitlement
       service; **nobody is charged**
-- [ ] AI groundwork landed **without UI**: LLM adapter, prompt builders, guardrails,
+- [x] AI groundwork landed **without UI**: LLM adapter, prompt builders, guardrails,
       schema-validated outputs, eval-suite stub — all offline in CI
-- [ ] ADR-0004 (what leaves the device) and ADR-0005 (web on-device storage) written
+- [x] ADR-0004 (what leaves the device) and ADR-0005 (web on-device storage) written
 - [ ] CI green (`Lint · Typecheck · Test · Build`); branch protection unchanged; docs
       updated with what shipped
 

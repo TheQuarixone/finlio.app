@@ -14,8 +14,12 @@ import type { Goal, MonthlySnapshot, Profile, ProfileUpdate, SubscriptionTier } 
 
 export interface ProfileRepository {
   find(userId: string): Promise<Profile | null>;
-  /** Idempotent: called on every sign-in, creates only on the first. */
-  ensure(userId: string): Promise<Profile>;
+  /**
+   * Idempotent: called on every sign-in, creates only on the first.
+   * `created` distinguishes a new account from a returning one, which is the
+   * difference between a signup and a login in the funnel.
+   */
+  ensure(userId: string): Promise<{ profile: Profile; created: boolean }>;
   update(userId: string, patch: ProfileUpdate): Promise<Profile>;
 }
 

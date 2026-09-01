@@ -8,7 +8,9 @@
     "./domain": "./src/domain/index.ts",
     "./ports": "./src/ports/index.ts",
     "./services": "./src/services/index.ts",
-    "./llm": "./src/llm/index.ts"
+    "./llm": "./src/llm/index.ts",
+    "./import": "./src/import/index.ts",
+    "./observability": "./src/observability/index.ts"
   },
   "scripts": {
     "lint": "eslint",

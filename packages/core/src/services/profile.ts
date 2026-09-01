@@ -8,7 +8,9 @@ import type { ServiceContext } from "./context";
  * hits the same path in Phase 4, and a trigger cannot be unit-tested with a
  * fake repository.
  */
-export async function ensureProfile(ctx: ServiceContext): Promise<Profile> {
+export async function ensureProfile(
+  ctx: ServiceContext
+): Promise<{ profile: Profile; created: boolean }> {
   return ctx.profiles.ensure(ctx.userId);
 }
 

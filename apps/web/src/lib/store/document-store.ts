@@ -3,7 +3,7 @@
 import { type FinlioDocument, emptyDocument } from "@finlio/schemas";
 import { PRIMARY_DOCUMENT_KEY, type MarkdownStore } from "@finlio/core/ports";
 import { parse, serialize } from "@finlio/core/domain";
-import { createWebMarkdownStore, isSupported } from "./web-markdown-store";
+import { createWebMarkdownStore, isSupported, requestPersistentStorage } from "./web-markdown-store";
 import { createMemoryMarkdownStore } from "@finlio/data/store";
 
 /**
@@ -19,7 +19,14 @@ function activeStore(): MarkdownStore {
   if (store) return store;
   // A browser without OPFS still gets a working session — it just does not
   // persist. Better than a blank screen, and the UI says so.
-  store = isSupported() ? createWebMarkdownStore() : createMemoryMarkdownStore();
+  if (isSupported()) {
+    store = createWebMarkdownStore();
+    // Fire and forget: eviction destroys the key along with the data (ADR-0005),
+    // so it is worth asking, and nothing should block on the answer.
+    void requestPersistentStorage();
+  } else {
+    store = createMemoryMarkdownStore();
+  }
   return store;
 }
 
@@ -40,9 +47,22 @@ export async function saveDocument(doc: FinlioDocument): Promise<void> {
   await activeStore().write(PRIMARY_DOCUMENT_KEY, serialize(doc));
 }
 
-/** Raw Markdown for the export button — the user's escape hatch (STORE-7). */
+/**
+ * Raw Markdown for the export button.
+ *
+ * This is not a convenience feature. Per ADR-0005 the encryption key exists only
+ * in this browser and cannot be recovered by anyone, so an export the user has
+ * taken is the *only* backup that exists. Treat it as load-bearing.
+ */
 export async function exportMarkdown(): Promise<string> {
   return (await activeStore().read(PRIMARY_DOCUMENT_KEY)) ?? serialize(emptyDocument("INR"));
+}
+
+/** Restore from a previously exported file, after validating it parses. */
+export async function importMarkdown(markdown: string): Promise<FinlioDocument> {
+  const parsed = parse(markdown); // throws on anything that is not finlio/v1
+  await activeStore().write(PRIMARY_DOCUMENT_KEY, serialize(parsed));
+  return parsed;
 }
 
 export function persistenceAvailable(): boolean {

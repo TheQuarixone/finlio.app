@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import type { Asset, FinlioDocument, Liability } from "@finlio/schemas";
 import { emptyDocument } from "@finlio/schemas";
 import { loadDocument, saveDocument } from "@/lib/store/document-store";
+import { EVENTS, track } from "@/lib/analytics";
 
 /**
  * The document, as React state.
@@ -50,7 +51,12 @@ export function useDocument() {
   }, []);
 
   const addAsset = useCallback(
-    (asset: Asset) => commit((prev) => ({ ...prev, assets: [...prev.assets, asset] })),
+    (asset: Asset) => {
+      // The category, never the amount — analytics is a leak path like any
+      // other (ADR-0004).
+      track(EVENTS.assetAdded, { kind: asset.kind, source: "manual" });
+      return commit((prev) => ({ ...prev, assets: [...prev.assets, asset] }));
+    },
     [commit]
   );
 
@@ -66,6 +72,22 @@ export function useDocument() {
     [commit]
   );
 
+  /** Bulk replace, for a confirmed CSV import (one write, not N). */
+  const replaceAssets = useCallback(
+    (assets: Asset[]) => {
+      track(EVENTS.csvImported, { count: assets.length });
+      return commit((prev) => ({ ...prev, assets }));
+    },
+    [commit]
+  );
+
+  /** Re-read from storage after a restore replaced the whole document. */
+  const reload = useCallback(async () => {
+    const loaded = await loadDocument();
+    latest.current = loaded;
+    setDoc(loaded);
+  }, []);
+
   const removeLiability = useCallback(
     (id: string) =>
       commit((prev) => ({
@@ -80,5 +102,6 @@ export function useDocument() {
     doc, loading,
     addAsset, removeAsset,
     addLiability, removeLiability,
+    replaceAssets, reload,
   };
 }

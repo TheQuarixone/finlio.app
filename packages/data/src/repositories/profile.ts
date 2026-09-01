@@ -32,6 +32,10 @@ export function createProfileRepository(db: Db): ProfileRepository {
     async ensure(userId) {
       // Called on every sign-in, so it must be idempotent. `onConflictDoUpdate`
       // rather than `doNothing` so the statement always returns the row.
+      //
+      // Whether this was an insert is read from the timestamps: on a fresh row
+      // they are equal, on a returning user `updatedAt` has just moved. That
+      // avoids a second round trip purely to answer "is this new?".
       const [row] = await db
         .insert(profiles)
         .values({ userId })
@@ -40,7 +44,8 @@ export function createProfileRepository(db: Db): ProfileRepository {
           set: { updatedAt: new Date() },
         })
         .returning();
-      return toProfile(row!);
+      const created = row!.createdAt.getTime() === row!.updatedAt.getTime();
+      return { profile: toProfile(row!), created };
     },
 
     async update(userId, patch: ProfileUpdate) {

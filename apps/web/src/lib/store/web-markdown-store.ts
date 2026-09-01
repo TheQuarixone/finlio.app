@@ -78,6 +78,23 @@ async function rootDirectory(): Promise<FileSystemDirectoryHandle> {
   return navigator.storage.getDirectory();
 }
 
+/**
+ * Ask the browser not to evict this origin under storage pressure (ADR-0005).
+ *
+ * Without it, OPFS is "best effort" and can be cleared silently — and since the
+ * key lives in IndexedDB in the same origin, eviction destroys the data, not
+ * just a cache of it. Best-effort itself: browsers may decline, and Safari
+ * grants it based on engagement.
+ */
+export async function requestPersistentStorage(): Promise<boolean> {
+  try {
+    if (await navigator.storage.persisted()) return true;
+    return await navigator.storage.persist();
+  } catch {
+    return false;
+  }
+}
+
 export function isSupported(): boolean {
   return (
     typeof navigator !== "undefined" &&

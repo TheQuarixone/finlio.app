@@ -38,7 +38,8 @@
     "@trpc/tanstack-react-query": "^11.18.0",
     "@tanstack/react-query": "^5.102.8",
     "@supabase/supabase-js": "^2.112.4",
-    "server-only": "^0.0.1"
+    "server-only": "^0.0.1",
+    "@sentry/nextjs": "^10.73.0"
   },
   "devDependencies": {
     "@react-email/ui": "^6.9.2",

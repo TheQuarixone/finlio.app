@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState, useSyncExternalStore } from "react";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { computeNetWorth } from "@finlio/core/domain";
 import { useDocument } from "./use-document";
 import { NetWorthHero } from "./net-worth-hero";
@@ -10,6 +10,7 @@ import { AddAssetForm } from "./add-asset-form";
 import { AddLiabilityForm } from "./add-liability-form";
 import { AllocationDonut, AllocationLegend, toDonutData } from "./allocation-donut";
 import { persistenceAvailable } from "@/lib/store/document-store";
+import { EVENTS, track } from "@/lib/analytics";
 
 /** Support never changes within a session, so there is nothing to subscribe to. */
 const subscribeNever = () => () => {};
@@ -37,6 +38,32 @@ export function Dashboard() {
 
   const donut = useMemo(() => toDonutData(netWorth.allocation), [netWorth.allocation]);
   const empty = doc.assets.length === 0 && doc.liabilities.length === 0;
+
+  // Funnel step one. The callback route cannot capture this itself — PostHog
+  // is consent-gated and only initialised in the browser — so it hands over a
+  // `?welcome=1` flag and the client fires it once, then cleans the URL.
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    if (url.searchParams.get("welcome") !== "1") return;
+    track(EVENTS.signupCompleted);
+    url.searchParams.delete("welcome");
+    window.history.replaceState({}, "", url.toString());
+  }, []);
+
+  // The funnel's last step: a signed-in person looking at a real number.
+  // Once per mount, and only with something to look at — firing on the empty
+  // dashboard would make the step meaningless.
+  const reported = useRef(false);
+  useEffect(() => {
+    if (loading || empty || reported.current) return;
+    reported.current = true;
+    track(EVENTS.networthViewed, {
+      holdings: doc.assets.length,
+      liabilities: doc.liabilities.length,
+      classes: netWorth.allocation.length,
+    });
+  }, [loading, empty, doc.assets.length, doc.liabilities.length, netWorth.allocation.length]);
 
   const lastUpdated = useMemo(() => {
     const stamps = [...doc.assets, ...doc.liabilities].map((entry) => entry.updatedAt).sort();
